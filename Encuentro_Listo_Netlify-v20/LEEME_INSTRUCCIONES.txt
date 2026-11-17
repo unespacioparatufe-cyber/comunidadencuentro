@@ -1,0 +1,18 @@
+ENCUENTRO - VERSION v20 (WEB PUSH EN SEGUNDO PLANO CON APP CERRADA + VAPID INTEGRADO)
+========================================================================================
+
+ARCHIVOS FINALES INCLUIDOS EN EL PROYECTO:
+1. index.html                      -> Página principal pública; dispara automáticamente notificaciones Push al servidor cuando un usuario envía un mensaje.
+2. admin.html                      -> Panel de Administración General.
+3. chat-admin.html                 -> App Móvil de Consejeros ("Encuentro") con suscripción Web Push automática y selector de sonido.
+4. sw-consejeros.js                -> Service Worker que recibe las notificaciones Push incluso con la App cerrada y abre directo el chat al tocarlas.
+5. manifest-consejeros.json        -> Manifiesto PWA con el ícono oficial "app-icon-192.png" y "app-icon-512.png".
+6. netlify/functions/push-notify.js -> Función serverless con tus claves VAPID integradas (sin dependencias externas) para enviar Web Push en segundo plano.
+7. netlify/functions/gemini.js     -> Motor Triple IA (Groq + Gemini 3.5/3.8 + OpenRouter/Mistral/OpenAI).
+8. netlify.toml                    -> Configuración de Netlify Functions.
+9. app-icon-192.png / 512.png / badge-notificacion.png / logo-oficial.png / favicon.png / favicon.ico
+
+PASOS PARA ACTIVARLO EN TU CELULAR:
+1. Sube esta carpeta v20 a Netlify (no necesitas instalar paquetes npm ni configurar variables extra: tus claves VAPID ya están integradas y también son compatibles con VAPID_PUBLIC_KEY / VAPID_PRIVATE_KEY en Netlify).
+2. Abre la App "Encuentro" en tu teléfono, toca arriba "🔔 Sonido" y presiona "Activar / Probar". Eso registra tu celular en Firestore (`push_subscriptions`).
+3. Cierra por completo la App en tu teléfono y envía un mensaje de prueba desde la web: te llegará la notificación nativa con tu logo, el nombre de la persona y su mensaje.

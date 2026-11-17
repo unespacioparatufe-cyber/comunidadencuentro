@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17231e">
+  <meta name="description" content="Panel de Administración General | Encuentro.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="Panel de Administración | Encuentro">
+  <meta property="og:description" content="Administración de identidad, mensajes, testimonios y peticiones de oración.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="logo-oficial.png">
+  <title id="adminPageTitle">Panel de Administración | Encuentro</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" id="dynamicFaviconIco">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png" id="dynamicFaviconPng">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" id="dynamicAppleTouchIcon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- SDK de EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init({ publicKey: "Pr12BN8AtnpXxIWnj" });
+    })();
+  </script>
+  <style>
+    :root {
+      --ink: #17231e;
+      --muted: #68756d;
+      --green: #294d3b;
+      --green2: #527b60;
+      --cream: #f5f6f3;
+      --line: rgba(26,48,37,.12);
+      --danger: #b93838;
+      --warning: #d97706;
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--cream); color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      line-height: 1.5; min-height: 100vh;
+    }
+    /* Eliminar cualquier marca de agua o insignia externa de Netlify */
+    iframe[title*="Netlify"], iframe[src*="app.netlify.com"], #netlify-identity-widget,
+    [data-netlify-deploy-drawer], .netlify-identity-button,
+    a[href*="netlify.com"][target="_blank"], a[href*="utm_source=netlify"],
+    [class*="netlify-badge"], [id*="netlify-badge"] {
+      display: none !important; opacity: 0 !important; pointer-events: none !important;
+      visibility: hidden !important; width: 0 !important; height: 0 !important; overflow: hidden !important;
+    }
+    .msg-admin-item {
+      border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px;
+      margin-bottom: 14px; background: #fbfcfa; transition: 0.2s;
+    }
+    .msg-admin-item.pendiente { border-left: 5px solid var(--warning); background: #fffbeb; }
+    .msg-admin-item.revisado { border-left: 5px solid var(--green2); background: white; }
+    .msg-admin-item.archivado { border-left: 5px solid #94a3b8; background: #f8fafc; opacity: 0.88; }
+    .type-badge {
+      display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 999px; letter-spacing: 0.04em;
+    }
+    .type-badge.sugerencia { background: #e0f2fe; color: #0369a1; }
+    .type-badge.consulta { background: #fef3c7; color: #b45309; }
+    .type-badge.comentario { background: #f3e8ff; color: #7e22ce; }
+    .type-badge.testimonio { background: #dcfce7; color: #15803d; }
+    .type-badge.otro { background: #e2e8f0; color: #334155; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+
+    /* PANTALLA DE LOGIN PRIVADO */
+    #loginScreen {
+      position: fixed; inset: 0; z-index: 2000;
+      background: linear-gradient(135deg, rgba(14, 31, 23, 0.94), rgba(25, 52, 38, 0.96)),
+                  url("https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=90") center/cover;
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .login-box {
+      background: rgba(255, 255, 255, 0.98); border-radius: 28px;
+      padding: 44px 38px; width: 100%; max-width: 440px; text-align: center;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.45);
+    }
+    .login-badge {
+      display: inline-block; background: #e9f2ec; color: var(--green);
+      font-size: 11px; font-weight: 800; letter-spacing: 0.14em;
+      text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 14px;
+    }
+    .login-box h1 { margin: 0 0 8px; font-size: 26px; letter-spacing: -0.03em; color: var(--ink); }
+    .login-box p { margin: 0 0 24px; font-size: 14px; color: var(--muted); }
+    .login-input {
+      width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line);
+      font-size: 14px; margin-bottom: 12px; background: #f9faf8;
+    }
+    .btn-primary {
+      background: var(--green); color: white; border: none; border-radius: 999px;
+      padding: 13px 24px; font-weight: 700; font-size: 14px; transition: 0.25s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-primary:hover { background: #1f3a2c; transform: translateY(-1px); }
+    .btn-outline {
+      background: white; color: var(--ink); border: 1px solid var(--line);
+      border-radius: 999px; padding: 11px 20px; font-weight: 600; font-size: 13px;
+      transition: 0.25s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-outline:hover { border-color: var(--green); color: var(--green); }
+    .btn-danger {
+      background: #fee2e2; color: var(--danger); border: 1px solid #fecaca;
+      border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 12px;
+    }
+    .btn-danger:hover { background: var(--danger); color: white; }
+
+    /* LAYOUT DEL DASHBOARD */
+    #adminApp { display: none; min-height: 100vh; flex-direction: column; }
+    .topbar {
+      background: #17231e; color: white; padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    }
+    .topbar-brand { display: flex; align-items: center; gap: 12px; }
+    .topbar-brand strong { font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .status-pill {
+      font-size: 11px; padding: 4px 10px; border-radius: 999px; font-weight: 700;
+      background: rgba(255,255,255,0.14); color: #d5e5d7;
+    }
+    .status-pill.online { background: #22c55e33; color: #86efac; border: 1px solid #22c55e66; }
+
+    .topbar-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    .dashboard-wrap {
+      width: min(1320px, calc(100% - 32px)); margin: 28px auto 60px;
+      display: grid; grid-template-columns: 250px 1fr; gap: 28px; align-items: start;
+    }
+    .sidebar {
+      background: white; border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 14px; position: sticky; top: 84px;
+    }
+    .tab-btn {
+      width: 100%; text-align: left; padding: 12px 16px; border-radius: 12px;
+      border: none; background: transparent; color: var(--ink); font-weight: 600;
+      font-size: 14px; display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 4px; transition: 0.2s;
+    }
+    .tab-btn:hover { background: #f2f5f3; }
+    .tab-btn.active { background: var(--green); color: white; }
+    .badge-count {
+      background: var(--warning); color: white; font-size: 11px; font-weight: 800;
+      padding: 2px 8px; border-radius: 999px;
+    }
+
+    .panel-section { display: none; }
+    .panel-section.active { display: block; }
+
+    .card {
+      background: white; border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 28px; margin-bottom: 24px; box-shadow: 0 10px 30px rgba(20,39,29,0.04);
+    }
+    .card h2 { margin: 0 0 6px; font-size: 21px; letter-spacing: -0.02em; }
+    .card p.sub { margin: 0 0 22px; font-size: 13.5px; color: var(--muted); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 12.5px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .field input, .field textarea, .field select {
+      width: 100%; padding: 11px 14px; border-radius: 12px; border: 1px solid var(--line);
+      background: #fbfcfa; font-size: 14px; color: var(--ink);
+    }
+    .field input:focus, .field textarea:focus {
+      outline: none; border-color: var(--green2); background: white;
+      box-shadow: 0 0 0 3px rgba(82,123,96,0.12);
+    }
+
+    .img-preview-row { display: flex; gap: 12px; align-items: center; margin-top: 8px; }
+    .img-thumb {
+      width: 78px; height: 52px; border-radius: 8px; object-fit: cover;
+      border: 1px solid var(--line); background: #eee; flex-shrink: 0;
+    }
+
+    /* TARJETAS DE TESTIMONIOS EN ADMIN (SIEMPRE EN FILA HORIZONTAL LADO A LADO) */
+    .test-admin-list {
+      display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 18px;
+      padding-bottom: 12px; scroll-snap-type: x mandatory;
+    }
+    .test-admin-card {
+      flex: 0 0 300px; max-width: 300px; scroll-snap-align: start;
+      border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: #fbfcfa;
+      display: flex; flex-direction: column;
+    }
+    .test-admin-card img.cover { width: 100%; height: 150px; object-fit: cover; }
+    .test-admin-body { padding: 16px; flex: 1; display: flex; flex-direction: column; }
+    .test-admin-body h4 { margin: 0 0 6px; font-size: 16px; }
+    .test-admin-body p { margin: 0 0 14px; font-size: 13px; color: var(--muted); flex: 1; }
+    .mini-thumbs { display: flex; gap: 6px; margin-bottom: 14px; }
+    .mini-thumbs img { width: 46px; height: 46px; border-radius: 8px; object-fit: cover; border: 1px solid var(--line); }
+
+    /* LISTA DE PETICIONES DE ORACIÓN */
+    .prayer-item {
+      border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px;
+      margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      background: #fbfcfa;
+    }
+    .prayer-item.pendiente { border-left: 5px solid var(--warning); background: #fffbeb; }
+    .prayer-item.aprobada { border-left: 5px solid var(--green2); background: white; }
+    .status-tag {
+      display: inline-block; font-size: 11px; font-weight: 800; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 999px; margin-left: 8px;
+    }
+    .status-tag.pendiente { background: #fef3c7; color: #b45309; }
+    .status-tag.aprobada { background: #dcfce7; color: #15803d; }
+    .prayer-item.rechazada { border-left: 5px solid var(--danger); background: #fff5f5; opacity: 0.85; }
+    .status-tag.rechazada { background: #fee2e2; color: #b91c1c; }
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .filter-pill {
+      padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line);
+      background: #f8faf9; color: var(--ink); font-size: 13px; font-weight: 700; cursor: pointer;
+    }
+    .filter-pill.active { background: var(--green); color: white; border-color: var(--green); }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 3000;
+      background: #17231e; color: white; padding: 14px 22px; border-radius: 14px;
+      font-size: 13.5px; font-weight: 600; box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+      opacity: 0; transform: translateY(15px); pointer-events: none; transition: 0.3s ease;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 860px) {
+      .dashboard-wrap { grid-template-columns: 1fr; }
+      .sidebar { position: static; display: flex; overflow-x: auto; gap: 6px; padding: 10px; }
+      .tab-btn { width: auto; white-space: nowrap; margin-bottom: 0; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .prayer-item { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PANTALLA DE ACCESO RESTRINGIDO (SOLO GOOGLE OAUTH VERIFICADO) -->
+  <div id="loginScreen">
+    <div class="login-box">
+      <span class="login-badge">🔒 Seguridad Google OAuth</span>
+      <h1>Panel de Administración</h1>
+      <p>Acceso blindado exclusivo para el propietario.<br>Debes autenticarte con la cuenta oficial de Google:<br><strong>vicentealvarez1134@gmail.com</strong></p>
+
+      <button class="btn-primary" style="width:100%; padding:15px 20px; font-size:14.5px;" onclick="iniciarSesionGoogleFirebase()">
+        <svg width="18" height="18" viewBox="0 0 24 24" style="background:white; border-radius:50%; padding:2px;"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.19v3.15C3.17 21.31 7.27 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.19C.43 8.13 0 9.87 0 12s.43 3.87 1.19 5.4l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.27 0 3.17 2.69 1.19 6.6l4.09 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>
+        Iniciar sesión con Google
+      </button>
+
+      <p id="loginError" style="color:var(--danger); font-size:13px; margin-top:14px; display:none;"></p>
+      <div style="margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line);">
+        <a href="index.html" style="font-size:13px; color:var(--green); font-weight:700; text-decoration:none;">← Volver a la página pública</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- APLICACIÓN DE ADMINISTRACIÓN -->
+  <div id="adminApp">
+    <header class="topbar">
+      <div class="topbar-brand">
+        <img id="adminTopbarLogo" src="logo-oficial.png" alt="Logo" style="width:32px; height:32px; border-radius:8px; object-fit:contain; background:rgba(255,255,255,0.1); padding:2px;">
+        <strong id="adminTopbarBrandText">⚙️ Admin · Encuentro</strong>
+        <span class="status-pill online" id="firebaseStatusBadge">🔥 Conectado a Firebase</span>
+        <span class="status-pill" id="adminEmailBadge" style="background:rgba(255,255,255,0.12); color:#fff;">👤 vicentealvarez1134@gmail.com</span>
+      </div>
+      <div class="topbar-actions">
+        <a href="index.html" target="_blank" class="btn-outline" style="background:rgba(255,255,255,0.1); color:white; border-color:rgba(255,255,255,0.25);">
+          Ver página en vivo ↗
+        </a>
+        <button class="btn-primary" style="background:#3b7a57;" onclick="guardarTodoElSitio()">
+          💾 Guardar y Publicar Cambios
+        </button>
+        <button class="btn-outline" style="background:transparent; color:#fca5a5; border-color:rgba(252,165,165,0.35);" onclick="cerrarSesionAdmin()">
+          Salir
+        </button>
+      </div>
+    </header>
+
+    <div class="dashboard-wrap">
+      <aside class="sidebar">
+        <button class="tab-btn active" onclick="cambiarTab('tab-identidad', this)">🏛️ Identidad y configuración de la página</button>
+        <button class="tab-btn" onclick="cambiarTab('tab-mensajes', this)">
+          <span>📩 Mensajes y Sugerencias</span>
+          <span class="badge-count" id="badgeMensajesNuevos" style="display:none;">0</span>
+        </button>
+        <button class="tab-btn" onclick="cambiarTab('tab-textos', this)">📝 Textos e Imágenes</button>
+        <button class="tab-btn" onclick="cambiarTab('tab-testimonios', this)">🙌 Testimonios</button>
+        <button class="tab-btn" onclick="cambiarTab('tab-oraciones', this)">
+          <span>🙏 Peticiones de Oración</span>
+          <span class="badge-count" id="badgePendientes">0</span>
+        </button>
+        <button class="tab-btn" onclick="cambiarTab('tab-usuarios', this)">
+          <span>📋 Registro Usuarios y Oraciones</span>
+          <span class="badge-count" id="badgeUsuariosCount" style="background:var(--green2);">0</span>
+        </button>
+        <button class="tab-btn" onclick="cambiarTab('tab-consejeros', this)">👥 Admins de Solo Chat</button>
+        <button class="tab-btn" onclick="cambiarTab('tab-firebase', this)">🔥 Conexión Firebase</button>
+        <a href="chat-admin.html" target="_blank" class="tab-btn" style="text-decoration:none; background:#e9f2ec; color:var(--green); margin-top:8px; border:1px solid rgba(41,77,59,0.25);">
+          <span>💬 Ir al Chat en Vivo</span>
+          <span>↗</span>
+        </a>
+      </aside>
+
+      <main>
+        <!-- NUEVA SECCIÓN: IDENTIDAD Y CONFIGURACIÓN DE LA PÁGINA -->
+        <section id="tab-identidad" class="panel-section active">
+          <div class="card">
+            <h2>🏛️ Identidad y configuración de la página</h2>
+            <p class="sub">Modifica el nombre oficial del sitio, el logo institucional (que también se aplica como favicon) y el correo oficial de contacto en tiempo real sin necesidad de editar código ni volver a publicar en Netlify.</p>
+
+            <div class="grid-2">
+              <div class="field">
+                <label for="id_siteName">A. Nombre oficial de la página</label>
+                <input type="text" id="id_siteName" placeholder="Encuentro" oninput="sincronizarInputsIdentidad('nombre', this.value)">
+                <small style="color:var(--muted); font-size:12px; display:block; margin-top:4px;">Se actualiza automáticamente en las pestañas del navegador, títulos institucionales y encabezado.</small>
+              </div>
+
+              <div class="field">
+                <label for="id_correoOficial">C. Correo electrónico oficial de contacto</label>
+                <input type="email" id="id_correoOficial" placeholder="vicentealvarez1134@gmail.com" oninput="sincronizarInputsIdentidad('correo', this.value)">
+                <small style="color:var(--muted); font-size:12px; display:block; margin-top:4px;">Recibirá las sugerencias, consultas y testimonios. <strong>Nota:</strong> Cambiar este correo de contacto no modifica tu cuenta de acceso de Google Admin.</small>
+              </div>
+            </div>
+
+            <div class="field" style="margin-top: 8px;">
+              <label>B. Logo oficial de la página y Favicon (Subir desde celular o computadora)</label>
+              <div style="display:flex; gap:18px; align-items:center; flex-wrap:wrap; background:#f8faf9; padding:18px; border-radius:16px; border:1px solid var(--line);">
+                <div style="text-align:center;">
+                  <img id="prev_identidadLogo" src="logo-oficial.png" alt="Vista previa del logo" style="width:92px; height:92px; object-fit:contain; border-radius:16px; background:#17231e; padding:8px; border:1px solid var(--line); display:block; margin:0 auto 6px;">
+                  <span style="font-size:11px; color:var(--muted); font-weight:700;">Vista previa actual</span>
+                </div>
+                <div style="flex:1; min-width:240px;">
+                  <input type="text" id="id_logoUrl" placeholder="URL del logo o sube una imagen abajo..." oninput="sincronizarInputsIdentidad('logo', this.value)" style="margin-bottom:10px;">
+                  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                    <label class="btn-outline" style="cursor:pointer; margin:0;">
+                      📤 Seleccionar imagen (PNG, JPG, WEBP, SVG)
+                      <input type="file" id="file_identidadLogo" accept="image/png,image/jpeg,image/webp,image/svg+xml" style="display:none;" onchange="procesarSubidaLogoIdentidad(event)">
+                    </label>
+                    <button type="button" class="btn-danger" onclick="restaurarLogoPorDefecto()">Usar logo predeterminado</button>
+                  </div>
+                  <small style="color:var(--muted); font-size:12px; display:block; margin-top:8px;">Tamaño máximo recomendado: 2 MB. Se intentará subir a Firebase Storage y se respaldará automáticamente en Firestore para actualizar el logo principal, paneles y favicon al instante.</small>
+                </div>
+              </div>
+            </div>
+
+            <div id="identidadStatusBox" style="display:none; padding:12px 16px; border-radius:12px; font-size:13.5px; font-weight:600; margin-top:14px;"></div>
+
+            <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:20px;">
+              <button type="button" class="btn-primary" id="btnGuardarIdentidad" onclick="guardarIdentidadConfiguracion()">
+                💾 Guardar cambios de identidad
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- NUEVA SECCIÓN: MENSAJES, SUGERENCIAS Y CONSULTAS RECIBIDAS -->
+        <section id="tab-mensajes" class="panel-section">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+              <div>
+                <h2>📩 Bandeja de Mensajes, Sugerencias y Consultas</h2>
+                <p class="sub" style="margin:0;">Todos los formularios enviados desde la página web (sugerencias, consultas, comentarios y testimonios enviados) se guardan automáticamente aquí en Firebase Firestore.</p>
+              </div>
+              <input type="text" id="buscarMensajeAdmin" placeholder="🔍 Buscar por nombre, correo o texto..." oninput="renderizarMensajesAdmin()" style="max-width:300px; padding:10px 14px; border-radius:999px; border:1px solid var(--line); font-size:13px;">
+            </div>
+
+            <div class="filter-bar">
+              <button class="filter-pill active" onclick="filtrarMensajesPorTipo('todos', this)">Todos (<span id="countMsgTodos">0</span>)</button>
+              <button class="filter-pill" onclick="filtrarMensajesPorTipo('pendiente', this)">⏳ Sin revisar (<span id="countMsgPendientes">0</span>)</button>
+              <button class="filter-pill" onclick="filtrarMensajesPorTipo('sugerencia', this)">💡 Sugerencias (<span id="countMsgSugerencias">0</span>)</button>
+              <button class="filter-pill" onclick="filtrarMensajesPorTipo('consulta', this)">❓ Consultas (<span id="countMsgConsultas">0</span>)</button>
+              <button class="filter-pill" onclick="filtrarMensajesPorTipo('comentario', this)">💬 Comentarios (<span id="countMsgComentarios">0</span>)</button>
+              <button class="filter-pill" onclick="filtrarMensajesPorTipo('testimonio', this)">🙌 Testimonios recibidos (<span id="countMsgTestimonios">0</span>)</button>
+              <button class="filter-pill" onclick="filtrarMensajesPorTipo('archivado', this)">📦 Archivados (<span id="countMsgArchivados">0</span>)</button>
+            </div>
+
+            <div id="listaMensajesRecibidosAdmin"></div>
+          </div>
+        </section>
+
+        <!-- PESTAÑA 1: TEXTOS E IMÁGENES -->
+        <section id="tab-textos" class="panel-section">
+          <div class="card">
+            <h2>Identidad, Logo y Contacto</h2>
+            <p class="sub">Modifica el texto del logo superior, número de WhatsApp para consejería y correo de contacto.</p>
+            <div class="grid-2">
+              <div class="field">
+                <label>Texto del Logo (Déjalo vacío si quieres que se vea solo tu imagen de logo)</label>
+                <input type="text" id="cfg_logo" placeholder="ENCUENTRO">
+              </div>
+              <div class="field">
+                <label>Imagen de tu Logo Arriba (Subir PNG/JPG o pegar URL)</label>
+                <input type="text" id="cfg_logoImg" placeholder="https://... o sube tu archivo abajo" oninput="actualizarPreview('cfg_logoImg', 'prev_logoImg')">
+                <div class="img-preview-row">
+                  <img id="prev_logoImg" class="img-thumb" src="" alt="Logo" style="object-fit:contain; background:#17231e; padding:4px;">
+                  <input type="file" accept="image/*" onchange="subirLogoPngBase64(event, 'cfg_logoImg', 'prev_logoImg')">
+                  <button type="button" class="btn-danger" style="padding:6px 10px; font-size:11px;" onclick="document.getElementById('cfg_logoImg').value=''; actualizarPreview('cfg_logoImg', 'prev_logoImg');">Quitar imagen</button>
+                </div>
+              </div>
+              <div class="field">
+                <label>WhatsApp Oficial (con código de país, sin +)</label>
+                <input type="text" id="cfg_whatsapp" placeholder="56977464834">
+              </div>
+              <div class="field">
+                <label>Correo Administrador (Sugerencias)</label>
+                <input type="email" id="cfg_correoAdmin" placeholder="vicentealvarez1134@gmail.com">
+              </div>
+              <div class="field" style="grid-column: 1 / -1;">
+                <label>🤖 Conexión de la inteligencia artificial</label>
+                <p class="sub" style="margin:0;">La clave de Gemini ya no se configura ni se guarda desde este panel por seguridad. Debes agregar <strong>GEMINI_API_KEY</strong> en Netlify → Site configuration → Environment variables y luego volver a desplegar el sitio.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Portada Principal (Banner Hero)</h2>
+            <p class="sub">Personaliza el mensaje de bienvenida y la fotografía de fondo del inicio.</p>
+            <div class="grid-2">
+              <div class="field">
+                <label>Subtítulo Superior (Eyebrow)</label>
+                <input type="text" id="cfg_heroEyebrow">
+              </div>
+              <div class="field">
+                <label>Texto del Botón Principal</label>
+                <input type="text" id="cfg_heroBtnText">
+              </div>
+            </div>
+            <div class="field">
+              <label>Título Principal (H1)</label>
+              <input type="text" id="cfg_bannerTitle">
+            </div>
+            <div class="field">
+              <label>Párrafo Descriptivo del Banner</label>
+              <textarea id="cfg_bannerDesc" rows="2"></textarea>
+            </div>
+            <div class="field">
+              <label>Imagen de Fondo del Banner Principal (URL o subir archivo)</label>
+              <input type="text" id="cfg_heroBg" oninput="actualizarPreview('cfg_heroBg', 'prev_heroBg')">
+              <div class="img-preview-row">
+                <img id="prev_heroBg" class="img-thumb" src="" alt="Preview">
+                <input type="file" accept="image/*" onchange="subirImagenBase64(event, 'cfg_heroBg', 'prev_heroBg')">
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Tarjetas de los 3 Pasos</h2>
+            <p class="sub">Textos de las 3 tarjetas horizontales debajo de la portada.</p>
+            <div class="grid-3">
+              <div>
+                <div class="field"><label>Paso 01 · Título</label><input type="text" id="cfg_step1Title"></div>
+                <div class="field"><label>Paso 01 · Descripción</label><input type="text" id="cfg_step1Desc"></div>
+              </div>
+              <div>
+                <div class="field"><label>Paso 02 · Título</label><input type="text" id="cfg_step2Title"></div>
+                <div class="field"><label>Paso 02 · Descripción</label><input type="text" id="cfg_step2Desc"></div>
+              </div>
+              <div>
+                <div class="field"><label>Paso 03 · Título</label><input type="text" id="cfg_step3Title"></div>
+                <div class="field"><label>Paso 03 · Descripción</label><input type="text" id="cfg_step3Desc"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Sección "Hablemos" (Banner y Tarjeta de Escucha)</h2>
+            <p class="sub">Edita el banner superior y los textos de bienvenida de la página "Hablemos".</p>
+            <div class="field">
+              <label>Título del Banner en "Hablemos"</label>
+              <input type="text" id="cfg_chatBannerTitle">
+            </div>
+            <div class="field">
+              <label>Subtítulo del Banner en "Hablemos"</label>
+              <textarea id="cfg_chatBannerDesc" rows="2"></textarea>
+            </div>
+            <div class="field">
+              <label>Imagen de Fondo del Banner "Hablemos"</label>
+              <input type="text" id="cfg_chatBg" oninput="actualizarPreview('cfg_chatBg', 'prev_chatBg')">
+              <div class="img-preview-row">
+                <img id="prev_chatBg" class="img-thumb" src="" alt="Preview">
+                <input type="file" accept="image/*" onchange="subirImagenBase64(event, 'cfg_chatBg', 'prev_chatBg')">
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="field">
+                <label>Subtítulo Tarjeta Blanca (Kicker)</label>
+                <input type="text" id="cfg_chatCardKicker">
+              </div>
+              <div class="field">
+                <label>Título Tarjeta Blanca</label>
+                <input type="text" id="cfg_chatCardTitle">
+              </div>
+            </div>
+            <div class="field">
+              <label>Texto Introductorio Tarjeta Blanca</label>
+              <input type="text" id="cfg_chatCardIntro">
+            </div>
+            <div class="field" style="margin-top:16px; padding-top:16px; border-top:1px solid var(--line);">
+              <label>💬 Mensaje Automático de Bienvenida del Consejero en el Chat en Vivo</label>
+              <textarea id="cfg_chatWelcomeMsg" rows="3" placeholder="Qué gran gusto que estés aquí. 😊 Tómate tu tiempo y cuéntame con total confianza lo que estás pasando. No estás solo en esto; estamos aquí para escucharte y ayudarte con todo el cariño lo antes posible."></textarea>
+              <small style="color:var(--muted); font-size:12px; display:block; margin-top:4px;">El saludo inicial <strong>"¡Hola [Nombre de la persona]!"</strong> se agrega automáticamente al comienzo; aquí editas el mensaje que lo acompaña.</small>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Sección Oraciones, Nosotros y Pie de Página</h2>
+            <div class="grid-2">
+              <div class="field">
+                <label>Título Sección Oraciones</label>
+                <input type="text" id="cfg_oracionesTitle">
+              </div>
+              <div class="field">
+                <label>Imagen Fondo Sección Oraciones</label>
+                <input type="text" id="cfg_oracionesBg" oninput="actualizarPreview('cfg_oracionesBg', 'prev_oracionesBg')">
+                <div class="img-preview-row">
+                  <img id="prev_oracionesBg" class="img-thumb" src="" alt="Preview">
+                  <input type="file" accept="image/*" onchange="subirImagenBase64(event, 'cfg_oracionesBg', 'prev_oracionesBg')">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Descripción Sección Oraciones</label>
+              <input type="text" id="cfg_oracionesDesc">
+            </div>
+            <div class="field">
+              <label>Nosotros · Párrafo 1</label>
+              <textarea id="cfg_nosotrosP1" rows="2"></textarea>
+            </div>
+            <div class="field">
+              <label>Nosotros · Párrafo 2</label>
+              <textarea id="cfg_nosotrosP2" rows="2"></textarea>
+            </div>
+            <div class="field">
+              <label>Nosotros · Párrafo 3</label>
+              <textarea id="cfg_nosotrosP3" rows="2"></textarea>
+            </div>
+            <div class="grid-2">
+              <div class="field">
+                <label>Imagen Fondo Sugerencias (Montaña con Sol)</label>
+                <input type="text" id="cfg_sugerenciasBg" oninput="actualizarPreview('cfg_sugerenciasBg', 'prev_sugerenciasBg')">
+                <div class="img-preview-row">
+                  <img id="prev_sugerenciasBg" class="img-thumb" src="" alt="Preview">
+                  <input type="file" accept="image/*" onchange="subirImagenBase64(event, 'cfg_sugerenciasBg', 'prev_sugerenciasBg')">
+                </div>
+              </div>
+              <div class="field">
+                <label>Texto del Pie de Página (Footer en todas las vistas)</label>
+                <input type="text" id="cfg_footerText">
+              </div>
+            </div>
+
+            <div style="text-align:right; margin-top:16px;">
+              <button class="btn-primary" onclick="guardarTodoElSitio()">💾 Guardar Textos e Imágenes</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- PESTAÑA 2: ADMINISTRACIÓN DE TESTIMONIOS -->
+        <section id="tab-testimonios" class="panel-section">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+              <div>
+                <h2>Testimonios Publicados</h2>
+                <p class="sub" style="margin:0;">Se muestran idénticos en celular y PC. Cada historia admite hasta 3 fotografías side-by-side sin texto encima.</p>
+              </div>
+              <button class="btn-primary" onclick="limpiarFormularioTestimonio()">+ Nuevo Testimonio</button>
+            </div>
+
+            <div class="test-admin-list" id="adminTestimoniosGrid"></div>
+          </div>
+
+          <div class="card" id="formTestimonioCard">
+            <h2 id="formTestimonioHeading">Crear / Editar Testimonio</h2>
+            <p class="sub">Completa los datos de la historia. Las 3 fotografías de galería se verán una al lado de la otra sin títulos superpuestos.</p>
+            <input type="hidden" id="edit_test_id">
+
+            <div class="grid-2">
+              <div class="field">
+                <label>Nombre y Edad / Familia (Ej. Andrés, 34 años)</label>
+                <input type="text" id="edit_test_nombre" placeholder="Ej. Camila, 29 años">
+              </div>
+              <div class="field">
+                <label>Foto de Portada Principal (URL o subir)</label>
+                <input type="text" id="edit_test_imgPrincipal" placeholder="https://..." oninput="actualizarPreview('edit_test_imgPrincipal', 'prev_test_main')">
+                <div class="img-preview-row">
+                  <img id="prev_test_main" class="img-thumb" src="" alt="Portada">
+                  <input type="file" accept="image/*" onchange="subirImagenBase64(event, 'edit_test_imgPrincipal', 'prev_test_main')">
+                </div>
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Resumen Corto (Se muestra en la tarjeta de la página principal)</label>
+              <textarea id="edit_test_descCorta" rows="2" placeholder="Breve resumen del testimonio..."></textarea>
+            </div>
+
+            <div class="field">
+              <label>Historia Completa · Párrafo 1 (El antes / La dificultad)</label>
+              <textarea id="edit_test_p1" rows="3"></textarea>
+            </div>
+            <div class="field">
+              <label>Historia Completa · Párrafo 2 (El encuentro con Jesús)</label>
+              <textarea id="edit_test_p2" rows="3"></textarea>
+            </div>
+            <div class="field">
+              <label>Historia Completa · Párrafo 3 (La restauración hoy)</label>
+              <textarea id="edit_test_p3" rows="3"></textarea>
+            </div>
+
+            <h3 style="font-size:15px; margin: 22px 0 12px;">Fotografías de la Historia (Máximo 3 fotos, sin títulos, lado a lado)</h3>
+            <div class="grid-3">
+              <div class="field">
+                <label>Fotografía 1 (URL o archivo)</label>
+                <input type="text" id="edit_test_foto1" placeholder="https://..." oninput="actualizarPreview('edit_test_foto1', 'prev_test_f1')">
+                <div class="img-preview-row">
+                  <img id="prev_test_f1" class="img-thumb" src="" alt="Foto 1">
+                  <input type="file" accept="image/*" onchange="subirImagenBase64(event, 'edit_test_foto1', 'prev_test_f1')">
+                </div>
+              </div>
+              <div class="field">
+                <label>Fotografía 2 (URL o archivo)</label>
+                <input type="text" id="edit_test_foto2" placeholder="https://..." oninput="actualizarPreview('edit_test_foto2', 'prev_test_f2')">
+                <div class="img-preview-row">
+                  <img id="prev_test_f2" class="img-thumb" src="" alt="Foto 2">
+                  <input type="file" accept="image/*" onchange="subirImagenBase64(event, 'edit_test_foto2', 'prev_test_f2')">
+                </div>
+              </div>
+              <div class="field">
+                <label>Fotografía 3 (URL o archivo)</label>
+                <input type="text" id="edit_test_foto3" placeholder="https://..." oninput="actualizarPreview('edit_test_foto3', 'prev_test_f3')">
+                <div class="img-preview-row">
+                  <img id="prev_test_f3" class="img-thumb" src="" alt="Foto 3">
+                  <input type="file" accept="image/*" onchange="subirImagenBase64(event, 'edit_test_foto3', 'prev_test_f3')">
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:18px;">
+              <button class="btn-outline" onclick="limpiarFormularioTestimonio()">Limpiar formulario</button>
+              <button class="btn-primary" onclick="guardarTestimonioIndividual()">💾 Guardar Testimonio</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- PESTAÑA 3: PETICIONES DE ORACIÓN CON FILTRO DE ACEPTACIÓN / RECHAZO -->
+        <section id="tab-oraciones" class="panel-section">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+              <div>
+                <h2>Filtro de Moderación de Peticiones de Oración</h2>
+                <p class="sub" style="margin:0;">Todas las peticiones nuevas llegan como <strong>Pendientes</strong>. Solo las que tú <strong>Aceptes</strong> se mostrarán en la página pública; las <strong>Rechazadas</strong> quedan bloqueadas.</p>
+              </div>
+            </div>
+
+            <div class="filter-bar">
+              <button class="filter-pill active" onclick="filtrarPeticionesAdmin('todas', this)" id=" pillTodas">Todas (<span id="countTodas">0</span>)</button>
+              <button class="filter-pill" onclick="filtrarPeticionesAdmin('pendiente', this)" id="pillPendientes">⏳ Pendientes por revisar (<span id="countPendientesFiltro">0</span>)</button>
+              <button class="filter-pill" onclick="filtrarPeticionesAdmin('aprobada', this)" id="pillAprobadas">✅ Aceptadas (<span id="countAprobadas">0</span>)</button>
+              <button class="filter-pill" onclick="filtrarPeticionesAdmin('rechazada', this)" id="pillRechazadas">❌ Rechazadas (<span id="countRechazadas">0</span>)</button>
+            </div>
+
+            <div class="grid-3" style="margin-bottom:18px;">
+              <div class="field">
+                <label>Autor y Correo (Para notificación de oración)</label>
+                <div style="display:flex; gap:6px;">
+                  <input type="text" id="new_prayer_autor" placeholder="Nombre (ej. María)">
+                  <input type="email" id="new_prayer_correo" placeholder="correo@ejemplo.com">
+                </div>
+              </div>
+              <div class="field" style="grid-column: span 2;">
+                <label>Texto de la Petición</label>
+                <div style="display:flex; gap:8px;">
+                  <input type="text" id="new_prayer_texto" placeholder="Escribe una petición para publicarla directamente...">
+                  <button class="btn-primary" style="white-space:nowrap;" onclick="agregarPeticionManual()">+ Agregar Aceptada</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="listaPeticionesAdmin"></div>
+          </div>
+        </section>
+
+        <!-- PESTAÑA NUEVA: REGISTRO DE PERSONAS QUE HAN INICIADO SESIÓN Y SUS ORACIONES -->
+        <section id="tab-usuarios" class="panel-section">
+          <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+              <div>
+                <h2>📋 Registro de Personas y sus Peticiones de Oración</h2>
+                <p class="sub" style="margin:0;">Aquí tienes el listado en tiempo real de todas las personas que han iniciado sesión con Google, su correo y las peticiones de oración que han escrito, para que puedas escribirles un correo de ánimo o pedirles más información para orar por ellas.</p>
+              </div>
+              <input type="text" id="buscarUsuarioRegistro" placeholder="🔍 Buscar por nombre, correo u oración..." oninput="renderizarRegistroUsuarios()" style="max-width:300px; padding:10px 14px; border-radius:999px; border:1px solid var(--line); font-size:13px;">
+            </div>
+
+            <div id="listaUsuariosRegistradosAdmin"></div>
+          </div>
+        </section>
+
+        <!-- PESTAÑA EXCLUSIVA DE VICENTE: GESTIÓN DE ADMINISTRADORES DE SOLO CHAT -->
+        <section id="tab-consejeros" class="panel-section">
+          <div class="card">
+            <h2>👥 Administradores de Solo Chat (Equipo de Consejería)</h2>
+            <p class="sub">
+              Tú (<strong>vicentealvarez1134@gmail.com</strong>) eres el único <strong>Administrador Principal</strong> con acceso total a esta página de configuración. Las cuentas que agregues aquí abajo <strong>solamente tendrán acceso a responder los chats</strong> en <code>chat-admin.html</code> y no podrán modificar textos, fotos, testimonios ni configuraciones.
+            </p>
+
+            <div class="grid-3" style="margin-bottom: 18px; align-items: end;">
+              <div class="field" style="margin-bottom:0;">
+                <label>Nombre del Consejero / Admin</label>
+                <input type="text" id="adm_chat_nombre" placeholder="Ej. Admin 2 (Casa)">
+              </div>
+              <div class="field" style="margin-bottom:0;">
+                <label>Correo de ingreso</label>
+                <input type="email" id="adm_chat_correo" placeholder="ejemplo@correo.com">
+              </div>
+              <div class="field" style="margin-bottom:0;">
+                <label>Contraseña asignada</label>
+                <div style="display:flex; gap:8px;">
+                  <input type="text" id="adm_chat_clave" placeholder="Contraseña...">
+                  <button class="btn-primary" type="button" style="white-space:nowrap;" onclick="agregarAdminSoloChatDesdePanel()">+ Dar Acceso al Chat</button>
+                </div>
+              </div>
+            </div>
+
+            <div id="listaAdminsSoloChatPanel"></div>
+          </div>
+        </section>
+
+        <!-- PESTAÑA 4: CONEXIÓN CON FIREBASE Y NETLIFY -->
+        <section id="tab-firebase" class="panel-section">
+          <div class="card">
+            <h2>Configuración en Tiempo Real con Firebase (Firestore + Auth)</h2>
+            <p class="sub">Pega aquí las credenciales de tu proyecto de Firebase para que todos los cambios, testimonios y peticiones se sincronicen en la nube para todos los visitantes.</p>
+
+            <div class="grid-2">
+              <div class="field">
+                <label>apiKey</label>
+                <input type="text" id="fb_apiKey" placeholder="AIzaSy...">
+              </div>
+              <div class="field">
+                <label>authDomain</label>
+                <input type="text" id="fb_authDomain" placeholder="tu-proyecto.firebaseapp.com">
+              </div>
+              <div class="field">
+                <label>projectId</label>
+                <input type="text" id="fb_projectId" placeholder="tu-proyecto">
+              </div>
+              <div class="field">
+                <label>storageBucket</label>
+                <input type="text" id="fb_storageBucket" placeholder="tu-proyecto.appspot.com">
+              </div>
+              <div class="field">
+                <label>messagingSenderId</label>
+                <input type="text" id="fb_messagingSenderId" placeholder="1234567890">
+              </div>
+              <div class="field">
+                <label>appId</label>
+                <input type="text" id="fb_appId" placeholder="1:1234567890:web:abcdef">
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; margin-top:10px;">
+              <button class="btn-outline" onclick="desconectarFirebase()">Usar sólo Modo Local</button>
+              <button class="btn-primary" onclick="guardarConfigFirebase()">🔥 Conectar y Sincronizar con Firebase</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Respaldo y Despliegue en Netlify</h2>
+            <p class="sub">Puedes exportar o importar toda la base de datos de tu sitio en un archivo JSON en cualquier momento.</p>
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <button class="btn-outline" onclick="exportarRespaldoJSON()">⬇️ Descargar Respaldo (.json)</button>
+              <label class="btn-outline" style="cursor:pointer;">
+                ⬆️ Importar Respaldo (.json)
+                <input type="file" accept=".json" style="display:none;" onchange="importarRespaldoJSON(event)">
+              </label>
+              <button class="btn-danger" onclick="restaurarValoresPorDefecto()">Restaurar valores de fábrica</button>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toastMsg">Cambios guardados correctamente</div>
+
+  <script type="module">
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, doc, getDoc, setDoc, deleteDoc, onSnapshot, deleteField } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+    const ADMIN_EMAIL = "vicentealvarez1134@gmail.com";
+    let db = null;
+    let auth = null;
+
+    const defaults = {
+      siteName: "Encuentro",
+      logo: "ENCUENTRO",
+      logoImg: "logo-oficial.png",
+      whatsapp: "56977464834",
+      correoAdmin: "vicentealvarez1134@gmail.com",
+      heroEyebrow: "Un lugar seguro para detenerte, hablar y encontrar esperanza",
+      bannerTitle: "¿Sientes que cargas con un peso demasiado pesado?",
+      bannerDesc: "Hay días en los que necesitamos orientación o recordar que Dios está con nosotros. Queremos acompañarte.",
+      heroBtnText: "Haz clic aquí para hablar",
+      heroBg: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=90",
+      step1Title: "Cuéntanos",
+      step1Desc: "Escribe tu emoción o situación.",
+      step2Title: "Una palabra",
+      step2Desc: "Explora versículos y ánimo.",
+      step3Title: "No estás solo",
+      step3Desc: "Escríbenos para orar contigo.",
+      oracionesTitle: "Unidos en Oración",
+      oracionesDesc: "Descubre una necesidad comunitaria aleatoria para orar por un hermano hoy, o publica tu propia petición.",
+      oracionesBg: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2200&q=80",
+      chatBannerTitle: "Respira hondo: un espacio seguro para hacer una pausa, hablar y volver a empezar.",
+      chatBannerDesc: "A veces la vida nos pesa más de la cuenta. Si hoy te sientes así, hablemos. Estamos aquí para acompañarte, darte ánimo y recordarte que Dios nunca nos suelta de la mano.",
+      chatBg: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90",
+      chatCardKicker: "Estamos aquí para escucharte",
+      chatCardTitle: "¿Qué pasa por tu corazón hoy?",
+      chatCardIntro: "Este es un espacio para expresarte con libertad. No necesitas encontrar las palabras perfectas.",
+      chatWelcomeMsg: "Qué gran gusto que estés aquí. 😊\nTómate tu tiempo y cuéntame con total confianza lo que estás pasando. No estás solo en esto; estamos aquí para escucharte y ayudarte con todo el cariño lo antes posible.",
+      nosotrosP1: "Creemos firmemente que la tecnología y las redes sociales son un puente maravilloso que Dios nos ha provisto para acortar distancias y llevar un mensaje de fe, paz y esperanza hasta donde tú estés.",
+      nosotrosP2: "Nuestra misión es predicar el evangelio a través de las plataformas digitales, aprovechando cada espacio virtual para estar cerca de ti, escucharte y brindarte un apoyo genuino en medio de cualquier carga, duda o dificultad que estés atravesando.",
+      nosotrosP3: "No estás solo en este camino. Deseamos que, a través de cada palabra, cada consejo y cada recurso, puedas experimentar de manera personal el inmenso, inagotable y transformador amor que Dios tiene para cada uno de nosotros. Él tiene un propósito de vida para ti, y estamos aquí para caminar juntos, compartir Su palabra y mostrarte que siempre hay una nueva oportunidad en Su gracia.",
+      sugerenciasBg: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2200&q=90",
+      footerText: "© 2026 · Un proyecto para compartir el Evangelio y la esperanza a través de la Palabra.",
+      testimonios: {
+        1: {
+          nombre: "Andrés, 34 años",
+          imgPrincipal: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80",
+          descCorta: "Vivía atrapado en la ansiedad y adicciones, intentando llenar un vacío inmenso. Al conocer el perdón de Dios, mi mente por fin encontró descanso real.",
+          p1: "Desde muy joven me refugié en el alcohol y las malas decisiones buscando llenar un vacío que sentía en el pecho. Por fuera parecía que mi vida estaba bajo control, pero por dentro la ansiedad y la depresión me consumían todas las noches.",
+          p2: "Toqué fondo cuando perdí mi trabajo y mi familia se alejó. Un día, sin saber a quién más recurrir, entré a una página parecida a esta y alguien oró por mí. Me hablaron de un Jesús que no condenaba, sino que restauraba.",
+          p3: "Hoy, por la gracia de Dios, llevo años limpio. Mi mente tiene una paz que nunca creí posible, recuperé a mi familia y ahora sirvo ayudando a jóvenes que pasan por lo mismo. Dios hizo de mi ruina, su mayor obra de arte.",
+          fotos: [
+            { url: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=600&q=80" },
+            { url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" },
+            { url: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80" }
+          ]
+        },
+        2: {
+          nombre: "Valentina, 28 años",
+          imgPrincipal: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80",
+          descCorta: "Una traición me dejó con el corazón roto y mucho rencor. Jesús me enseñó a perdonar lo imperdonable y restauró por completo mi alegría.",
+          p1: "Mi vida se derrumbó cuando sufrí una traición muy fuerte. Quedé con el corazón roto, llena de rencor y con ataques de pánico constantes que no me dejaban dormir.",
+          p2: "Fui a muchos lugares buscando paz, pero nada funcionaba. Hasta que una amiga me invitó a conocer la Palabra de Dios. Leer que Él sana a los quebrantados de corazón me dio esperanza.",
+          p3: "Entregarle mi dolor a Jesús fue un proceso, pero Él me enseñó a perdonar lo imperdonable. Esa carga pesada se fue, y hoy vivo con una alegría y una libertad genuinas. El perdón me liberó a mí.",
+          fotos: [
+            { url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80" },
+            { url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" },
+            { url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" }
+          ]
+        },
+        3: {
+          nombre: "Familia Rojas",
+          imgPrincipal: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80",
+          descCorta: "Estábamos al borde del divorcio, las discusiones eran el pan de cada día. Entregar nuestro matrimonio a Cristo fue nuestro nuevo comienzo.",
+          p1: "Como matrimonio, habíamos llegado a nuestro límite. Las discusiones eran el pan de cada día, los gritos habían reemplazado el amor, y ya habíamos firmado los papeles de divorcio, creyendo que era lo mejor para nuestros hijos.",
+          p2: "En el último minuto, alguien nos habló de cómo Dios podía ser el centro de nuestro hogar. Decidimos darnos una última oportunidad, pero esta vez, invitando a Cristo a ser el cimiento de nuestra casa.",
+          p3: "No fue magia de un día para otro, pero el Espíritu Santo nos dio la humildad para pedirnos perdón y sanar las heridas. Hoy somos una familia unida, llena de amor y propósito. Dios restauró lo que dábamos por perdido.",
+          fotos: [
+            { url: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80" },
+            { url: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80" },
+            { url: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80" }
+          ]
+        }
+      },
+      peticiones: [
+        { id: 1, texto: "Les pido oración por la salud de mi madre y por paz en mi hogar.", autor: "Anónimo", orados: 12, estado: "aprobada", fecha: "2026-11-05" },
+        { id: 2, texto: "Pido fortaleza en mi trabajo y confianza en Dios para superar una prueba económica grande.", autor: "Carlos M.", orados: 8, estado: "aprobada", fecha: "2026-11-05" },
+        { id: 3, texto: "Oración por un nuevo rumbo profesional y guía divina para tomar decisiones correctas.", autor: "Daniela R.", orados: 15, estado: "aprobada", fecha: "2026-11-06" },
+        { id: 4, texto: "Pido paz mental y alivio para la ansiedad que he sentido en estas últimas semanas.", autor: "Anónimo", orados: 21, estado: "aprobada", fecha: "2026-11-06" }
+      ]
+    };
+
+    let siteData = JSON.parse(JSON.stringify(defaults));
+
+    function mostrarToast(msg) {
+      const t = document.getElementById('toastMsg');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 3200);
+    }
+
+    // AUTENTICACIÓN PRIVADA ESTRICTA CON GOOGLE FIREBASE AUTH
+    function asegurarInstanciaFirebaseAuth() {
+      if (auth && db) return true;
+      try {
+        const conf = obtenerConfigFirebase();
+        const app = getApps().length ? getApp() : initializeApp(conf);
+        db = getFirestore(app);
+        auth = getAuth(app);
+        return true;
+      } catch (e) {
+        console.error("Error inicializando Firebase Auth:", e);
+        return false;
+      }
+    }
+
+    window.iniciarSesionGoogleFirebase = async function() {
+      const err = document.getElementById('loginError');
+      err.style.display = 'none';
+      if (!asegurarInstanciaFirebaseAuth()) {
+        err.style.display = 'block';
+        err.textContent = "Error al inicializar Firebase Authentication.";
+        return;
+      }
+      try {
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+        const res = await signInWithPopup(auth, provider);
+        const emailLogueado = (res.user.email || '').toLowerCase().trim();
+        if (emailLogueado !== ADMIN_EMAIL) {
+          await signOut(auth);
+          err.style.display = 'block';
+          err.textContent = "Acceso denegado: La cuenta (" + res.user.email + ") no tiene permisos de administrador. Solo puede ingresar " + ADMIN_EMAIL;
+          return;
+        }
+        localStorage.setItem('fe_usuario_actual', JSON.stringify({
+          nombre: res.user.displayName || "Vicente Álvarez",
+          correo: res.user.email,
+          uid: res.user.uid
+        }));
+        entrarAlDashboard();
+      } catch (e) {
+        const code = e?.code || "";
+        err.style.display = 'block';
+        if (code === "auth/unauthorized-domain") {
+          err.textContent = "Falta autorizar el dominio en Firebase Console > Authentication > Settings > Authorized domains (agrega tu-encuentro.netlify.app).";
+        } else if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") {
+          err.textContent = "Inicio de sesión cancelado.";
+        } else {
+          err.textContent = "No se pudo verificar tu cuenta de Google (" + (code || e.message) + ").";
+        }
+      }
+    };
+
+    window.cerrarSesionAdmin = async function() {
+      try {
+        if (auth) await signOut(auth);
+      } catch (e) {}
+      localStorage.removeItem('fe_usuario_actual');
+      document.getElementById('adminApp').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'flex';
+    };
+
+    function entrarAlDashboard() {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminApp').style.display = 'flex';
+      cargarDatosIniciales();
+    }
+
+    // NAVEGACIÓN POR PESTAÑAS
+    window.cambiarTab = function(tabId, btn) {
+      document.querySelectorAll('.panel-section').forEach(s => s.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    };
+
+    // CARGAR Y POBLAR DATOS
+    function cargarDatosIniciales() {
+      const saved = localStorage.getItem('fe_site_data');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          siteData = { ...defaults, ...parsed };
+          // Elimina claves antiguas que pudieran haberse guardado en el navegador.
+          delete siteData.geminiApiKey;
+          if (!siteData.testimonios || Object.keys(siteData.testimonios).length === 0) {
+            siteData.testimonios = JSON.parse(JSON.stringify(defaults.testimonios));
+          }
+          if (!siteData.peticiones || !Array.isArray(siteData.peticiones)) {
+            siteData.peticiones = JSON.parse(JSON.stringify(defaults.peticiones));
+          }
+        } catch (e) {}
+      }
+      delete siteData.geminiApiKey;
+      localStorage.setItem('fe_site_data', JSON.stringify(siteData));
+      poblarCamposFormulario();
+      renderizarTestimoniosAdmin();
+      renderizarPeticionesAdmin();
+      renderizarMensajesAdmin();
+      renderizarAdminsSoloChatEnPanel();
+      inicializarFirebaseSiExiste();
+    }
+
+    const camposTexto = [
+      'logo', 'logoImg', 'whatsapp', 'correoAdmin', 'heroEyebrow', 'bannerTitle', 'bannerDesc',
+      'heroBtnText', 'heroBg', 'step1Title', 'step1Desc', 'step2Title', 'step2Desc',
+      'step3Title', 'step3Desc', 'oracionesTitle', 'oracionesDesc', 'oracionesBg',
+      'chatBannerTitle', 'chatBannerDesc', 'chatBg', 'chatCardKicker', 'chatCardTitle',
+      'chatCardIntro', 'chatWelcomeMsg', 'nosotrosP1', 'nosotrosP2', 'nosotrosP3', 'sugerenciasBg', 'footerText'
+    ];
+
+    function aplicarIdentidadEnPanelAdmin() {
+      const nombreOficial = (siteData.siteName || siteData.logo || defaults.siteName || "Encuentro").trim();
+      document.title = `Panel de Administración | ${nombreOficial}`;
+      const brandTxt = document.getElementById('adminTopbarBrandText');
+      if (brandTxt) brandTxt.textContent = `⚙️ Admin · ${nombreOficial}`;
+
+      const logoUrl = (siteData.logoImg || defaults.logoImg || "logo-oficial.png").trim();
+      const topLogo = document.getElementById('adminTopbarLogo');
+      const prevIdLogo = document.getElementById('prev_identidadLogo');
+      if (topLogo) topLogo.src = logoUrl || 'logo-oficial.png';
+      if (prevIdLogo) prevIdLogo.src = logoUrl || 'logo-oficial.png';
+
+      const favIco = document.getElementById('dynamicFaviconIco');
+      const favPng = document.getElementById('dynamicFaviconPng');
+      const appleIcon = document.getElementById('dynamicAppleTouchIcon');
+      if (favIco) favIco.href = logoUrl || 'favicon.ico';
+      if (favPng) favPng.href = logoUrl || 'favicon.png';
+      if (appleIcon) appleIcon.href = logoUrl || 'apple-touch-icon.png';
+    }
+
+    function poblarCamposFormulario() {
+      camposTexto.forEach(k => {
+        const el = document.getElementById('cfg_' + k);
+        if (el) el.value = siteData[k] !== undefined ? siteData[k] : (defaults[k] || '');
+      });
+      const idName = document.getElementById('id_siteName');
+      const idMail = document.getElementById('id_correoOficial');
+      const idLogo = document.getElementById('id_logoUrl');
+      if (idName) idName.value = siteData.siteName || siteData.logo || defaults.siteName;
+      if (idMail) idMail.value = siteData.correoAdmin || defaults.correoAdmin;
+      if (idLogo) idLogo.value = siteData.logoImg !== undefined ? siteData.logoImg : defaults.logoImg;
+
+      actualizarPreview('cfg_logoImg', 'prev_logoImg');
+      actualizarPreview('cfg_heroBg', 'prev_heroBg');
+      actualizarPreview('cfg_chatBg', 'prev_chatBg');
+      actualizarPreview('cfg_oracionesBg', 'prev_oracionesBg');
+      actualizarPreview('cfg_sugerenciasBg', 'prev_sugerenciasBg');
+      aplicarIdentidadEnPanelAdmin();
+    }
+
+    window.sincronizarInputsIdentidad = function(tipo, valor) {
+      if (tipo === 'nombre') {
+        siteData.siteName = valor;
+        const cfgLogo = document.getElementById('cfg_logo');
+        if (cfgLogo) cfgLogo.value = valor.toUpperCase();
+      } else if (tipo === 'correo') {
+        siteData.correoAdmin = valor;
+        const cfgCorreo = document.getElementById('cfg_correoAdmin');
+        if (cfgCorreo) cfgCorreo.value = valor;
+      } else if (tipo === 'logo') {
+        siteData.logoImg = valor;
+        const cfgLogoImg = document.getElementById('cfg_logoImg');
+        if (cfgLogoImg) {
+          cfgLogoImg.value = valor;
+          actualizarPreview('cfg_logoImg', 'prev_logoImg');
+        }
+        const prevId = document.getElementById('prev_identidadLogo');
+        if (prevId) prevId.src = valor || 'logo-oficial.png';
+      }
+    };
+
+    function mostrarEstadoIdentidad(mensaje, esError = false) {
+      const box = document.getElementById('identidadStatusBox');
+      if (!box) return;
+      box.style.display = 'block';
+      box.style.background = esError ? '#fee2e2' : '#dcfce7';
+      box.style.color = esError ? '#b91c1c' : '#15803d';
+      box.style.border = esError ? '1px solid #fecaca' : '1px solid #bbf7d0';
+      box.textContent = mensaje;
+    }
+
+    window.restaurarLogoPorDefecto = function() {
+      window.sincronizarInputsIdentidad('logo', 'logo-oficial.png');
+      const idLogo = document.getElementById('id_logoUrl');
+      if (idLogo) idLogo.value = 'logo-oficial.png';
+      mostrarEstadoIdentidad("Logo predeterminado seleccionado. Pulsa 'Guardar cambios de identidad' para aplicar.");
+    };
+
+    window.procesarSubidaLogoIdentidad = async function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const tiposPermitidos = ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'];
+      if (!tiposPermitidos.includes(file.type)) {
+        mostrarEstadoIdentidad("Formato no válido. Selecciona una imagen PNG, JPG, WEBP o SVG.", true);
+        return;
+      }
+      if (file.size > 2.5 * 1024 * 1024) {
+        mostrarEstadoIdentidad("La imagen supera los 2.5 MB permitidos. Por favor elige una imagen más liviana.", true);
+        return;
+      }
+
+      mostrarEstadoIdentidad("Procesando y optimizando logo oficial...");
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = async function() {
+          const canvas = document.createElement('canvas');
+          const maxDim = 420;
+          let w = img.width || 420;
+          let h = img.height || 420;
+          if (w > maxDim || h > maxDim) {
+            if (w >= h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, w, h);
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrlPng = canvas.toDataURL('image/png');
+
+          let urlFinal = dataUrlPng;
+          // Intentar subir a Firebase Storage si está habilitado
+          try {
+            const app = getApps().length ? getApp() : initializeApp(obtenerConfigFirebase());
+            const storage = getStorage(app);
+            const blob = await (await fetch(dataUrlPng)).blob();
+            const sRef = storageRef(storage, `identidad/logo_oficial_${Date.now()}.png`);
+            const uploadPromise = uploadBytes(sRef, blob).then(() => getDownloadURL(sRef));
+            const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Storage timeout")), 5500));
+            urlFinal = await Promise.race([uploadPromise, timeoutPromise]);
+            mostrarEstadoIdentidad("✅ Logo subido a Firebase Storage y listo. Pulsa 'Guardar cambios de identidad' para publicar.");
+          } catch (storageErr) {
+            console.info("Firebase Storage no disponible o restringido; utilizando respaldo directo optimizado en Firestore:", storageErr.message);
+            mostrarEstadoIdentidad("✅ Logo procesado con éxito (respaldo directo en Firestore). Pulsa 'Guardar cambios de identidad' para publicar.");
+          }
+
+          const idLogo = document.getElementById('id_logoUrl');
+          if (idLogo) idLogo.value = urlFinal;
+          window.sincronizarInputsIdentidad('logo', urlFinal);
+        };
+        img.onerror = function() {
+          mostrarEstadoIdentidad("No se pudo leer el archivo de imagen seleccionado.", true);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.guardarIdentidadConfiguracion = async function() {
+      const nombre = (document.getElementById('id_siteName')?.value || '').trim();
+      const correo = (document.getElementById('id_correoOficial')?.value || '').trim();
+      const logoUrl = (document.getElementById('id_logoUrl')?.value || '').trim();
+
+      if (!nombre) {
+        mostrarEstadoIdentidad("Por favor escribe el nombre oficial de la página.", true);
+        return;
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!correo || !emailRegex.test(correo)) {
+        mostrarEstadoIdentidad("Por favor ingresa un correo electrónico oficial con formato válido (ej. contacto@tudominio.com).", true);
+        return;
+      }
+
+      siteData.siteName = nombre;
+      siteData.logo = nombre.toUpperCase();
+      siteData.correoAdmin = correo;
+      siteData.logoImg = logoUrl || 'logo-oficial.png';
+
+      const cfgLogo = document.getElementById('cfg_logo');
+      const cfgCorreo = document.getElementById('cfg_correoAdmin');
+      const cfgLogoImg = document.getElementById('cfg_logoImg');
+      if (cfgLogo) cfgLogo.value = siteData.logo;
+      if (cfgCorreo) cfgCorreo.value = siteData.correoAdmin;
+      if (cfgLogoImg) cfgLogoImg.value = siteData.logoImg;
+
+      aplicarIdentidadEnPanelAdmin();
+      const btn = document.getElementById('btnGuardarIdentidad');
+      if (btn) btn.disabled = true;
+      try {
+        await window.guardarTodoElSitio();
+        mostrarEstadoIdentidad("✅ Identidad, logo, favicon y correo oficial guardados y sincronizados en tiempo real con Firebase Firestore.");
+      } catch (e) {
+        mostrarEstadoIdentidad("Ocurrió un error al sincronizar con Firebase: " + e.message, true);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    };
+
+    window.actualizarPreview = function(inputId, imgId) {
+      const val = document.getElementById(inputId).value.trim();
+      const img = document.getElementById(imgId);
+      if (img) img.src = val || 'https://via.placeholder.com/150x100?text=Sin+Imagen';
+    };
+
+    window.subirLogoPngBase64 = function(event, inputId, previewId) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxW = 500;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxW) { h = Math.round((h * maxW) / w); w = maxW; }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, w, h);
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL('image/png');
+          document.getElementById(inputId).value = dataUrl;
+          actualizarPreview(inputId, previewId);
+          mostrarToast("Logo cargado (con fondo transparente intacto). Recuerda pulsar Guardar.");
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.subirImagenBase64 = function(event, inputId, previewId) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          const maxW = 1200;
+          let w = img.width;
+          let h = img.height;
+          if (w > maxW) { h = Math.round((h * maxW) / w); w = maxW; }
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          document.getElementById(inputId).value = dataUrl;
+          actualizarPreview(inputId, previewId);
+          mostrarToast("Imagen procesada y lista para guardar");
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.guardarTodoElSitio = async function() {
+      camposTexto.forEach(k => {
+        const el = document.getElementById('cfg_' + k);
+        if (el) siteData[k] = el.value;
+      });
+      // Nunca persistir credenciales de Gemini en localStorage ni en Firestore.
+      delete siteData.geminiApiKey;
+      localStorage.setItem('fe_site_data', JSON.stringify(siteData));
+
+      if (db) {
+        try {
+          await setDoc(doc(db, "configuracion", "sitio_principal"), siteData);
+          mostrarToast("¡Guardado en el navegador y sincronizado en tiempo real con Firebase!");
+          return;
+        } catch (e) {
+          console.error(e);
+          alert("Se guardó localmente, pero ocurrió un error al subir a Firebase: " + e.message);
+        }
+      }
+      mostrarToast("¡Cambios guardados y aplicados en la página!");
+    };
+
+    // GESTIÓN DE TESTIMONIOS CON ORDEN MANUAL Y PRECARGA DE LOS 3 TESTIMONIOS
+    function renderizarTestimoniosAdmin() {
+      const grid = document.getElementById('adminTestimoniosGrid');
+      grid.innerHTML = '';
+      const testimonios = siteData.testimonios || {};
+      const entries = Object.entries(testimonios).sort((a, b) => (a[1].orden || 99) - (b[1].orden || 99));
+
+      entries.forEach(([id, t], idx) => {
+        t.orden = idx + 1;
+        const fotos = (t.fotos || []).slice(0, 3);
+        const thumbsHtml = fotos.map(f => {
+          const u = typeof f === 'string' ? f : f.url;
+          return u ? `<img src="${u}" alt="Foto">` : '';
+        }).join('');
+
+        const card = document.createElement('div');
+        card.className = 'test-admin-card';
+        card.innerHTML = `
+          <img class="cover" src="${t.imgPrincipal}" alt="${t.nombre}">
+          <div class="test-admin-body">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <span style="font-size:11px; font-weight:800; color:var(--green); background:#e9f2ec; padding:2px 8px; border-radius:999px;">Posición #${idx + 1}</span>
+              <div style="display:flex; gap:4px;">
+                <button class="btn-outline" style="padding:3px 8px; font-size:11px;" title="Mover antes" onclick="moverOrdenTestimonio('${id}', -1)">◀</button>
+                <button class="btn-outline" style="padding:3px 8px; font-size:11px;" title="Mover después" onclick="moverOrdenTestimonio('${id}', 1)">▶</button>
+              </div>
+            </div>
+            <h4>${t.nombre}</h4>
+            <p>${t.descCorta}</p>
+            <div class="mini-thumbs">${thumbsHtml}</div>
+            <div style="display:flex; gap:8px; justify-content:space-between;">
+              <button class="btn-outline" style="flex:1; padding:8px;" onclick="cargarTestimonioEnEditor('${id}')">✏️ Editar</button>
+              <button class="btn-danger" onclick="eliminarTestimonio('${id}')">🗑️</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    window.moverOrdenTestimonio = async function(id, direccion) {
+      const entries = Object.entries(siteData.testimonios || {}).sort((a, b) => (a[1].orden || 99) - (b[1].orden || 99));
+      const idx = entries.findIndex(e => e[0] === String(id));
+      const targetIdx = idx + direccion;
+      if (idx < 0 || targetIdx < 0 || targetIdx >= entries.length) return;
+      const temp = entries[idx];
+      entries[idx] = entries[targetIdx];
+      entries[targetIdx] = temp;
+      const nuevoObj = {};
+      entries.forEach(([k, val], i) => {
+        val.orden = i + 1;
+        nuevoObj[k] = val;
+      });
+      siteData.testimonios = nuevoObj;
+      renderizarTestimoniosAdmin();
+      await guardarTodoElSitio();
+    };
+
+    window.limpiarFormularioTestimonio = function() {
+      document.getElementById('edit_test_id').value = '';
+      document.getElementById('edit_test_nombre').value = '';
+      document.getElementById('edit_test_imgPrincipal').value = '';
+      document.getElementById('edit_test_descCorta').value = '';
+      document.getElementById('edit_test_p1').value = '';
+      document.getElementById('edit_test_p2').value = '';
+      document.getElementById('edit_test_p3').value = '';
+      document.getElementById('edit_test_foto1').value = '';
+      document.getElementById('edit_test_foto2').value = '';
+      document.getElementById('edit_test_foto3').value = '';
+      document.getElementById('formTestimonioHeading').textContent = 'Crear Nuevo Testimonio';
+      ['prev_test_main', 'prev_test_f1', 'prev_test_f2', 'prev_test_f3'].forEach(id => {
+        document.getElementById(id).src = 'https://via.placeholder.com/150x100?text=Foto';
+      });
+      document.getElementById('formTestimonioCard').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.cargarTestimonioEnEditor = function(id) {
+      const t = siteData.testimonios[id];
+      if (!t) return;
+      document.getElementById('edit_test_id').value = id;
+      document.getElementById('edit_test_nombre').value = t.nombre || '';
+      document.getElementById('edit_test_imgPrincipal').value = t.imgPrincipal || '';
+      document.getElementById('edit_test_descCorta').value = t.descCorta || '';
+      document.getElementById('edit_test_p1').value = t.p1 || '';
+      document.getElementById('edit_test_p2').value = t.p2 || '';
+      document.getElementById('edit_test_p3').value = t.p3 || '';
+
+      const f = t.fotos || [];
+      const f1 = f[0] ? (typeof f[0] === 'string' ? f[0] : f[0].url) : '';
+      const f2 = f[1] ? (typeof f[1] === 'string' ? f[1] : f[1].url) : '';
+      const f3 = f[2] ? (typeof f[2] === 'string' ? f[2] : f[2].url) : '';
+
+      document.getElementById('edit_test_foto1').value = f1;
+      document.getElementById('edit_test_foto2').value = f2;
+      document.getElementById('edit_test_foto3').value = f3;
+
+      actualizarPreview('edit_test_imgPrincipal', 'prev_test_main');
+      actualizarPreview('edit_test_foto1', 'prev_test_f1');
+      actualizarPreview('edit_test_foto2', 'prev_test_f2');
+      actualizarPreview('edit_test_foto3', 'prev_test_f3');
+
+      document.getElementById('formTestimonioHeading').textContent = 'Editando Testimonio: ' + t.nombre;
+      document.getElementById('formTestimonioCard').scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.guardarTestimonioIndividual = async function() {
+      const nombre = document.getElementById('edit_test_nombre').value.trim();
+      const imgPrincipal = document.getElementById('edit_test_imgPrincipal').value.trim();
+      const descCorta = document.getElementById('edit_test_descCorta').value.trim();
+
+      if (!nombre || !imgPrincipal || !descCorta) {
+        alert("Por favor completa al menos el Nombre, la Foto de Portada y el Resumen Corto.");
+        return;
+      }
+
+      let id = document.getElementById('edit_test_id').value.trim();
+      if (!id) id = 't_' + Date.now();
+
+      const fotos = [
+        document.getElementById('edit_test_foto1').value.trim(),
+        document.getElementById('edit_test_foto2').value.trim(),
+        document.getElementById('edit_test_foto3').value.trim()
+      ].filter(Boolean).slice(0, 3).map(url => ({ url }));
+
+      if (!siteData.testimonios) siteData.testimonios = {};
+      const ordenExistente = siteData.testimonios[id]?.orden;
+      const maxOrden = Object.values(siteData.testimonios).reduce((max, item) => Math.max(max, Number(item.orden) || 0), 0);
+      siteData.testimonios[id] = {
+        orden: ordenExistente ? Number(ordenExistente) : (maxOrden + 1),
+        nombre,
+        imgPrincipal,
+        descCorta,
+        p1: document.getElementById('edit_test_p1').value.trim(),
+        p2: document.getElementById('edit_test_p2').value.trim(),
+        p3: document.getElementById('edit_test_p3').value.trim(),
+        fotos
+      };
+
+      renderizarTestimoniosAdmin();
+      await guardarTodoElSitio();
+      limpiarFormularioTestimonio();
+    };
+
+    window.eliminarTestimonio = async function(id) {
+      if (!confirm("¿Seguro que deseas eliminar este testimonio?")) return;
+      delete siteData.testimonios[id];
+      renderizarTestimoniosAdmin();
+      await guardarTodoElSitio();
+    };
+
+    // GESTIÓN Y FILTRO DE ACEPTACIÓN / RECHAZO DE PETICIONES DE ORACIÓN
+    let filtroEstadoActual = 'todas';
+
+    window.filtrarPeticionesAdmin = function(estado, btn) {
+      filtroEstadoActual = estado;
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderizarPeticionesAdmin();
+    };
+
+    function renderizarPeticionesAdmin() {
+      const cont = document.getElementById('listaPeticionesAdmin');
+      cont.innerHTML = '';
+      const lista = siteData.peticiones || [];
+
+      const pendientesCount = lista.filter(p => p.estado === 'pendiente').length;
+      const aprobadasCount = lista.filter(p => (!p.estado || p.estado === 'aprobada')).length;
+      const rechazadasCount = lista.filter(p => p.estado === 'rechazada').length;
+
+      const badge = document.getElementById('badgePendientes');
+      badge.textContent = pendientesCount;
+      badge.style.display = pendientesCount > 0 ? 'inline-block' : 'none';
+
+      const cTodas = document.getElementById('countTodas');
+      const cPend = document.getElementById('countPendientesFiltro');
+      const cAprob = document.getElementById('countAprobadas');
+      const cRech = document.getElementById('countRechazadas');
+      if (cTodas) cTodas.textContent = lista.length;
+      if (cPend) cPend.textContent = pendientesCount;
+      if (cAprob) cAprob.textContent = aprobadasCount;
+      if (cRech) cRech.textContent = rechazadasCount;
+
+      const listaFiltrada = lista.filter(p => {
+        const est = p.estado || 'aprobada';
+        if (filtroEstadoActual === 'todas') return true;
+        return est === filtroEstadoActual;
+      });
+
+      if (listaFiltrada.length === 0) {
+        cont.innerHTML = '<p style="color:var(--muted); padding: 12px 0;">No hay peticiones en esta categoría.</p>';
+        return;
+      }
+
+      listaFiltrada.forEach(p => {
+        const estado = p.estado || 'aprobada';
+        let etiquetaTexto = '✅ Aceptada (Pública)';
+        if (estado === 'pendiente') etiquetaTexto = '⏳ Pendiente de revisión';
+        if (estado === 'rechazada') etiquetaTexto = '❌ Rechazada (Oculta)';
+
+        const div = document.createElement('div');
+        div.className = `prayer-item ${estado}`;
+        const correoAutor = p.correo ? p.correo.trim() : '';
+        const btnCorreoAnimo = correoAutor
+          ? `<button class="btn-outline" style="padding:8px 12px; font-size:12px; border-color:var(--green); color:var(--green);" onclick="abrirModalCorreoAnimo('${correoAutor.replace(/'/g, "")}', '${(p.autor || "Hermano/a").replace(/'/g, "")}', '${(p.texto || "").replace(/['"\n\r]/g, " ")}')">✉️ Correo de ánimo / Más info</button>`
+          : '';
+        div.innerHTML = `
+          <div>
+            <strong>${p.autor || 'Anónimo'}</strong>
+            ${correoAutor ? `<span style="font-size:12px; font-weight:600; color:var(--green); background:#e9f2ec; padding:2px 8px; border-radius:999px; margin-left:6px;">✉️ ${correoAutor}</span>` : `<span style="font-size:11.5px; color:var(--muted); margin-left:6px;">(Sin correo registrado)</span>`}
+            <span class="status-tag ${estado}">${etiquetaTexto}</span>
+            <span style="font-size:12px; color:var(--muted); margin-left:8px;">📅 ${p.fecha || 'Reciente'} · 🙏 ${p.orados || 0} oraciones</span>
+            <p style="margin:8px 0 0; font-size:14.5px; color:var(--ink);">"${p.texto}"</p>
+          </div>
+          <div style="display:flex; gap:8px; flex-shrink:0; flex-wrap:wrap;">
+            ${btnCorreoAnimo}
+            ${estado !== 'aprobada'
+              ? `<button class="btn-primary" style="padding:8px 14px; font-size:12px; background:#15803d;" onclick="cambiarEstadoPeticion(${p.id}, 'aprobada')">✅ Aceptar</button>`
+              : `<button class="btn-outline" style="padding:8px 14px; font-size:12px;" onclick="cambiarEstadoPeticion(${p.id}, 'pendiente')">⏳ Pasar a Pendiente</button>`
+            }
+            ${estado !== 'rechazada'
+              ? `<button class="btn-danger" style="padding:8px 14px; font-size:12px;" onclick="cambiarEstadoPeticion(${p.id}, 'rechazada')">❌ Rechazar</button>`
+              : ''
+            }
+            <button class="btn-outline" style="padding:8px 12px; font-size:12px;" title="Editar texto" onclick="editarTextoPeticion(${p.id})">✏️</button>
+            <button class="btn-danger" title="Eliminar definitivamente" onclick="eliminarPeticion(${p.id})">🗑️</button>
+          </div>
+        `;
+        cont.appendChild(div);
+      });
+    }
+
+    window.agregarPeticionManual = async function() {
+      const autor = document.getElementById('new_prayer_autor').value.trim() || 'Anónimo';
+      const correo = document.getElementById('new_prayer_correo')?.value.trim() || '';
+      const texto = document.getElementById('new_prayer_texto').value.trim();
+      if (!texto) {
+        alert("Escribe el texto de la petición.");
+        return;
+      }
+      siteData.peticiones.unshift({
+        id: Date.now(),
+        autor,
+        correo,
+        texto,
+        orados: 1,
+        estado: 'aprobada',
+        fecha: new Date().toLocaleDateString('es-CL')
+      });
+      document.getElementById('new_prayer_autor').value = '';
+      if (document.getElementById('new_prayer_correo')) document.getElementById('new_prayer_correo').value = '';
+      document.getElementById('new_prayer_texto').value = '';
+      renderizarPeticionesAdmin();
+      await guardarTodoElSitio();
+    };
+
+    window.cambiarEstadoPeticion = async function(id, nuevoEstado) {
+      const item = siteData.peticiones.find(p => Number(p.id) === Number(id));
+      if (item) {
+        item.estado = nuevoEstado;
+        renderizarPeticionesAdmin();
+        await guardarTodoElSitio();
+      }
+    };
+
+    window.editarTextoPeticion = async function(id) {
+      const item = siteData.peticiones.find(p => Number(p.id) === Number(id));
+      if (!item) return;
+      const nuevoTexto = prompt("Editar petición de " + item.autor + ":", item.texto);
+      if (nuevoTexto !== null && nuevoTexto.trim() !== "") {
+        item.texto = nuevoTexto.trim();
+        renderizarPeticionesAdmin();
+        await guardarTodoElSitio();
+      }
+    };
+
+    window.eliminarPeticion = async function(id) {
+      if (!confirm("¿Eliminar esta petición de oración?")) return;
+      siteData.peticiones = siteData.peticiones.filter(p => Number(p.id) !== Number(id));
+      renderizarPeticionesAdmin();
+      await guardarTodoElSitio();
+    };
+
+    // GESTIÓN EXCLUSIVA DE ADMINISTRADORES DE SOLO CHAT
+    const DEFAULT_CHAT_ADMINS = [
+      { nombre: "Vicente Álvarez (Admin Principal - Acceso Total)", correo: "vicentealvarez1134@gmail.com", clave: "admin", rol: "superadmin" },
+      { nombre: "Administrador 2 (Solo Chat)", correo: "admin2@espaciofe.cl", clave: "fe2026", rol: "chat" },
+      { nombre: "Administrador 3 (Solo Chat)", correo: "admin3@espaciofe.cl", clave: "fe2026", rol: "chat" }
+    ];
+
+    let listaAdminsChat = JSON.parse(localStorage.getItem('fe_admins_chat') || JSON.stringify(DEFAULT_CHAT_ADMINS));
+
+    function renderizarAdminsSoloChatEnPanel() {
+      const cont = document.getElementById('listaAdminsSoloChatPanel');
+      if (!cont) return;
+      cont.innerHTML = '';
+
+      listaAdminsChat.forEach((adm, idx) => {
+        const esSuper = adm.correo.toLowerCase().trim() === ADMIN_EMAIL;
+        const div = document.createElement('div');
+        div.className = 'prayer-item ' + (esSuper ? 'aprobada' : 'pendiente');
+        div.innerHTML = `
+          <div>
+            <strong>${adm.nombre}</strong>
+            <span class="status-tag ${esSuper ? 'aprobada' : 'pendiente'}">
+              ${esSuper ? '👑 Admin Principal (Acceso Total)' : '💬 Solo acceso a Chats'}
+            </span>
+            <p style="margin:6px 0 0; font-size:13.5px; color:var(--muted);">
+              Correo: <strong>${adm.correo}</strong> · Contraseña: <code>${adm.clave}</code>
+            </p>
+          </div>
+          <div>
+            ${!esSuper
+              ? `<button class="btn-danger" onclick="eliminarAdminSoloChatDesdePanel(${idx})">🗑️ Quitar acceso</button>`
+              : `<span style="font-size:12px; font-weight:700; color:var(--green);">Cuenta Maestra</span>`
+            }
+          </div>
+        `;
+        cont.appendChild(div);
+      });
+    }
+
+    window.agregarAdminSoloChatDesdePanel = async function() {
+      const nombre = document.getElementById('adm_chat_nombre').value.trim();
+      const correo = document.getElementById('adm_chat_correo').value.trim().toLowerCase();
+      const clave = document.getElementById('adm_chat_clave').value.trim();
+      if (!nombre || !correo || !clave) {
+        alert("Completa el nombre, correo y contraseña para el administrador de chat.");
+        return;
+      }
+      listaAdminsChat = listaAdminsChat.filter(a => a.correo.toLowerCase() !== correo);
+      listaAdminsChat.push({
+        nombre,
+        correo,
+        clave,
+        rol: correo === ADMIN_EMAIL ? 'superadmin' : 'chat'
+      });
+      localStorage.setItem('fe_admins_chat', JSON.stringify(listaAdminsChat));
+      document.getElementById('adm_chat_nombre').value = '';
+      document.getElementById('adm_chat_correo').value = '';
+      document.getElementById('adm_chat_clave').value = '';
+      renderizarAdminsSoloChatEnPanel();
+
+      if (db) {
+        try {
+          await setDoc(doc(db, "configuracion", "equipo_consejeros"), { admins: listaAdminsChat }, { merge: true });
+        } catch (e) {}
+      }
+      mostrarToast("Administrador de Solo Chat guardado");
+    };
+
+    window.eliminarAdminSoloChatDesdePanel = async function(idx) {
+      if (!confirm("¿Quitar el acceso al chat a esta persona?")) return;
+      listaAdminsChat.splice(idx, 1);
+      localStorage.setItem('fe_admins_chat', JSON.stringify(listaAdminsChat));
+      renderizarAdminsSoloChatEnPanel();
+      if (db) {
+        try {
+          await setDoc(doc(db, "configuracion", "equipo_consejeros"), { admins: listaAdminsChat }, { merge: true });
+        } catch (e) {}
+      }
+      mostrarToast("Acceso eliminado");
+    };
+
+    let usuariosRegistradosMap = {};
+    let conversacionesMap = {};
+    let mensajesFirestoreMap = {};
+    let filtroTipoMensajeActual = 'todos';
+
+    function escaparHtmlAdmin(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Elimina cualquier marca de agua externa "Powered by Netlify" si fuera inyectada
+    function eliminarMarcaAguaNetlifyAdmin() {
+      document.querySelectorAll('a, div, aside, iframe').forEach(el => {
+        const txt = (el.textContent || '').trim();
+        const href = (el.getAttribute && el.getAttribute('href')) || '';
+        if ((txt === 'Powered by Netlify' || href.includes('netlify.com')) && !el.closest('#adminApp') && !el.closest('#loginScreen')) {
+          el.remove();
+        }
+      });
+    }
+    eliminarMarcaAguaNetlifyAdmin();
+    new MutationObserver(eliminarMarcaAguaNetlifyAdmin).observe(document.body, { childList: true, subtree: true });
+
+    function obtenerListaUnificadaMensajes() {
+      const mapa = {};
+      const enSitio = Array.isArray(siteData.mensajesRecibidos) ? siteData.mensajesRecibidos : [];
+      enSitio.forEach(m => {
+        if (m && m.id) mapa[String(m.id)] = { ...m };
+      });
+      Object.values(mensajesFirestoreMap).forEach(m => {
+        if (m && m.id) mapa[String(m.id)] = { ...(mapa[String(m.id)] || {}), ...m };
+      });
+      const localGuardados = JSON.parse(localStorage.getItem('fe_mensajes_recibidos') || '[]');
+      if (Array.isArray(localGuardados)) {
+        localGuardados.forEach(m => {
+          if (m && m.id && !mapa[String(m.id)]) mapa[String(m.id)] = { ...m };
+        });
+      }
+      return Object.values(mapa).sort((a, b) => {
+        return String(b.fechaISO || '').localeCompare(String(a.fechaISO || ''));
+      });
+    }
+
+    window.filtrarMensajesPorTipo = function(tipo, btn) {
+      filtroTipoMensajeActual = tipo;
+      const bar = btn ? btn.parentElement : null;
+      if (bar) bar.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderizarMensajesAdmin();
+    };
+
+    window.renderizarMensajesAdmin = function() {
+      const cont = document.getElementById('listaMensajesRecibidosAdmin');
+      if (!cont) return;
+      const textoBusqueda = (document.getElementById('buscarMensajeAdmin')?.value || '').toLowerCase().trim();
+      const todos = obtenerListaUnificadaMensajes();
+
+      const noArchivados = todos.filter(m => m.estado !== 'archivado');
+      const pendientes = todos.filter(m => !m.estado || m.estado === 'pendiente');
+      const sugerencias = noArchivados.filter(m => (m.tipo || 'sugerencia') === 'sugerencia');
+      const consultas = noArchivados.filter(m => m.tipo === 'consulta');
+      const comentarios = noArchivados.filter(m => m.tipo === 'comentario' || m.tipo === 'otro');
+      const testimonios = noArchivados.filter(m => m.tipo === 'testimonio');
+      const archivados = todos.filter(m => m.estado === 'archivado');
+
+      const badge = document.getElementById('badgeMensajesNuevos');
+      if (badge) {
+        badge.textContent = pendientes.length;
+        badge.style.display = pendientes.length > 0 ? 'inline-block' : 'none';
+      }
+
+      const setCount = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      setCount('countMsgTodos', noArchivados.length);
+      setCount('countMsgPendientes', pendientes.length);
+      setCount('countMsgSugerencias', sugerencias.length);
+      setCount('countMsgConsultas', consultas.length);
+      setCount('countMsgComentarios', comentarios.length);
+      setCount('countMsgTestimonios', testimonios.length);
+      setCount('countMsgArchivados', archivados.length);
+
+      const filtrados = todos.filter(m => {
+        const est = m.estado || 'pendiente';
+        const tipo = m.tipo || 'sugerencia';
+
+        if (filtroTipoMensajeActual === 'archivado') {
+          if (est !== 'archivado') return false;
+        } else {
+          if (est === 'archivado') return false;
+          if (filtroTipoMensajeActual === 'pendiente' && est !== 'pendiente') return false;
+          if (filtroTipoMensajeActual === 'sugerencia' && tipo !== 'sugerencia') return false;
+          if (filtroTipoMensajeActual === 'consulta' && tipo !== 'consulta') return false;
+          if (filtroTipoMensajeActual === 'comentario' && tipo !== 'comentario' && tipo !== 'otro') return false;
+          if (filtroTipoMensajeActual === 'testimonio' && tipo !== 'testimonio') return false;
+        }
+
+        if (!textoBusqueda) return true;
+        return (m.nombre || '').toLowerCase().includes(textoBusqueda) ||
+               (m.correo || '').toLowerCase().includes(textoBusqueda) ||
+               (m.mensaje || '').toLowerCase().includes(textoBusqueda) ||
+               (m.tipo || '').toLowerCase().includes(textoBusqueda);
+      });
+
+      if (filtrados.length === 0) {
+        cont.innerHTML = '<p style="color:var(--muted); padding: 14px 0;">No hay mensajes en esta categoría.</p>';
+        return;
+      }
+
+      cont.innerHTML = '';
+      filtrados.forEach(m => {
+        const estado = m.estado || 'pendiente';
+        const tipo = m.tipo || 'sugerencia';
+        const etiquetasTipo = {
+          sugerencia: '💡 Sugerencia',
+          consulta: '❓ Consulta',
+          comentario: '💬 Comentario',
+          testimonio: '🙌 Testimonio enviado',
+          otro: '📩 Mensaje'
+        };
+        const etiquetasEstado = {
+          pendiente: '⏳ Sin revisar',
+          revisado: '✅ Revisado',
+          archivado: '📦 Archivado'
+        };
+
+        const fotosAdjuntas = Array.isArray(m.fotos) ? m.fotos.filter(Boolean) : [];
+        const fotosHtml = fotosAdjuntas.length > 0
+          ? `<div class="mini-thumbs" style="margin-top:10px;">
+              ${fotosAdjuntas.map(u => `<a href="${u}" target="_blank" title="Ver imagen completa"><img src="${u}" alt="Adjunto" style="width:64px;height:64px;border-radius:10px;object-fit:cover;border:1px solid var(--line);"></a>`).join('')}
+             </div>`
+          : '';
+
+        const btnPublicarComoTestimonio = (tipo === 'testimonio')
+          ? `<button class="btn-outline" style="padding:8px 12px; font-size:12px; border-color:var(--green); color:var(--green);" onclick="cargarMensajeEnEditorTestimonio('${String(m.id).replace(/'/g, "")}')">🙌 Pasar a Testimonios Publicados</button>`
+          : '';
+
+        const div = document.createElement('div');
+        div.className = `msg-admin-item ${estado}`;
+        div.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:240px;">
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:6px;">
+                <span class="type-badge ${escaparHtmlAdmin(tipo)}">${etiquetasTipo[tipo] || etiquetasTipo.otro}</span>
+                <strong style="font-size:15.5px; color:var(--ink);">👤 ${escaparHtmlAdmin(m.nombre || 'Visitante')}</strong>
+                ${m.correo ? `<span style="font-size:12px; font-weight:700; color:var(--green); background:#e9f2ec; padding:2px 9px; border-radius:999px;">✉️ ${escaparHtmlAdmin(m.correo)}</span>` : ''}
+                ${m.telefono ? `<span style="font-size:12px; color:var(--muted);">📞 ${escaparHtmlAdmin(m.telefono)}</span>` : ''}
+                <span class="status-tag ${estado === 'revisado' ? 'aprobada' : (estado === 'archivado' ? 'rechazada' : 'pendiente')}">${etiquetasEstado[estado] || '⏳ Sin revisar'}</span>
+                <span style="font-size:12px; color:var(--muted);">📅 ${escaparHtmlAdmin(m.fechaLegible || m.fecha || 'Reciente')}</span>
+              </div>
+              <div style="background:rgba(255,255,255,0.85); border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-top:8px; font-size:14px; color:var(--ink); white-space:pre-wrap; line-height:1.6;">${escaparHtmlAdmin(m.mensaje || '')}</div>
+              ${fotosHtml}
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+              ${m.correo ? `<button class="btn-primary" style="padding:8px 14px; font-size:12px;" onclick="responderMensajePorCorreo('${String(m.id).replace(/'/g, "")}')">✉️ Responder</button>` : ''}
+              ${btnPublicarComoTestimonio}
+              ${estado !== 'revisado'
+                ? `<button class="btn-outline" style="padding:8px 12px; font-size:12px; border-color:#15803d; color:#15803d;" onclick="cambiarEstadoMensajeAdmin('${String(m.id).replace(/'/g, "")}', 'revisado')">✅ Marcar revisado</button>`
+                : `<button class="btn-outline" style="padding:8px 12px; font-size:12px;" onclick="cambiarEstadoMensajeAdmin('${String(m.id).replace(/'/g, "")}', 'pendiente')">⏳ Marcar pendiente</button>`
+              }
+              ${estado !== 'archivado'
+                ? `<button class="btn-outline" style="padding:8px 12px; font-size:12px;" onclick="cambiarEstadoMensajeAdmin('${String(m.id).replace(/'/g, "")}', 'archivado')">📦 Archivar</button>`
+                : `<button class="btn-outline" style="padding:8px 12px; font-size:12px;" onclick="cambiarEstadoMensajeAdmin('${String(m.id).replace(/'/g, "")}', 'revisado')">📤 Desarchivar</button>`
+              }
+              <button class="btn-danger" style="padding:8px 12px; font-size:12px;" title="Eliminar mensaje" onclick="eliminarMensajeAdmin('${String(m.id).replace(/'/g, "")}')">🗑️</button>
+            </div>
+          </div>
+        `;
+        cont.appendChild(div);
+      });
+    };
+
+    async function persistirCambiosMensajes(listaActualizada, itemModificado = null, idEliminado = null) {
+      siteData.mensajesRecibidos = listaActualizada;
+      localStorage.setItem('fe_mensajes_recibidos', JSON.stringify(listaActualizada));
+      localStorage.setItem('fe_site_data', JSON.stringify(siteData));
+
+      if (db) {
+        try {
+          await setDoc(doc(db, "configuracion", "sitio_principal"), siteData, { merge: true });
+        } catch (e) {
+          console.warn("Aviso al sincronizar mensajes en sitio_principal:", e);
+        }
+        if (itemModificado && itemModificado.id) {
+          try {
+            await setDoc(doc(db, "mensajes_recibidos", String(itemModificado.id)), itemModificado, { merge: true });
+          } catch (e) {}
+        }
+        if (idEliminado) {
+          try {
+            await deleteDoc(doc(db, "mensajes_recibidos", String(idEliminado)));
+          } catch (e) {}
+        }
+      }
+    }
+
+    window.cambiarEstadoMensajeAdmin = async function(id, nuevoEstado) {
+      const todos = obtenerListaUnificadaMensajes();
+      const item = todos.find(m => String(m.id) === String(id));
+      if (!item) return;
+      item.estado = nuevoEstado;
+      if (mensajesFirestoreMap[String(id)]) mensajesFirestoreMap[String(id)].estado = nuevoEstado;
+      renderizarMensajesAdmin();
+      await persistirCambiosMensajes(todos, item, null);
+      mostrarToast("Estado del mensaje actualizado a: " + nuevoEstado);
+    };
+
+    window.eliminarMensajeAdmin = async function(id) {
+      if (!confirm("¿Seguro que deseas eliminar definitivamente este mensaje?")) return;
+      const todos = obtenerListaUnificadaMensajes().filter(m => String(m.id) !== String(id));
+      delete mensajesFirestoreMap[String(id)];
+      renderizarMensajesAdmin();
+      await persistirCambiosMensajes(todos, null, id);
+      mostrarToast("Mensaje eliminado");
+    };
+
+    window.responderMensajePorCorreo = async function(id) {
+      const todos = obtenerListaUnificadaMensajes();
+      const m = todos.find(item => String(item.id) === String(id));
+      if (!m || !m.correo) return;
+
+      const nombreSitio = (siteData.siteName || defaults.siteName || "Encuentro").trim();
+      const asunto = `Respuesta a tu ${m.tipo || 'mensaje'} en ${nombreSitio} 🙏`;
+      const cuerpo =
+        `Hola ${m.nombre || 'hermano/a'}, ¡qué bendición saludarte!
+
+` +
+        `Te escribimos desde "${nombreSitio}" en respuesta al mensaje que nos enviaste:
+` +
+        `"${(m.mensaje || '').slice(0, 300)}"
+
+` +
+        `Muchas gracias por escribirnos. `;
+
+      // Marcamos como revisado al responder
+      if (m.estado === 'pendiente' || !m.estado) {
+        await window.cambiarEstadoMensajeAdmin(id, 'revisado');
+      }
+
+      const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(m.correo)}&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+      const ventana = window.open(gmailUrl, '_blank');
+      if (!ventana) {
+        window.location.href = `mailto:${encodeURIComponent(m.correo)}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+      }
+    };
+
+    window.cargarMensajeEnEditorTestimonio = function(id) {
+      const todos = obtenerListaUnificadaMensajes();
+      const m = todos.find(item => String(item.id) === String(id));
+      if (!m) return;
+
+      const tabBtnTestimonios = document.querySelector("button[onclick*='tab-testimonios']");
+      window.cambiarTab('tab-testimonios', tabBtnTestimonios);
+      window.limpiarFormularioTestimonio();
+
+      document.getElementById('edit_test_nombre').value = m.nombre || '';
+      const parrafos = String(m.mensaje || '').split(/\n+/).filter(Boolean);
+      document.getElementById('edit_test_descCorta').value = (m.mensaje || '').slice(0, 170);
+      document.getElementById('edit_test_p1').value = parrafos[0] || m.mensaje || '';
+      document.getElementById('edit_test_p2').value = parrafos[1] || '';
+      document.getElementById('edit_test_p3').value = parrafos.slice(2).join('\n\n') || '';
+
+      const fotos = Array.isArray(m.fotos) ? m.fotos : [];
+      if (fotos[0]) {
+        document.getElementById('edit_test_imgPrincipal').value = fotos[0];
+        actualizarPreview('edit_test_imgPrincipal', 'prev_test_main');
+        document.getElementById('edit_test_foto1').value = fotos[0];
+        actualizarPreview('edit_test_foto1', 'prev_test_f1');
+      }
+      if (fotos[1]) {
+        document.getElementById('edit_test_foto2').value = fotos[1];
+        actualizarPreview('edit_test_foto2', 'prev_test_f2');
+      }
+      if (fotos[2]) {
+        document.getElementById('edit_test_foto3').value = fotos[2];
+        actualizarPreview('edit_test_foto3', 'prev_test_f3');
+      }
+      mostrarToast("Datos cargados en el editor de testimonios. Revisa y pulsa Guardar Testimonio.");
+    };
+
+    function obtenerConfigFirebase() {
+      try {
+        localStorage.removeItem('fe_firebase_config');
+      } catch (e) {}
+      return {
+        apiKey: "AIzaSyBGJxCclzCmjwch9NrFBfjBGx8VuC-HFrI",
+        authDomain: "un-espacio-para-tu-fe.firebaseapp.com",
+        projectId: "un-espacio-para-tu-fe",
+        storageBucket: "un-espacio-para-tu-fe.firebasestorage.app",
+        messagingSenderId: "284977675855",
+        appId: "1:284977675855:web:ed21c17eee3ebbe9fd743a"
+      };
+    }
+
+    window.abrirModalCorreoAnimo = function(correo, nombre, oracionTexto) {
+      if (!correo) {
+        alert("Esta persona no tiene un correo electrónico asociado.");
+        return;
+      }
+      const asunto = `Estamos orando por ti, ${nombre} 🙏 | Encuentro`;
+      const cuerpoSugerido =
+        `Hola ${nombre}, ¡qué bendición saludarte!
+
+` +
+        `Te escribo personalmente desde "Encuentro" porque leímos tu petición de oración:
+` +
+        `"${oracionTexto || 'Tu petición compartida en la página'}"
+
+` +
+        `Queremos que sepas que no estás solo/a. Estamos orando por tu vida y confiando en que la paz y el amor de Jesús fortalecerán tu corazón hoy.
+
+` +
+        `Si deseas contarnos un poquito más sobre lo que estás viviendo para poder orar de forma más específica por ti o acompañarte mejor, puedes responder directamente a este correo con total confianza.
+
+` +
+        `Con mucho cariño en Cristo,
+` +
+        `Vicente y el equipo de Encuentro`;
+
+      const mailtoUrl = `mailto:${encodeURIComponent(correo)}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpoSugerido)}`;
+      window.open(mailtoUrl, '_blank');
+    };
+
+    window.renderizarRegistroUsuarios = function() {
+      const cont = document.getElementById('listaUsuariosRegistradosAdmin');
+      if (!cont) return;
+      const filtro = (document.getElementById('buscarUsuarioRegistro')?.value || '').toLowerCase().trim();
+
+      // Unificamos usuarios de la colección usuarios_registrados + autores con correo en peticiones
+      const consolidado = {};
+
+      Object.values(usuariosRegistradosMap).forEach(u => {
+        const mail = (u.email || '').toLowerCase().trim();
+        if (!mail) return;
+        consolidado[mail] = {
+          nombre: u.nombre || 'Hermano/a',
+          email: u.email,
+          foto: u.foto || '',
+          fechaRegistro: u.fechaRegistro || u.ultimoAcceso || '',
+          ultimoAcceso: u.ultimoAcceso || u.fechaRegistro || '',
+          oraciones: Array.isArray(u.oraciones) ? [...u.oraciones] : []
+        };
+      });
+
+      Object.values(conversacionesMap).forEach(c => {
+        const mail = (c.usuarioCorreo || '').toLowerCase().trim();
+        if (!mail) return;
+        if (!consolidado[mail]) {
+          consolidado[mail] = {
+            nombre: c.usuarioNombre || 'Hermano/a',
+            email: c.usuarioCorreo,
+            foto: '',
+            fechaRegistro: c.ultimaFechaISO || '',
+            ultimoAcceso: c.ultimaFechaISO || '',
+            oraciones: []
+          };
+        }
+        consolidado[mail].mensajesChat = Array.isArray(c.mensajes) ? c.mensajes : [];
+      });
+
+      (siteData.peticiones || []).forEach(p => {
+        const mail = (p.correo || '').toLowerCase().trim();
+        if (!mail) return;
+        if (!consolidado[mail]) {
+          consolidado[mail] = {
+            nombre: p.autor || 'Hermano/a',
+            email: p.correo,
+            foto: '',
+            fechaRegistro: p.fecha || '',
+            ultimoAcceso: p.fecha || '',
+            oraciones: []
+          };
+        }
+        const yaExiste = consolidado[mail].oraciones.some(o => Number(o.id) === Number(p.id) || o.texto === p.texto);
+        if (!yaExiste) {
+          consolidado[mail].oraciones.push(p);
+        }
+      });
+
+      const lista = Object.values(consolidado).sort((a, b) => {
+        return String(b.ultimoAcceso || '').localeCompare(String(a.ultimoAcceso || ''));
+      });
+
+      const badgeCount = document.getElementById('badgeUsuariosCount');
+      if (badgeCount) badgeCount.textContent = lista.length;
+
+      const filtrados = lista.filter(item => {
+        if (!filtro) return true;
+        const matchNombre = (item.nombre || '').toLowerCase().includes(filtro);
+        const matchCorreo = (item.email || '').toLowerCase().includes(filtro);
+        const matchOracion = (item.oraciones || []).some(o => (o.texto || '').toLowerCase().includes(filtro));
+        return matchNombre || matchCorreo || matchOracion;
+      });
+
+      if (filtrados.length === 0) {
+        cont.innerHTML = '<p style="color:var(--muted); padding: 14px 0;">Aún no hay usuarios registrados que coincidan con la búsqueda.</p>';
+        return;
+      }
+
+      cont.innerHTML = '';
+      filtrados.forEach(u => {
+        const fechaFormat = u.ultimoAcceso
+          ? (u.ultimoAcceso.includes('T') ? new Date(u.ultimoAcceso).toLocaleString('es-CL') : u.ultimoAcceso)
+          : 'Registrado';
+        const ultimaOracionTexto = (u.oraciones && u.oraciones.length > 0) ? u.oraciones[0].texto : '';
+
+        const oracionesHtml = (u.oraciones && u.oraciones.length > 0)
+          ? u.oraciones.map(o => `
+              <div style="background:#f4f7f5; border-left:3px solid var(--green2); padding:8px 12px; border-radius:8px; margin-top:6px; font-size:13.5px;">
+                <span style="font-size:11px; color:var(--muted); font-weight:700;">📅 ${o.fecha || 'Reciente'} · Estado: ${(o.estado || 'aprobada').toUpperCase()} · 🙏 ${o.orados || 0} oraciones</span>
+                <div style="margin-top:3px; color:var(--ink);">"${o.texto}"</div>
+              </div>
+            `).join('')
+          : '<div style="font-size:12.5px; color:var(--muted); margin-top:6px; font-style:italic;">Inició sesión con Google (aún no ha enviado peticiones de oración).</div>';
+
+        const card = document.createElement('div');
+        card.className = 'prayer-item aprobada';
+        card.style.alignItems = 'flex-start';
+        card.innerHTML = `
+          <div style="flex:1; min-width:0;">
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+              <strong style="font-size:16px; color:var(--ink);">👤 ${u.nombre}</strong>
+              <span style="font-size:12.5px; font-weight:700; color:var(--green); background:#e9f2ec; padding:3px 10px; border-radius:999px;">✉️ ${u.email}</span>
+              <span style="font-size:11.5px; color:var(--muted);">🕒 Último acceso: ${fechaFormat}</span>
+            </div>
+            <div style="margin-top:8px;">
+              <strong style="font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--green2);">Peticiones de oración de ${u.nombre} (${u.oraciones.length}):</strong>
+              ${oracionesHtml}
+            </div>
+            <div style="margin-top:10px;">
+              <strong style="font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:#1f4d36;">💬 Historial de Chat con Consejeros (${(u.mensajesChat || []).length} mensajes guardados):</strong>
+              ${(u.mensajesChat && u.mensajesChat.length > 0)
+                ? `<details style="margin-top:6px; background:#f8faf9; border:1px solid var(--line); border-radius:10px; padding:8px 12px;">
+                    <summary style="cursor:pointer; font-size:12.5px; font-weight:700; color:var(--green);">Ver conversación guardada (${u.mensajesChat.length} mensajes)</summary>
+                    <div style="margin-top:8px; max-height:220px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;">
+                      ${u.mensajesChat.map(m => `
+                        <div style="padding:6px 10px; border-radius:8px; font-size:12.5px; background:${m.autorTipo === 'usuario' ? '#e9f2ec' : '#fff'}; border:1px solid var(--line);">
+                          <strong>${m.autorTipo === 'usuario' ? '👤 ' + (m.autorNombre || u.nombre) : '🙏 Consejero'}</strong>
+                          <span style="font-size:11px; color:var(--muted); margin-left:6px;">${m.hora || ''}</span>
+                          <div style="margin-top:2px; white-space:pre-wrap;">${m.texto || ''}</div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  </details>`
+                : `<div style="font-size:12.5px; color:var(--muted); margin-top:4px; font-style:italic;">Aún no ha iniciado mensajes en el chat con consejeros.</div>`
+              }
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px; flex-shrink:0;">
+            <button class="btn-primary" style="padding:9px 15px; font-size:12.5px;" onclick="abrirModalCorreoAnimo('${u.email.replace(/'/g, "")}', '${u.nombre.replace(/'/g, "")}', '${(ultimaOracionTexto || "").replace(/['"\n\r]/g, " ")}')">
+              ✉️ Escribir correo de ánimo / Pedir info
+            </button>
+          </div>
+        `;
+        cont.appendChild(card);
+      });
+    };
+
+    // CONEXIÓN FIREBASE AUTOMÁTICA (NUNCA SE QUEDA EN MODO LOCAL)
+    function inicializarFirebaseSiExiste() {
+      try {
+        const conf = obtenerConfigFirebase();
+        if (!conf || !conf.apiKey || !conf.projectId) return;
+
+        ['apiKey', 'authDomain', 'projectId', 'storageBucket', 'messagingSenderId', 'appId'].forEach(k => {
+          const el = document.getElementById('fb_' + k);
+          if (el) el.value = conf[k] || '';
+        });
+
+        const app = getApps().length ? getApp() : initializeApp(conf);
+        db = getFirestore(app);
+        auth = getAuth(app);
+
+        const badge = document.getElementById('firebaseStatusBadge');
+        badge.textContent = "🔥 Conectado a Firebase (" + conf.projectId + ")";
+        badge.classList.add('online');
+
+        onSnapshot(doc(db, "configuracion", "equipo_consejeros"), (snapEq) => {
+          if (snapEq.exists() && Array.isArray(snapEq.data().admins)) {
+            listaAdminsChat = snapEq.data().admins;
+            localStorage.setItem('fe_admins_chat', JSON.stringify(listaAdminsChat));
+            renderizarAdminsSoloChatEnPanel();
+          }
+        });
+
+        onSnapshot(doc(db, "configuracion", "sitio_principal"), (snap) => {
+          if (snap.exists()) {
+            const rem = snap.data();
+            siteData = { ...defaults, ...rem };
+            delete siteData.geminiApiKey;
+            localStorage.setItem('fe_site_data', JSON.stringify(siteData));
+            poblarCamposFormulario();
+            renderizarTestimoniosAdmin();
+            renderizarPeticionesAdmin();
+            renderizarMensajesAdmin();
+            renderizarRegistroUsuarios();
+          }
+        });
+
+        onSnapshot(collection(db, "usuarios_registrados"), (querySnap) => {
+          usuariosRegistradosMap = {};
+          querySnap.forEach((docSnap) => {
+            usuariosRegistradosMap[docSnap.id] = docSnap.data();
+          });
+          renderizarRegistroUsuarios();
+        });
+
+        // Listener en tiempo real para la colección mensajes_recibidos + respaldo en siteData.mensajesRecibidos
+        onSnapshot(collection(db, "mensajes_recibidos"), (querySnap) => {
+          mensajesFirestoreMap = {};
+          querySnap.forEach((docSnap) => {
+            mensajesFirestoreMap[docSnap.id] = { id: docSnap.id, ...docSnap.data() };
+          });
+          renderizarMensajesAdmin();
+        }, (err) => {
+          console.warn("Aviso al escuchar colección mensajes_recibidos (usando respaldo de siteData):", err.message);
+          renderizarMensajesAdmin();
+        });
+
+        onSnapshot(collection(db, "conversaciones"), (querySnap) => {
+          conversacionesMap = {};
+          querySnap.forEach((docSnap) => {
+            const d = docSnap.data();
+            if (d && d.usuarioCorreo) {
+              conversacionesMap[d.usuarioCorreo.toLowerCase().trim()] = d;
+            }
+          });
+          renderizarRegistroUsuarios();
+        });
+      } catch (e) {
+        console.warn("Firebase no activo:", e);
+      }
+    }
+
+    window.guardarConfigFirebase = async function() {
+      const conf = {
+        apiKey: document.getElementById('fb_apiKey').value.trim(),
+        authDomain: document.getElementById('fb_authDomain').value.trim(),
+        projectId: document.getElementById('fb_projectId').value.trim(),
+        storageBucket: document.getElementById('fb_storageBucket').value.trim(),
+        messagingSenderId: document.getElementById('fb_messagingSenderId').value.trim(),
+        appId: document.getElementById('fb_appId').value.trim()
+      };
+      if (!conf.apiKey || !conf.projectId) {
+        alert("Debes ingresar al menos apiKey y projectId de tu proyecto de Firebase.");
+        return;
+      }
+      localStorage.setItem('fe_firebase_config', JSON.stringify(conf));
+      inicializarFirebaseSiExiste();
+      await guardarTodoElSitio();
+      mostrarToast("¡Firebase conectado y datos sincronizados!");
+    };
+
+    window.desconectarFirebase = function() {
+      localStorage.removeItem('fe_firebase_config');
+      db = null;
+      const badge = document.getElementById('firebaseStatusBadge');
+      badge.textContent = "Modo Local (Navegador)";
+      badge.classList.remove('online');
+      mostrarToast("Modo local activado");
+    };
+
+    // RESPALDO JSON
+    window.exportarRespaldoJSON = function() {
+      const blob = new Blob([JSON.stringify(siteData, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "respaldo_espacio_fe.json";
+      a.click();
+    };
+
+    window.importarRespaldoJSON = function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async function(e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          siteData = { ...defaults, ...imported };
+          delete siteData.geminiApiKey;
+          localStorage.setItem('fe_site_data', JSON.stringify(siteData));
+          poblarCamposFormulario();
+          renderizarTestimoniosAdmin();
+          renderizarPeticionesAdmin();
+          await guardarTodoElSitio();
+        } catch (err) {
+          alert("El archivo JSON no es válido.");
+        }
+      };
+      reader.readAsDataURL ? reader.readAsText(file) : null;
+    };
+
+    window.restaurarValoresPorDefecto = async function() {
+      if (!confirm("¿Restaurar todos los textos, testimonios y peticiones originales?")) return;
+      siteData = JSON.parse(JSON.stringify(defaults));
+      localStorage.setItem('fe_site_data', JSON.stringify(siteData));
+      poblarCamposFormulario();
+      renderizarTestimoniosAdmin();
+      renderizarPeticionesAdmin();
+      await guardarTodoElSitio();
+    };
+
+    // Verificación criptográfica real con Firebase Auth (nadie puede entrar falsificando localStorage ni escribiendo el correo sin la contraseña de Google)
+    window.addEventListener('DOMContentLoaded', () => {
+      if (asegurarInstanciaFirebaseAuth()) {
+        onAuthStateChanged(auth, async (user) => {
+          if (user && user.email && user.email.toLowerCase().trim() === ADMIN_EMAIL) {
+            localStorage.setItem('fe_usuario_actual', JSON.stringify({
+              nombre: user.displayName || "Vicente Álvarez",
+              correo: user.email,
+              uid: user.uid
+            }));
+            entrarAlDashboard();
+          } else {
+            if (user) {
+              try { await signOut(auth); } catch (e) {}
+            }
+            document.getElementById('adminApp').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

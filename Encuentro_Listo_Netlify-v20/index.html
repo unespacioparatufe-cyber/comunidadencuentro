@@ -1,0 +1,3365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#17231e">
+  <meta name="application-name" content="Encuentro">
+  <meta name="apple-mobile-web-app-title" content="Encuentro">
+  <meta name="description" content="Encuentro: un lugar seguro de escucha, orientación cristiana, acompañamiento espiritual, oración y esperanza basada en la Palabra de Dios.">
+  <meta name="robots" content="index, follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Encuentro" id="metaOgSiteName">
+  <meta property="og:title" content="Encuentro | Orientación y Acompañamiento Espiritual" id="metaOgTitle">
+  <meta property="og:description" content="Un lugar seguro para detenerte, hablar, pedir oración y encontrar esperanza y acompañamiento cristiano a través de la Palabra de Dios." id="metaOgDesc">
+  <meta property="og:image" content="logo-oficial.png" id="metaOgImage">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Encuentro" id="metaTwTitle">
+  <meta name="twitter:description" content="Escucha, orientación, acompañamiento espiritual y crecimiento cristiano.">
+  <title id="mainPageTitle">Encuentro</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" id="dynamicFaviconIco">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png" id="dynamicFaviconPng">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" id="dynamicAppleTouchIcon">
+  <script type="application/ld+json" id="schemaOrgWebSite">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Encuentro",
+    "alternateName": "Encuentro",
+    "description": "Espacio cristiano de escucha, orientación, acompañamiento espiritual y oración."
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- SDK de EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init({ publicKey: "Pr12BN8AtnpXxIWnj" });
+    })();
+  </script>
+
+  <style>
+    :root {
+      --ink: #17231e;
+      --muted: #68756d;
+      --green: #294d3b;
+      --green2: #527b60;
+      --cream: #f5f6f3;
+      --line: rgba(26,48,37,.12);
+      --shadow: 0 20px 60px rgba(20,39,29,.12);
+      --radius: 26px;
+      --transition: all .5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    
+    body {
+      margin: 0; background: var(--cream); color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      line-height: 1.65; overflow-x: hidden;
+      display: flex; flex-direction: column; min-height: 100vh;
+    }
+    main { flex: 1; }
+
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    
+    .wrap { width: min(1400px, calc(100% - 48px)); margin: auto; }
+
+    .pagina { display: none; width: 100%; opacity: 0; transition: opacity 0.6s ease; min-height: 100vh; flex-direction: column; }
+    .pagina.activa { display: flex; opacity: 1; }
+
+    /* NAVEGACIÓN FIJA Y CENTRADA (PC INTACTO) */
+    header { 
+      position: fixed; top: 24px; left: 0; right: 0; z-index: 100; 
+      display: flex; justify-content: center; padding: 0 24px;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+    }
+    header.oculto { transform: translateY(-150%); opacity: 0; pointer-events: none; }
+
+    .nav {
+      position: relative;
+      display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;
+      width: 100%; max-width: 1400px; padding: 10px 24px;
+      border: 1px solid rgba(255,255,255,.4); border-radius: 999px; 
+      background: rgba(255,255,255,.14);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      color: white; transition: all 0.4s ease;
+    }
+    
+    .brand { justify-self: start; display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 800; letter-spacing: .12em; transition: var(--transition); z-index: 2; white-space: nowrap; }
+    .brand:hover { opacity: 0.85; }
+    .brand-logo-img { height: 34px; width: auto; max-width: 160px; object-fit: contain; display: none; border-radius: 6px; }
+    @media (max-width: 600px) {
+      .brand-logo-img { height: 26px; max-width: 120px; }
+    }
+    /* Ocultar barra / marca de agua flotante "Powered by Netlify" */
+    iframe[title*="Netlify"], iframe[src*="app.netlify.com"], #netlify-identity-widget, [data-netlify-deploy-drawer], .netlify-identity-button,
+    a[href*="netlify.com"][target="_blank"], a[href*="utm_source=netlify"], [class*="netlify-badge"], [id*="netlify-badge"] {
+      display: none !important; opacity: 0 !important; pointer-events: none !important; visibility: hidden !important; width: 0 !important; height: 0 !important; overflow: hidden !important;
+    }
+    
+    .navlinks-container { justify-self: center; position: relative; display: flex; align-items: center; z-index: 1; }
+    .navlinks { display: flex; gap: 5px; font-size: 13px; color: inherit; position: relative; z-index: 2; }
+    .navlinks a { padding: 8px 16px; border-radius: 999px; transition: var(--transition); z-index: 2; white-space: nowrap; }
+    .navlinks a:hover { opacity: 0.8; }
+    
+    .active-indicator {
+      position: absolute; top: 0; bottom: 0; left: 0;
+      background: rgba(0, 0, 0, 0.4); border-radius: 999px;
+      transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); z-index: 1;
+    }
+
+    .nav-right-actions { display: flex; align-items: center; gap: 10px; justify-self: end; z-index: 2; }
+
+    .nav-cta {
+      padding: 9px 20px; border-radius: 999px; background: white;
+      color: var(--green); font-size: 12px; font-weight: 800; border: none;
+      transition: var(--transition); white-space: nowrap;
+    }
+    .nav-cta:hover { transform: scale(1.04); box-shadow: 0 8px 25px rgba(255,255,255,0.2); }
+
+    /* BOTÓN PERFIL / CUENTA */
+    .btn-perfil-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4); color: white;
+      transition: var(--transition); backdrop-filter: blur(10px); cursor: pointer; flex-shrink: 0;
+    }
+    .btn-perfil-icon:hover { background: white; color: var(--green); transform: scale(1.08); }
+    .btn-perfil-icon svg { width: 20px; height: 20px; fill: currentColor; }
+
+    .menu-cuenta {
+      display: none; position: absolute; top: calc(100% + 12px); right: 0; z-index: 300;
+      width: min(290px, calc(100vw - 36px)); padding: 12px; border-radius: 18px;
+      background: rgba(255,255,255,.97); color: var(--ink); border: 1px solid var(--line);
+      box-shadow: 0 18px 45px rgba(0,0,0,.18); backdrop-filter: blur(18px);
+    }
+    .menu-cuenta.abierto { display: block; }
+    .menu-cuenta-datos { padding: 8px 10px 12px; border-bottom: 1px solid var(--line); margin-bottom: 7px; }
+    .menu-cuenta-datos strong, .menu-cuenta-datos span { display: block; overflow-wrap: anywhere; }
+    .menu-cuenta-datos strong { font-size: 13px; }
+    .menu-cuenta-datos span { color: var(--muted); font-size: 11px; margin-top: 3px; }
+    .menu-cuenta button { display: block; width: 100%; border: 0; background: transparent; text-align: left; padding: 11px 10px; border-radius: 10px; color: var(--ink); font-size: 12px; font-weight: 650; }
+    .menu-cuenta button:hover { background: #edf3ee; }
+    .menu-cuenta button.salir { color: #a13b35; }
+
+    /* BOTÓN 3 PUNTOS */
+    .btn-menu-dots {
+      display: none; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4); color: white;
+      transition: var(--transition); backdrop-filter: blur(10px); cursor: pointer; flex-shrink: 0;
+    }
+    .btn-menu-dots svg { width: 18px; height: 18px; fill: currentColor; }
+
+    header.scrolled { top: 12px; }
+    header.scrolled .nav {
+      background: rgba(255, 255, 255, 0.85); border-color: rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 40px rgba(23, 35, 30, 0.08); color: var(--ink);
+    }
+    header.scrolled .navlinks a:hover { color: var(--green); }
+    header.scrolled .active-indicator { background: rgba(41, 77, 59, 0.08); }
+    header.scrolled .nav-cta { background: var(--green); color: white; }
+    header.scrolled .btn-perfil-icon,
+    header.scrolled .btn-menu-dots { background: rgba(41,77,59,0.1); border-color: rgba(41,77,59,0.2); color: var(--green); }
+    header.scrolled .btn-perfil-icon:hover,
+    header.scrolled .btn-menu-dots:hover { background: var(--green); color: white; }
+
+    /* MODAL DE INICIO DE SESIÓN / CUENTA */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 25, 18, 0.7);
+      z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease; backdrop-filter: blur(10px);
+    }
+    .modal-overlay.activo { opacity: 1; pointer-events: auto; }
+    
+    .modal-card {
+      background: rgba(14, 31, 23, 0.85); border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 28px; padding: 40px; max-width: 440px; width: 100%; text-align: center;
+      color: white; box-shadow: 0 30px 70px rgba(0,0,0,0.5); transform: translateY(20px);
+      transition: transform 0.4s ease; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    }
+    .modal-overlay.activo .modal-card { transform: translateY(0); }
+    .modal-card h3 { font-size: 26px; margin: 0 0 10px; color: #fff; letter-spacing: -0.02em; }
+    .modal-card p { font-size: 14px; color: rgba(255,255,255,0.75); margin-bottom: 30px; line-height: 1.6; }
+
+    .btn-google-login {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      width: 100%; padding: 14px 20px; border-radius: 999px; background: white;
+      color: #17231e; font-weight: 700; font-size: 14px; border: none;
+      transition: var(--transition); cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .btn-google-login:hover { background: #f0f0f0; transform: translateY(-2px); }
+    .modal-close {
+      margin-top: 20px; background: transparent; border: none; color: rgba(255,255,255,0.6);
+      font-size: 13px; font-weight: 600; cursor: pointer; transition: var(--transition);
+    }
+    .modal-close:hover { color: white; }
+
+    /* BANNER PRINCIPAL */
+    .hero {
+      min-height: 800px; position: relative; display: flex; align-items: center;
+      color: white; padding-bottom: 80px;
+      background:
+        linear-gradient(90deg, rgba(8,26,19,.76), rgba(8,26,19,.24)),
+        url("https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=90") center/cover;
+    }
+    .hero-content { 
+      position: relative; z-index: 1; max-width: 900px; 
+      padding-top: 50px; 
+      animation: bannerBlurReveal 3s cubic-bezier(0.16, 1, 0.3, 1) both; 
+    }
+    .eyebrow, .kicker {
+      display: inline-block; font-size: 11px; letter-spacing: .2em;
+      text-transform: uppercase; font-weight: 800;
+    }
+    .eyebrow { color: #d5e5d7; margin-bottom: 17px; }
+    h1 { font-size: clamp(38px,5.5vw,68px); line-height: 1.08; letter-spacing: -.045em; font-weight: 650; margin: 0 0 24px; }
+    .hero p { max-width: 650px; color: rgba(255,255,255,.9); font-size: 17px; line-height: 1.8; margin: 0 0 30px; }
+    
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+      border: 0; border-radius: 999px; padding: 15px 26px;
+      font-size: 14px; font-weight: 800; transition: var(--transition);
+      cursor: pointer;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,.15); }
+    .btn-light { background: white; color: #213d2d; }
+    .btn-green { background: var(--green); color: white; }
+    .btn-outline { border: 1px solid var(--green); color: var(--green); background: transparent; }
+    .btn-outline:hover { background: var(--green); color: white; }
+    .btn-green:hover { background: #1f3a2c; }
+    .btn:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid #9abd9f; outline-offset: 3px; }
+
+    /* TARJETAS 3 PASOS */
+    .steps-section { padding: 60px 0 90px; background: var(--cream); }
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+    .info-card {
+      background: white; border-radius: 20px; padding: 40px 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: var(--transition);
+      border: 1px solid var(--line);
+    }
+    .info-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-color: rgba(41,77,59,.2); }
+    .info-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 45px; height: 45px; border-radius: 50%; background: #e9f2ec; color: var(--green);
+      font-weight: 800; font-size: 16px; margin-bottom: 20px; transition: var(--transition);
+    }
+    .info-card:hover .info-num { background: var(--green); color: white; }
+    .info-card h3 { margin: 0 0 12px; font-size: 20px; color: var(--ink); }
+    .info-card p { margin: 0; font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+    section { padding: 90px 0; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 38px; }
+    .kicker { color: var(--green2); }
+    .section-head h2 { font-size: clamp(27px,4vw,36px); margin: 8px 0 0; letter-spacing: -.03em; }
+    .section-head p { color: var(--muted); font-size: 14px; max-width: 390px; margin: 0; }
+    
+    .topic-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; }
+    .topic {
+      border: 1px solid var(--line); background: white; border-radius: 21px;
+      padding: 24px; min-height: 155px; text-align: left; transition: var(--transition);
+      color: var(--ink);
+    }
+    .topic:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: rgba(41,77,59,.3); }
+    .topic .symbol { display: block; color: var(--green2); font-size: 25px; margin-bottom: 12px; transition: var(--transition); }
+    .topic:hover .symbol { transform: scale(1.08) rotate(4deg); }
+    .topic strong { display: block; font-size: 14px; }
+    .topic small { display: block; color: var(--muted); margin-top: 5px; font-size: 12px; }
+
+    /* SECCIÓN ORACIONES */
+    .oraciones-full {
+      position: relative; width: 100%; min-height: 650px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: linear-gradient(0deg, rgba(14, 31, 23, 0.85), rgba(14, 31, 23, 0.45)),
+                  url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=2200&q=80') center/cover no-repeat;
+      color: white; text-align: center; padding: 100px 24px; margin: 80px 0;
+    }
+    .oraciones-full h2 { font-size: clamp(32px, 5vw, 54px); line-height: 1.1; margin: 0 0 16px; letter-spacing: -0.04em; }
+    .oraciones-full p { font-size: 16px; color: rgba(255,255,255,0.85); max-width: 600px; margin: 0 auto 30px; line-height: 1.6; }
+    
+    .oracion-accion-container {
+      max-width: 600px; width: 100%; margin: 0 auto;
+    }
+
+    .peticion-aleatoria-box {
+      background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px; padding: 25px 30px; width: 100%;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); text-align: left;
+    }
+    .peticion-aleatoria-box h4 { margin: 0 0 8px; font-size: 14px; color: #d5e5d7; text-transform: uppercase; letter-spacing: 0.1em; }
+    .peticion-aleatoria-box p { font-size: 16px; color: white; margin: 0 0 15px; }
+    .peticion-aleatoria-actions { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+
+    .oracion-publicar-box {
+      background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px; padding: 25px 30px; width: 100%;
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); text-align: left; display: none;
+    }
+    .oracion-publicar-box textarea {
+      width: 100%; background: rgba(0, 0, 0, 0.2); border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px; color: white; padding: 12px; font-size: 15px; outline: none; resize: vertical; margin-bottom: 12px;
+    }
+    .oracion-publicar-box textarea::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+    .muro-btn-area { margin-top: 25px; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .oraciones-stats { display: flex; gap: 20px; justify-content: center; margin-top: 50px; }
+    .stat-card {
+      background: white; color: var(--ink); padding: 20px 30px; border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15); text-align: center; min-width: 160px;
+    }
+    .stat-card strong { display: block; font-size: 24px; font-weight: 800; color: var(--green); }
+    .stat-card span { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;}
+
+    .btn-orado {
+      background: rgba(82, 123, 96, 0.4); border: 1px solid var(--green2); color: white;
+      padding: 8px 18px; border-radius: 999px; font-size: 13px; font-weight: 700; transition: var(--transition);
+    }
+    .btn-orado.orado-activo { background: var(--green2); color: white; }
+    .btn-orado:hover { transform: scale(1.03); }
+
+    
+    /* SECCIÓN TESTIMONIOS SIEMPRE EN UNA SOLA FILA HORIZONTAL (NUNCA BAJA A OTRA FILA) */
+    .testimonio-grid {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 30px;
+      margin-bottom: 40px;
+      padding-bottom: 14px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--green2) rgba(0,0,0,0.06);
+      scroll-behavior: smooth;
+    }
+    @media (min-width: 601px) {
+      .testimonio-grid .testimonio-card {
+        flex: 0 0 calc((100% - 60px) / 3);
+        max-width: calc((100% - 60px) / 3);
+        scroll-snap-align: start;
+      }
+    }
+    .carrusel-nav-btns {
+      display: none;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .carrusel-nav-btns.visible {
+      display: flex;
+    }
+    .btn-carrusel-arrow {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1px solid var(--line); background: white; color: var(--green);
+      font-weight: 800; font-size: 16px; display: inline-flex;
+      align-items: center; justify-content: center; transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .btn-carrusel-arrow:hover {
+      background: var(--green); color: white; transform: translateY(-2px);
+    }
+    .testimonio-card {
+      border-radius: 24px; overflow: hidden; position: relative;
+      background: #17201d; color: white; display: flex; flex-direction: column;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1); transition: var(--transition);
+    }
+    .testimonio-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
+    .testimonio-img {
+      height: 250px; background-size: cover; background-position: center; position: relative;
+    }
+    .testimonio-img::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 100px;
+      background: linear-gradient(to bottom, transparent, #17201d);
+    }
+    .testimonio-content { padding: 0 30px 30px; flex: 1; display: flex; flex-direction: column; z-index: 2; }
+    .testimonio-title { font-size: 24px; margin: 0 0 12px; font-weight: 700; letter-spacing: -0.02em; }
+    .testimonio-desc { font-size: 15px; color: rgba(255,255,255,0.75); line-height: 1.6; margin-bottom: 30px; flex: 1; }
+    .btn-testimonio {
+      background: white; color: var(--ink); width: 100%; text-align: center;
+      padding: 16px; border-radius: 14px; font-weight: 700; border: none; font-size: 14px;
+      transition: var(--transition); cursor: pointer;
+    }
+    .testimonio-card:hover .btn-testimonio { background: var(--green); color: white; }
+    .testimonio-cta { text-align: center; margin-top: 50px; }
+
+    /* LAYOUTS DE PANTALLAS COMPLETAS */
+    .top-action-bar {
+      width: 100%; max-width: 1400px; margin: 0 auto;
+      padding: 100px 40px 20px;
+      display: flex; justify-content: flex-start; box-sizing: border-box;
+    }
+    .center-card-wrapper {
+      flex: 1; display: flex; justify-content: center; align-items: flex-start;
+      padding: 0 20px 80px; width: 100%; box-sizing: border-box;
+    }
+    
+    .btn-volver {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 999px; color: white; background: rgba(15, 30, 22, 0.35);
+      font-size: 13px; font-weight: 700; transition: var(--transition);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); cursor: pointer;
+    }
+    .btn-volver:hover { background: white; color: var(--green); transform: translateX(-3px); }
+
+    /* PÁGINA DETALLE TESTIMONIO CON EFECTO GLASS Y FONDO VISIBLE */
+    #pagina-testimonio-detalle {
+      background:
+        linear-gradient(135deg, rgba(8, 22, 15, 0.45), rgba(8, 22, 15, 0.25)),
+        url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=90') center/cover no-repeat fixed;
+      color: white;
+    }
+    
+    .detalle-content {
+      max-width: 800px; width: 100%; padding: 60px;
+      background: linear-gradient(145deg, rgba(18, 38, 28, 0.48), rgba(6, 14, 10, 0.58));
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(24px) saturate(140%);
+      -webkit-backdrop-filter: blur(24px) saturate(140%);
+    }
+    .detalle-content h2 { text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4); }
+    .detalle-content p {
+      font-size: 17px; color: rgba(255, 255, 255, 0.96);
+      line-height: 1.85; margin-bottom: 20px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .testimonio-galeria {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 35px 0;
+    }
+    .galeria-item {
+      border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(0,0,0,0.25); position: relative;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+    .galeria-item img {
+      width: 100%; height: 160px; object-fit: cover; display: block; transition: var(--transition);
+    }
+    .galeria-item:hover img { transform: scale(1.05); }
+    .galeria-caption {
+      padding: 10px; font-size: 12px; color: #e2f0e4; font-weight: 600; text-align: center;
+      background: rgba(8, 20, 14, 0.72);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    }
+
+    /* PÁGINA FORMULARIO TESTIMONIO CON EFECTO GLASS */
+    #pagina-enviar-testimonio {
+      background:
+        linear-gradient(135deg, rgba(8, 22, 15, 0.45), rgba(8, 22, 15, 0.25)),
+        url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=90') center/cover no-repeat fixed;
+      color: white;
+    }
+
+    .form-container {
+      max-width: 750px; width: 100%; padding: 50px 60px;
+      background: linear-gradient(145deg, rgba(18, 38, 28, 0.48), rgba(6, 14, 10, 0.58));
+      border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.24);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(24px) saturate(140%); -webkit-backdrop-filter: blur(24px) saturate(140%);
+      color: white;
+    }
+    .form-group { margin-bottom: 24px; text-align: left;}
+    .form-group label { display: block; font-weight: 700; color: #d5e5d7; margin-bottom: 8px; font-size: 14px;}
+    .form-control {
+      width: 100%; padding: 16px 20px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(0,0,0,0.22); color: white; font-family: inherit; font-size: 15px; transition: var(--transition);
+      box-sizing: border-box;
+    }
+    .form-control::placeholder { color: rgba(255,255,255,0.6); }
+    .form-control:focus { background: rgba(0,0,0,0.35); border-color: #9abd9f; outline: none; box-shadow: 0 0 0 4px rgba(82,123,96,0.25); }
+    .form-file-wrap {
+      border: 2px dashed rgba(255,255,255,0.3); padding: 20px; border-radius: 14px; text-align: center; background: rgba(0,0,0,0.18);
+    }
+    .form-file-wrap input[type="file"] { font-size: 14px; color: rgba(255,255,255,0.85); }
+
+    /* PÁGINA NOSOTROS CON EFECTO GLASS */
+    #pagina-nosotros {
+      background:
+        linear-gradient(135deg, rgba(8, 22, 15, 0.45), rgba(8, 22, 15, 0.25)),
+        url("https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=2200&q=90") center/cover no-repeat fixed;
+      color: white;
+    }
+
+    .nosotros-card {
+      max-width: 900px; width: 100%; padding: 60px;
+      background: linear-gradient(145deg, rgba(18, 38, 28, 0.48), rgba(6, 14, 10, 0.58));
+      border-radius: 28px; border: 1px solid rgba(255, 255, 255, 0.24);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.45), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(24px) saturate(140%); -webkit-backdrop-filter: blur(24px) saturate(140%);
+      color: white; text-align: left;
+    }
+    .nosotros-card p { font-size: 17px; color: rgba(255,255,255,0.95); line-height: 1.85; margin-bottom: 24px; text-shadow: 0 1px 6px rgba(0,0,0,0.35); }
+    .nosotros-card .verse-quote {
+      font-family: Georgia, serif; font-size: 20px; color: #e2f0e4;
+      line-height: 1.6; margin: 35px 0 0; padding: 20px 24px;
+      border-left: 4px solid #8ab893; background: rgba(0, 0, 0, 0.25); border-radius: 0 14px 14px 0;
+    }
+
+    /* PÁGINA CHAT (IA) */
+    .chat-hero {
+      min-height: 400px; position: relative; display: flex; align-items: center;
+      justify-content: center; color: white; text-align: center; padding: 120px 20px 80px;
+      background:
+        linear-gradient(90deg, rgba(8,26,19,.76), rgba(8,26,19,.42)),
+        url("https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=90") center 48%/cover;
+    }
+    .chat-hero-content { max-width: 790px; margin: auto; animation: bannerBlurReveal 3s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .chat-hero h2 { font-size: clamp(28px,4.2vw,44px); line-height: 1.15; letter-spacing: -.035em; margin: 10px 0 16px; color: white; }
+    .chat-hero p { max-width: 700px; margin: auto; color: rgba(255,255,255,.88); font-size: 16px; line-height: 1.8; }
+
+    .chat-body { background: var(--cream); padding: 40px 0 85px; flex: 1; }
+    
+    .chat-container {
+      max-width: 900px; width: 100%; margin: auto; background: #fff; border: 1px solid var(--line);
+      border-radius: var(--radius); padding: clamp(24px,5vw,48px); box-shadow: var(--shadow);
+      animation: simpleFadeIn 0.8s ease both;
+    }
+    
+    .chat-container h2 { font-size: clamp(23px,3vw,29px); line-height: 1.25; margin: 8px 0 10px; letter-spacing: -.03em; color: var(--ink); }
+    .intro-text { color: var(--muted); font-size: 15px; margin: 0 0 24px; }
+    .chat-input-field {
+      display: block; width: 100%; min-height: 160px; padding: 20px 24px;
+      border: 1px solid var(--line); border-radius: 17px; background: #f8f9f7;
+      color: var(--ink); resize: vertical; line-height: 1.65; transition: var(--transition); font-size: 16px;
+      box-sizing: border-box;
+    }
+    .chat-input-field:focus { background: #fff; border-color: var(--green2); box-shadow: 0 0 0 4px rgba(82,123,96,0.1); }
+    .input-help { color: var(--muted); font-size: 13px; margin: 12px 0 20px; }
+    .form-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .error-message { color: #9b3434; font-size: 14px; margin-top: 12px; }
+    
+    .ai-output { display: none; margin-top: 42px; border-top: 1px solid var(--line); padding-top: 34px; }
+    .ai-output.show { display: block; animation: simpleFadeIn 0.6s ease both; }
+    
+    .answer-label { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 800; color: var(--green2); margin: 25px 0 10px; }
+    .verse-reference { font-weight: 800; color: var(--green); margin-bottom: 8px; font-size: 16px;}
+    .verse-box {
+      font-family: Georgia, serif; font-size: 22px; color: var(--green);
+      line-height: 1.65; margin: 0; padding: 22px 26px;
+      border-left: 4px solid var(--green2); background: #f6f8f5; border-radius: 0 14px 14px 0;
+    }
+    .ai-text-block { font-size: 16px; color: #344139; line-height: 1.9; margin: 0; white-space: pre-wrap; }
+    .whatsapp-area { margin-top: 40px; padding-top: 30px; border-top: 1px solid var(--line); text-align: center; }
+    .whatsapp-area p { color: var(--muted); font-size: 14px; margin: 0 0 15px; }
+    
+    footer { background: #17231e; color: #dce5dd; padding: 34px 0; text-align: center; font-size: 13px; margin-top: auto; width: 100%; }
+    footer p { margin: 0; }
+
+    @keyframes bannerBlurReveal {
+      0% { opacity: 0; filter: blur(25px); transform: translateY(20px); }
+      100% { opacity: 1; filter: blur(0); transform: translateY(0); }
+    }
+    @keyframes simpleFadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Ocultar botones de administración en la vista pública */
+    .admin-only-btn, .btn-editar-testimonio, .btn-eliminar-testimonio {
+      display: none !important;
+    }
+
+    /* ==========================================================
+       OPTIMIZACIÓN EXCLUSIVA PARA TABLETS Y CELULARES
+       ========================================================== */
+    @media (max-width: 850px) {
+      .nav {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 8px 14px; border-radius: 999px; gap: 8px;
+      }
+      .brand { font-size: 10.5px; letter-spacing: 0.06em; }
+      .nav-right-actions { gap: 6px; }
+      .btn-perfil-icon { width: 32px; height: 32px; }
+      .btn-perfil-icon svg { width: 16px; height: 16px; }
+      .nav-cta { padding: 7px 13px; font-size: 11px; }
+      .btn-menu-dots { display: inline-flex; width: 32px; height: 32px; }
+
+      .navlinks-container {
+        position: absolute; top: calc(100% + 10px); right: 0;
+        width: 210px; background: rgba(18, 35, 27, 0.92);
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 20px; padding: 10px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+        opacity: 0; pointer-events: none;
+        transform: translateY(-10px) scale(0.96);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 200;
+      }
+      .navlinks-container.menu-abierto {
+        opacity: 1; pointer-events: auto;
+        transform: translateY(0) scale(1);
+      }
+      header.scrolled .navlinks-container {
+        background: rgba(255, 255, 255, 0.96);
+        border-color: rgba(0, 0, 0, 0.08);
+        box-shadow: 0 20px 50px rgba(23, 35, 30, 0.18);
+      }
+      .navlinks { flex-direction: column; width: 100%; gap: 4px; font-size: 13px; }
+      .navlinks a { padding: 10px 14px; border-radius: 12px; width: 100%; text-align: left; color: white; font-weight: 600; }
+      header.scrolled .navlinks a { color: var(--ink); }
+      .navlinks a.active { background: rgba(255, 255, 255, 0.15); }
+      header.scrolled .navlinks a.active { background: rgba(41, 77, 59, 0.1); color: var(--green); }
+      .active-indicator { display: none; }
+
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        overflow-x: visible;
+      }
+      .info-card {
+        padding: 12px 8px;
+        border-radius: 12px;
+        text-align: center;
+      }
+      .info-num {
+        width: 26px; height: 26px; font-size: 11px; margin-bottom: 6px;
+      }
+      .info-card h3 {
+        font-size: 11.5px;
+        margin-bottom: 4px;
+        line-height: 1.2;
+      }
+      .info-card p {
+        font-size: 10px;
+        line-height: 1.3;
+      }
+
+      .topic-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .testimonio-galeria { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+      #pagina-testimonio-detalle,
+      #pagina-enviar-testimonio,
+      #pagina-nosotros {
+        background-attachment: scroll;
+        background-position: center center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .wrap { width: calc(100% - 28px); margin: auto; }
+      header { top: 10px; padding: 0 12px; }
+      header.scrolled { top: 8px; }
+
+      .hero { 
+        min-height: 430px; 
+        background-position: center center; 
+        padding: 95px 20px 45px; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .hero-content { 
+        padding: 0; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center;
+        text-align: center;
+        margin: 0 auto;
+        max-width: 330px;
+        width: 100%;
+      }
+      .eyebrow { 
+        font-size: 9.5px; 
+        letter-spacing: 0.13em; 
+        margin-bottom: 10px; 
+        text-align: center; 
+        max-width: 290px;
+      }
+      h1 { 
+        font-size: 24px; 
+        line-height: 1.18; 
+        margin: 0 auto 12px; 
+        text-align: center; 
+      }
+      .hero p { 
+        font-size: 13.5px; 
+        line-height: 1.55; 
+        margin: 0 auto 20px; 
+        text-align: center; 
+      }
+      
+      .hero .btn { 
+        width: auto;
+        min-width: 220px;
+        padding: 11px 22px; 
+        font-size: 12.5px; 
+        text-align: center;
+        justify-content: center;
+        margin: 0 auto;
+      }
+
+      section { padding: 42px 0; }
+      .steps-section { padding: 25px 0 30px; }
+      
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+      }
+      .info-card { 
+        padding: 10px 6px; 
+        border-radius: 12px; 
+        text-align: center;
+      }
+      .info-num { 
+        width: 24px; height: 24px; font-size: 10.5px; margin-bottom: 6px; 
+      }
+      .info-card h3 { 
+        font-size: 11px; 
+        margin-bottom: 3px; 
+        line-height: 1.2;
+        font-weight: 700;
+      }
+      .info-card p { 
+        font-size: 9.5px; 
+        line-height: 1.25; 
+      }
+
+      .section-head { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 18px; }
+      .section-head h2 { font-size: 22px; margin: 4px 0 0; }
+      .section-head p { font-size: 13px; max-width: 100%; line-height: 1.5; }
+
+      .topic-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .topic { padding: 14px 12px; min-height: 105px; border-radius: 14px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .topic .symbol { font-size: 20px; margin-bottom: 6px; }
+      .topic strong { font-size: 12px; line-height: 1.3; }
+      .topic small { font-size: 10.5px; margin-top: 3px; }
+
+      .oraciones-full { padding: 50px 16px; margin: 30px 0; min-height: auto; }
+      .oraciones-full h2 { font-size: 26px; margin-bottom: 10px; }
+      .oraciones-full p { font-size: 13.5px; margin-bottom: 20px; line-height: 1.55; }
+      
+      .peticion-aleatoria-box, .oracion-publicar-box { padding: 18px 16px; border-radius: 16px; }
+      .peticion-aleatoria-box h4, .oracion-publicar-box h4 { font-size: 11px; margin-bottom: 6px; }
+      .peticion-aleatoria-box p { font-size: 14px; margin-bottom: 14px; line-height: 1.5; }
+      .peticion-aleatoria-actions { flex-direction: column; align-items: stretch; gap: 8px; }
+      .peticion-aleatoria-actions button { width: 100%; justify-content: center; padding: 10px 14px; font-size: 12.5px !important; }
+      
+      .muro-btn-area { margin-top: 16px; }
+      .muro-btn-area .btn { font-size: 12.5px; padding: 11px 16px; }
+
+      .oraciones-stats {
+        display: grid; grid-template-columns: repeat(3, 1fr);
+        gap: 8px; width: 100%; margin-top: 28px;
+      }
+      .stat-card { min-width: 0; padding: 12px 6px; border-radius: 12px; }
+      .stat-card strong { font-size: 17px; }
+      .stat-card span { font-size: 9.5px; display: block; line-height: 1.2; margin-top: 2px; }
+
+      #testimonios { padding: 30px 0 35px; }
+      #testimonios .wrap { width: 100%; }
+      #testimonios .section-head,
+      #testimonios .testimonio-cta {
+        width: calc(100% - 28px); margin-left: auto; margin-right: auto;
+      }
+      .testimonio-grid {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 12px;
+        padding: 10px 16vw 20px;
+        margin-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .testimonio-grid::-webkit-scrollbar { display: none; }
+
+      .testimonio-card {
+        flex: 0 0 68vw;
+        max-width: 245px;
+        border-radius: 18px;
+        scroll-snap-align: center;
+        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                    filter 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                    box-shadow 0.45s ease;
+        filter: blur(3px);
+        opacity: 0.55;
+        transform: scale(0.91);
+      }
+      .testimonio-card.en-centro {
+        filter: blur(0);
+        opacity: 1;
+        transform: scale(1);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+      }
+      .testimonio-card:hover { transform: scale(1); }
+      .testimonio-img { height: 135px; }
+      .testimonio-img::after { height: 65px; }
+      .testimonio-content { padding: 0 14px 14px; }
+      .testimonio-title { font-size: 16px; margin-bottom: 6px; }
+      .testimonio-desc { font-size: 11.5px; margin-bottom: 12px; line-height: 1.45; }
+      .btn-testimonio { padding: 9px; font-size: 11.5px; border-radius: 10px; }
+      .testimonio-cta { margin-top: 10px; }
+      .testimonio-cta .btn { padding: 10px 18px; font-size: 12px; width: auto; }
+
+      .chat-hero { 
+        min-height: 310px; 
+        padding: 40px 20px; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .chat-hero-content {
+        text-align: center;
+        margin: auto;
+        max-width: 330px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .chat-hero h2 { font-size: 21px; line-height: 1.22; margin: 0 auto 10px; text-align: center; }
+      .chat-hero p { font-size: 13px; line-height: 1.55; margin: 0 auto; text-align: center; }
+
+      .chat-body { padding: 20px 0 50px; }
+      .chat-container { padding: 22px 16px; border-radius: 18px; }
+      .chat-container h2 { font-size: 20px; }
+      .intro-text { font-size: 13.5px; margin-bottom: 18px; }
+      .chat-input-field { min-height: 130px; padding: 14px 16px; font-size: 14px; border-radius: 14px; }
+      .verse-box { font-size: 17px; padding: 16px 18px; }
+      .ai-text-block { font-size: 14.5px; line-height: 1.7; }
+
+      .top-action-bar { padding: 20px 16px 14px; }
+      .btn-volver { padding: 9px 16px; font-size: 12px; }
+      .center-card-wrapper { padding: 0 14px 40px; }
+      .detalle-content, .form-container, .nosotros-card {
+        padding: 24px 18px;
+        border-radius: 22px;
+      }
+      #det-title { font-size: 26px !important; }
+      .testimonio-galeria { grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 22px 0; }
+      .galeria-item img { height: 95px; }
+      .detalle-content p, .nosotros-card p { font-size: 14.5px; line-height: 1.7; margin-bottom: 16px; }
+      .nosotros-card .verse-quote { font-size: 16px; padding: 16px 18px; margin-top: 24px; }
+      .form-actions .btn { width: 100%; }
+
+      .modal-card { padding: 28px 20px; border-radius: 22px; }
+      .modal-card h3 { font-size: 21px; }
+      .modal-card p { font-size: 13px; margin-bottom: 22px; }
+      .btn-google-login { padding: 12px 16px; font-size: 13px; }
+
+      footer { padding: 24px 0; font-size: 11.5px; margin-top: auto !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VENTANA MODAL DE INICIO DE SESIÓN CON GOOGLE -->
+  <div class="modal-overlay" id="modalLogin">
+    <div class="modal-card">
+      <h3>Inicia sesión para continuar</h3>
+      <p>Para publicar tu petición de oración y recibir notificaciones cuando alguien interceda por ti, conéctate con tu cuenta de Google.</p>
+      
+      <button class="btn-google-login" onclick="ejecutarLoginGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.11-6.72-4.95H1.19v3.15C3.17 21.31 7.27 24 12 24z"/><path fill="#FBBC05" d="M5.28 14.25c-.25-.72-.38-1.49-.38-2.25s.13-1.53.38-2.25V6.6H1.19C.43 8.13 0 9.87 0 12s.43 3.87 1.19 5.4l4.09-3.15z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.27 0 3.17 2.69 1.19 6.6l4.09 3.15c.95-2.84 3.6-4.95 6.72-4.95z"/></svg>
+        Continuar con Google
+      </button>
+
+      <button class="modal-close" onclick="cerrarModalLogin()">Cancelar / Cerrar</button>
+    </div>
+  </div>
+
+  <!-- BARRA DE NAVEGACIÓN PRINCIPAL -->
+  <header id="mainHeader">
+    <div class="nav">
+      <a class="brand" href="#inicio" onclick="scrollToSection(event, 'inicio')">
+        <img id="brandLogoImg" class="brand-logo-img" src="logo-oficial.png" alt="Logo Encuentro" style="display:block;">
+        <span id="brandLogoText">ENCUENTRO</span>
+      </a>
+      
+      <div class="navlinks-container" id="navLinksMenu">
+          <div class="active-indicator" id="navIndicator"></div>
+          <nav class="navlinks" aria-label="Navegación principal">
+            <a href="#inicio" class="nav-item active" onclick="scrollToSection(event, 'inicio')">Inicio</a>
+            <a href="#temas" class="nav-item" onclick="scrollToSection(event, 'temas')">Temas</a>
+            <a href="#oraciones" class="nav-item" onclick="scrollToSection(event, 'oraciones')">Oraciones</a>
+            <a href="#testimonios" class="nav-item" onclick="scrollToSection(event, 'testimonios')">Testimonios</a>
+            <a href="#nosotros" class="nav-item" onclick="abrirNosotrosMenu(event)">Nosotros</a>
+          </nav>
+      </div>
+
+      <div class="nav-right-actions">
+        <button class="btn-perfil-icon" type="button" onclick="window.usuarioActual ? toggleCuentaMenu() : abrirModalLogin()" title="Iniciar sesión o cuenta" id="btnPerfilAvatar" aria-label="Cuenta de usuario" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        </button>
+        <div class="menu-cuenta" id="menuCuenta" aria-hidden="true">
+          <div class="menu-cuenta-datos">
+            <strong id="cuentaNombre">No has iniciado sesión</strong>
+            <span id="cuentaCorreo">Conéctate con Google</span>
+          </div>
+          <button type="button" onclick="cambiarCuentaGoogle()">Cambiar cuenta de Google</button>
+          <button type="button" class="salir" onclick="cerrarSesionUsuario()">Cerrar sesión</button>
+        </div>
+        <button class="nav-cta" type="button" onclick="cambiarPagina('chat')">Hablemos</button>
+        <button class="btn-menu-dots" type="button" onclick="toggleMenuMovil(event)" aria-label="Abrir menú de secciones" id="btnMenuDots">
+          <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- VISTA 1: PORTADA PRINCIPAL -->
+  <div id="pagina-inicio" class="pagina activa">
+    <main>
+      <section class="hero" id="inicio">
+        <div class="wrap hero-content">
+          <div class="eyebrow">Un lugar seguro para detenerte, hablar y encontrar esperanza</div>
+          <h1>¿Sientes que cargas con un peso demasiado pesado?</h1>
+          <p>Hay días en los que necesitamos orientación o recordar que Dios está con nosotros. Queremos acompañarte.</p>
+          <button class="btn btn-light" type="button" onclick="cambiarPagina('chat')">
+            Haz clic aquí para hablar <span aria-hidden="true">↗</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- SECCIÓN DE 3 PASOS COMPACTA EN UNA SOLA FILA -->
+      <section id="pasos" class="steps-section">
+        <div class="wrap">
+          <div class="steps-grid">
+            <div class="info-card">
+              <span class="info-num">01</span>
+              <h3>Cuéntanos</h3>
+              <p>Escribe tu emoción o situación.</p>
+            </div>
+            <div class="info-card">
+              <span class="info-num">02</span>
+              <h3>Una palabra</h3>
+              <p>Explora versículos y ánimo.</p>
+            </div>
+            <div class="info-card">
+              <span class="info-num">03</span>
+              <h3>No estás solo</h3>
+              <p>Escríbenos para orar contigo.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÓN ¿QUÉ HAY EN TU CORAZÓN? -->
+      <section id="temas" style="padding-top: 20px;">
+        <div class="wrap">
+          <div class="section-head">
+            <div>
+              <div class="kicker">Explora por tema</div>
+              <h2>¿Qué hay en tu corazón?</h2>
+            </div>
+            <p>Elige uno de estos temas según cómo te sientas hoy para recibir una palabra oportuna.</p>
+          </div>
+          <div class="topic-grid">
+            <button class="topic" type="button" onclick="abrirTemaChat('Hoy siento mucha paz, gozo y gratitud en mi corazón por las bendiciones de Dios')">
+              <span class="symbol" aria-hidden="true">☀</span><strong>Paz y Gozo</strong><small>Gratitud diaria</small>
+            </button>
+            <button class="topic" type="button" onclick="abrirTemaChat('Mi corazón está alegre y lleno de esperanza por el futuro que Dios tiene')">
+              <span class="symbol" aria-hidden="true">🌿</span><strong>Alegría y Esperanza</strong><small>Nuevas fuerzas</small>
+            </button>
+            <button class="topic" type="button" onclick="abrirTemaChat('Estoy sintiendo mucho miedo, ansiedad y preocupación en este momento')">
+              <span class="symbol" aria-hidden="true">🌧</span><strong>Ansiedad y Miedo</strong><small>Cargas y temor</small>
+            </button>
+            <button class="topic" type="button" onclick="abrirTemaChat('Me siento muy solo, triste y con el corazón destrozado')">
+              <span class="symbol" aria-hidden="true">☁</span><strong>Soledad y Tristeza</strong><small>Consuelo divino</small>
+            </button>
+          </div>
+        </div>
+      </section>
+      
+      <!-- SECCIÓN ORACIONES -->
+      <section id="oraciones" class="oraciones-full">
+        <div class="wrap">
+          <h2>Unidos en Oración</h2>
+          <p>Descubre una necesidad comunitaria aleatoria para orar por un hermano hoy, o publica tu propia petición.</p>
+          
+          <div class="oracion-accion-container">
+            <div class="peticion-aleatoria-box" id="cardAleatoria">
+              <h4 id="aleatoriaAutor">Petición comunitaria aleatoria</h4>
+              <p id="aleatoriaTexto">"Les pido oración por fortaleza en mi hogar y sabiduría en mi trabajo."</p>
+              <div class="peticion-aleatoria-actions">
+                <button class="btn-orado" id="btnAleatorioOrado" onclick="orarAleatoria()">🙏 Ya oré por esta persona</button>
+                <button class="btn btn-outline" style="font-size:12px; padding:6px 14px; color:#d5e5d7; border-color:rgba(255,255,255,0.4);" onclick="cargarPeticionAleatoria()">Ver otra petición ↺</button>
+              </div>
+            </div>
+
+            <div class="oracion-publicar-box" id="boxPublicar">
+              <h4>Enviar petición de oración</h4>
+              <p style="font-size: 13px; color: #d5e5d7; margin-bottom: 12px;">Tu petición pasará por revisión del administrador antes de publicarse en el muro comunitario.</p>
+              <input type="text" id="peticionAutorInput" placeholder="Tu nombre (opcional, o déjalo en blanco para Anónimo)" style="width:100%; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.3); border-radius:12px; color:white; padding:10px 12px; font-size:14px; outline:none; margin-bottom:10px;">
+              <textarea id="peticionInput" rows="3" placeholder="Escribe aquí tu petición para que otros oren por ti..."></textarea>
+              <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn btn-outline" style="font-size:12px; padding:6px 14px; color:#d5e5d7; border-color:rgba(255,255,255,0.4);" onclick="toggleModoPublicar(false)">Cancelar</button>
+                <button class="btn btn-light" style="font-size:12px; padding:6px 16px;" onclick="publicarPeticion()">Enviar a revisión</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="muro-btn-area">
+            <button class="btn btn-outline" style="color: white; border-color: rgba(255,255,255,0.6);" onclick="intentarAbrirPublicacion()" id="btnTogglePublicar">
+              ✍️ Escribir mi petición de oración
+            </button>
+          </div>
+
+          <div class="oraciones-stats">
+            <div class="stat-card">
+              <strong>24/7</strong>
+              <span>Apoyo Constante</span>
+            </div>
+            <div class="stat-card">
+              <strong>100%</strong>
+              <span>Confidencialidad</span>
+            </div>
+            <div class="stat-card">
+              <strong>Paz</strong>
+              <span>Descanso en fe</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="testimonios">
+          <div class="wrap">
+              <div class="section-head">
+                <div>
+                  <div class="kicker">Historias reales</div>
+                  <h2>Testimonios de cambio</h2>
+                </div>
+                <p>Conoce cómo el amor y el perdón de Jesús han transformado vidas reales en medio de la dificultad.</p>
+              </div>
+
+              <div class="carrusel-nav-btns" id="carruselControlesPC">
+                <button type="button" class="btn-carrusel-arrow" onclick="desplazarTestimonios(-1)" title="Anterior">←</button>
+                <button type="button" class="btn-carrusel-arrow" onclick="desplazarTestimonios(1)" title="Siguiente">→</button>
+              </div>
+              <div class="testimonio-grid" id="testimoniosCarrusel">
+                <div class="testimonio-card en-centro">
+                  <div class="testimonio-img" style="background-image: url('https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80');"></div>
+                  <div class="testimonio-content">
+                    <h3 class="testimonio-title">Andrés, 34 años</h3>
+                    <p class="testimonio-desc">Vivía atrapado en la ansiedad y adicciones, intentando llenar un vacío inmenso. Al conocer el perdón de Dios, mi mente por fin encontró descanso real.</p>
+                    <button class="btn-testimonio" onclick="abrirTestimonio(1)">Ver testimonio</button>
+                  </div>
+                </div>
+                <div class="testimonio-card">
+                  <div class="testimonio-img" style="background-image: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80');"></div>
+                  <div class="testimonio-content">
+                    <h3 class="testimonio-title">Valentina, 28 años</h3>
+                    <p class="testimonio-desc">Una traición me dejó con el corazón roto y mucho rencor. Jesús me enseñó a perdonar lo imperdonable y restauró por completo mi alegría.</p>
+                    <button class="btn-testimonio" onclick="abrirTestimonio(2)">Ver testimonio</button>
+                  </div>
+                </div>
+                <div class="testimonio-card">
+                  <div class="testimonio-img" style="background-image: url('https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80');"></div>
+                  <div class="testimonio-content">
+                    <h3 class="testimonio-title">Familia Rojas</h3>
+                    <p class="testimonio-desc">Estábamos al borde del divorcio, las discusiones eran el pan de cada día. Entregar nuestro matrimonio a Cristo fue nuestro nuevo comienzo.</p>
+                    <button class="btn-testimonio" onclick="abrirTestimonio(3)">Ver testimonio</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="testimonio-cta">
+                <button class="btn btn-outline" onclick="cambiarPagina('enviar-testimonio')">Contar mi testimonio ↗</button>
+              </div>
+          </div>
+      </section>
+
+      <!-- APARTADO DE OPINIONES AL FINAL CON FOTO DE MONTAÑA Y DESTELLO DE SOL -->
+      <section style="position: relative; padding: 80px 20px; color: white; background: linear-gradient(135deg, rgba(12, 28, 20, 0.72), rgba(12, 28, 20, 0.45)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2200&q=90') center/cover no-repeat; margin-top: 20px;">
+        <div class="wrap" style="max-width: 650px; position: relative; z-index: 2;">
+          <div style="text-align: center; margin-bottom: 28px;">
+            <div class="kicker" style="color: #d5e5d7; margin-bottom: 8px;">Tu opinión importa</div>
+            <h2 style="font-size: clamp(24px, 4vw, 36px); margin: 0 0 10px; color: #fff; letter-spacing: -0.03em;">¿Tienes una sugerencia o comentario?</h2>
+            <p style="color: rgba(255,255,255,0.88); font-size: 14px; line-height: 1.6;">Escríbenos lo que piensas. Tu mensaje nos llegará directamente por correo para seguir mejorando este espacio.</p>
+          </div>
+          
+          <form onsubmit="enviarSugerenciaCorreo(event)" style="background: linear-gradient(145deg, rgba(18, 38, 28, 0.68), rgba(6, 14, 10, 0.78)); padding: 30px 24px; border-radius: 24px; box-shadow: 0 30px 70px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.24); backdrop-filter: blur(20px);">
+            <div class="form-group" style="margin-bottom: 18px; text-align: left;">
+              <label for="sugNombre" style="display: block; font-weight: 700; color: #d5e5d7; margin-bottom: 6px; font-size: 13.5px;">Tu Nombre</label>
+              <input type="text" id="sugNombre" class="form-control" placeholder="Ej. María Gómez" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 18px; text-align: left;">
+              <label for="sugCorreo" style="display: block; font-weight: 700; color: #d5e5d7; margin-bottom: 6px; font-size: 13.5px;">Tu Correo</label>
+              <input type="email" id="sugCorreo" class="form-control" placeholder="tu@correo.com" required>
+            </div>
+            <div class="form-group" style="margin-bottom: 18px; text-align: left;">
+              <label for="sugTipo" style="display: block; font-weight: 700; color: #d5e5d7; margin-bottom: 6px; font-size: 13.5px;">Tipo de mensaje</label>
+              <select id="sugTipo" class="form-control" style="background: rgba(0,0,0,0.35); color: white;">
+                <option value="sugerencia" style="color:#17231e;">💡 Sugerencia</option>
+                <option value="consulta" style="color:#17231e;">❓ Consulta</option>
+                <option value="comentario" style="color:#17231e;">💬 Comentario</option>
+                <option value="otro" style="color:#17231e;">📩 Otro mensaje</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom: 22px; text-align: left;">
+              <label for="sugMensaje" style="display: block; font-weight: 700; color: #d5e5d7; margin-bottom: 6px; font-size: 13.5px;">Tu mensaje</label>
+              <textarea id="sugMensaje" class="form-control" rows="4" placeholder="Escribe aquí tu sugerencia, consulta o comentario..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-light" style="width: 100%; justify-content: center;">Enviar mensaje ↗</button>
+            <p id="sugEstadoEnvio" style="display:none; margin:14px 0 0; padding:12px 14px; border-radius:12px; font-size:13.5px; font-weight:600; text-align:center;"></p>
+          </form>
+        </div>
+      </section>
+
+    </main>
+    <footer><div class="wrap"><p>© 2026 · Un proyecto para compartir el Evangelio y la esperanza a través de la Palabra.</p></div></footer>
+  </div>
+
+  <!-- VISTA 2: ESPACIO DE ESCUCHA (CHAT) -->
+  <div id="pagina-chat" class="pagina">
+    <main>
+      <section class="chat-hero">
+        <div class="chat-hero-content">
+          <h2>Respira hondo: un espacio seguro para hacer una pausa, hablar y volver a empezar.</h2>
+          <p>A veces la vida nos pesa más de la cuenta. Si hoy te sientes así, hablemos. Estamos aquí para acompañarte, darte ánimo y recordarte que Dios nunca nos suelta de la mano.</p>
+        </div>
+      </section>
+
+      <section class="chat-body">
+        <div class="top-action-bar">
+           <button class="btn-volver" type="button" onclick="irAtrasHistorial()" style="color:var(--green); background:#fff; border-color:var(--line);">← Volver atrás</button>
+        </div>
+        
+        <div class="center-card-wrapper" style="margin-top: -10px;">
+          <div class="chat-container">
+            <div class="kicker">Estamos aquí para escucharte</div>
+            <h2>¿Qué pasa por tu corazón hoy?</h2>
+            <p class="intro-text">Este es un espacio para expresarte con libertad. No necesitas encontrar las palabras perfectas.</p>
+
+            <label for="searchInput" class="kicker">Cuéntanos lo que estás viviendo</label>
+            <textarea id="searchInput" class="chat-input-field" placeholder="Escribe aquí qué sientes o qué estás viviendo..." rows="5"></textarea>
+            <p class="input-help">Puedes escribir sobre una preocupación, una alegría, tu familia, tus emociones o cualquier situación que quieras compartir.</p>
+            <div class="form-actions">
+              <button class="btn btn-green" id="searchButton" type="button" onclick="ejecutarIA()">Recibir una palabra de ánimo ↗</button>
+            </div>
+            <p id="errorMessage" class="error-message" role="alert" hidden></p>
+
+            <div class="ai-output" id="results" aria-live="polite">
+              <div class="answer-label">Una palabra de la Biblia para ti</div>
+              <div id="aiVerseReference" class="verse-reference"></div>
+              <blockquote id="aiVerseContainer" class="verse-box"></blockquote>
+
+              <div class="answer-label">Unas palabras para acompañarte</div>
+              <p id="aiTextCompleto" class="ai-text-block"></p>
+
+              <div class="whatsapp-area">
+                <p>Si deseas conversar en tiempo real con un consejero y recibir acompañamiento u oración, inicia tu chat directo aquí mismo. Tu conversación quedará guardada en tu cuenta de Google.</p>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                  <button id="whatsappBtn" type="button" class="btn btn-green" onclick="iniciarChatInterno('situacion')">
+                    💬 Hablar con alguien de lo que me sucede
+                  </button>
+                  <button id="whatsappJesusBtn" type="button" class="btn btn-outline" style="border-color: var(--green); color: var(--green);" onclick="iniciarChatInterno('jesus')">
+                    ✝️ Quiero conocer más de Jesús y recibirlo en mi corazón
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer><div class="wrap"><p>© 2026 · Un proyecto para compartir el Evangelio y la esperanza a través de la Palabra.</p></div></footer>
+  </div>
+
+  <!-- VISTA 3: DETALLE DEL TESTIMONIO -->
+  <div id="pagina-testimonio-detalle" class="pagina">
+    <main style="display:flex; flex-direction:column; flex:1;">
+      <div class="top-action-bar">
+        <button class="btn-volver" type="button" onclick="irAtrasHistorial()">← Volver atrás</button>
+      </div>
+      
+      <div class="center-card-wrapper">
+        <div class="detalle-content">
+          <h2 id="det-title" style="font-size: 38px; margin: 0 0 10px; color: #fff; letter-spacing: -0.03em;">Nombre</h2>
+          <div class="kicker" style="color: #d5e5d7; margin-bottom: 30px;">Historia de fe y transformación</div>
+          
+          <p id="det-p1">Párrafo 1...</p>
+          <p id="det-p2">Párrafo 2...</p>
+          <p id="det-p3">Párrafo 3...</p>
+
+          <div style="margin-top: 30px;">
+            <div class="kicker" style="color: #d5e5d7; margin-bottom: 12px;">Momentos de su historia y restauración</div>
+            <div class="testimonio-galeria" id="det-galeria"></div>
+          </div>
+
+          <div style="margin-top: 50px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.22); text-align: center;">
+            <p style="font-size: 15px; color: rgba(255,255,255,0.9); margin-bottom:20px;">Al igual que esta historia, Dios tiene un propósito de paz para tu vida.</p>
+            <button class="btn btn-light" onclick="cambiarPagina('chat')">Hablar de mi situación ↗</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer><div class="wrap"><p>© 2026 · Un proyecto para compartir el Evangelio y la esperanza a través de la Palabra.</p></div></footer>
+  </div>
+
+  <!-- VISTA 4: FORMULARIO "CONTAR MI TESTIMONIO" -->
+  <div id="pagina-enviar-testimonio" class="pagina">
+    <main style="display:flex; flex-direction:column; flex:1;">
+      <div class="top-action-bar">
+        <button class="btn-volver" type="button" onclick="irAtrasHistorial()">← Volver atrás</button>
+      </div>
+
+      <div class="center-card-wrapper">
+        <div class="form-container">
+          <div style="text-align: center; margin-bottom: 35px;">
+            <h2 style="font-size: 32px; color: #fff; margin: 0 0 10px; letter-spacing: -0.03em;">Queremos escuchar tu historia</h2>
+            <p style="color: rgba(255,255,255,0.88); font-size: 15px; line-height: 1.6;">Tu testimonio puede ser la respuesta o el consuelo que alguien más necesita leer hoy. Compártenos cómo Dios ha obrado en tu vida.</p>
+          </div>
+
+          <form onsubmit="procesarFormularioTestimonio(event)">
+            <div class="form-group">
+              <label for="testNombre">Nombre completo</label>
+              <input type="text" id="testNombre" class="form-control" placeholder="Ej. Juan Pérez" required>
+            </div>
+
+            <div class="form-group">
+              <label for="testCorreo">Correo electrónico</label>
+              <input type="email" id="testCorreo" class="form-control" placeholder="tu@correo.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="testTel">Teléfono (opcional)</label>
+              <input type="tel" id="testTel" class="form-control" placeholder="+56 9 0000 0000">
+            </div>
+
+            <div class="form-group">
+              <label for="testMensaje">Tu Testimonio</label>
+              <textarea id="testMensaje" class="form-control" rows="6" placeholder="Escribe aquí tu historia..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Adjuntar fotografías (opcional)</label>
+              <div class="form-file-wrap">
+                <input type="file" id="testFotos" accept="image/*" multiple>
+                <p style="margin: 8px 0 0; font-size:12px; color:rgba(255,255,255,0.75);">Formatos aceptados: JPG, PNG. Al enviar, el sistema abrirá tu correo con la plantilla lista y te permitirá adjuntar las fotos preparadas.</p>
+              </div>
+            </div>
+
+            <div class="form-actions" style="margin-top: 30px; justify-content: flex-end;">
+              <button type="submit" class="btn btn-light">Enviar mi testimonio ↗</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <footer><div class="wrap"><p>© 2026 · Un proyecto para compartir el Evangelio y la esperanza a través de la Palabra.</p></div></footer>
+  </div>
+
+  <!-- VISTA 5: NUESTRA MISIÓN / NOSOTROS -->
+  <div id="pagina-nosotros" class="pagina">
+    <main style="display:flex; flex-direction:column; flex:1;">
+      <div class="top-action-bar">
+        <button class="btn-volver" type="button" onclick="irAtrasHistorial()">← Volver atrás</button>
+      </div>
+
+      <div class="center-card-wrapper">
+        <div class="nosotros-card">
+          <div class="kicker" style="color: #d5e5d7; margin-bottom: 12px;">Nuestra Misión</div>
+          
+          <p>Creemos firmemente que la tecnología y las redes sociales son un puente maravilloso que Dios nos ha provisto para acortar distancias y llevar un mensaje de fe, paz y esperanza hasta donde tú estés.</p>
+          
+          <p>Nuestra misión es predicar el evangelio a través de las plataformas digitales, aprovechando cada espacio virtual para estar cerca de ti, escucharte y brindarte un apoyo genuino en medio de cualquier carga, duda o dificultad que estés atravesando.</p>
+          
+          <p>No estás solo en este camino. Deseamos que, a través de cada palabra, cada consejo y cada recurso, puedas experimentar de manera personal el inmenso, inagotable y transformador amor que Dios tiene para cada uno de nosotros. Él tiene un propósito de vida para ti, y estamos aquí para caminar juntos, compartir Su palabra y mostrarte que siempre hay una nueva oportunidad en Su gracia.</p>
+
+          <blockquote class="verse-quote">
+            "Y les dijo: Id por todo el mundo y predicad el evangelio a toda criatura." <br>
+            <span style="display: block; font-size: 14px; font-family: Inter, sans-serif; margin-top: 8px; font-weight: 700; color: #a3c4a8;">— Marcos 16:15</span>
+          </blockquote>
+
+          <div style="margin-top: 40px; text-align: center;">
+            <button class="btn btn-light" onclick="cambiarPagina('chat')">Conversar con nosotros ↗</button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer><div class="wrap"><p>© 2026 · Un proyecto para compartir el Evangelio y la esperanza a través de la Palabra.</p></div></footer>
+  </div>
+
+  <script>
+    const NUMERO_WHATSAPP = "56977464834";
+    const CORREO_ADMINISTRADOR = "vicentealvarez1134@gmail.com"; 
+
+    function toggleMenuMovil(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('navLinksMenu');
+      menu.classList.toggle('menu-abierto');
+    }
+
+    function cerrarMenuMovil() {
+      const menu = document.getElementById('navLinksMenu');
+      if (menu) menu.classList.remove('menu-abierto');
+    }
+
+    function abrirNosotrosMenu(e) {
+      if (e) e.preventDefault();
+      cerrarMenuMovil();
+      cambiarPagina('nosotros');
+    }
+
+    document.addEventListener('click', (e) => {
+      const menu = document.getElementById('navLinksMenu');
+      const btnDots = document.getElementById('btnMenuDots');
+      if (menu && menu.classList.contains('menu-abierto')) {
+        if (!menu.contains(e.target) && (!btnDots || !btnDots.contains(e.target))) {
+          menu.classList.remove('menu-abierto');
+        }
+      }
+    });
+
+    function actualizarFocoCarruselTestimonios() {
+      const grid = document.getElementById('testimoniosCarrusel');
+      if (!grid) return;
+      const cards = grid.querySelectorAll('.testimonio-card');
+      if (window.innerWidth > 600) {
+        cards.forEach(c => c.classList.add('en-centro'));
+        return;
+      }
+      const gridRect = grid.getBoundingClientRect();
+      const gridCenter = gridRect.left + gridRect.width / 2;
+      let closestCard = null;
+      let minDistance = Infinity;
+
+      cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const cardCenter = rect.left + rect.width / 2;
+        const dist = Math.abs(gridCenter - cardCenter);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestCard = card;
+        }
+      });
+
+      cards.forEach(card => {
+        if (card === closestCard) {
+          card.classList.add('en-centro');
+        } else {
+          card.classList.remove('en-centro');
+        }
+      });
+    }
+
+    let usuarioActual = null;
+
+    function abrirModalLogin() {
+      cerrarMenuMovil();
+      document.getElementById('modalLogin').classList.add('activo');
+    }
+
+    function cerrarModalLogin() {
+      document.getElementById('modalLogin').classList.remove('activo');
+    }
+
+    let peticionesGlobales = [
+      { id: 1, texto: "Les pido oración por la salud de mi madre y por paz en mi hogar.", autor: "Anónimo", orados: 12 },
+      { id: 2, texto: "Pido fortaleza en mi trabajo y confianza en Dios para superar una prueba económica grande.", autor: "Carlos M.", orados: 8 },
+      { id: 3, texto: "Oración por un nuevo rumbo profesional y guía divina para tomar decisiones correctas.", autor: "Daniela R.", orados: 15 },
+      { id: 4, texto: "Pido paz mental y alivio para la ansiedad que he sentido en estas últimas semanas.", autor: "Anónimo", orados: 21 }
+    ];
+
+    function cargarPeticionAleatoria() {
+      if(peticionesGlobales.length === 0) return;
+      const index = Math.floor(Math.random() * peticionesGlobales.length);
+      const pet = peticionesGlobales[index];
+      document.getElementById("aleatoriaAutor").textContent = "Petición de: " + pet.autor;
+      document.getElementById("aleatoriaTexto").textContent = `"${pet.texto}"`;
+      const btn = document.getElementById("btnAleatorioOrado");
+      btn.classList.remove("orado-activo");
+      btn.innerHTML = `🙏 Ya oré (${pet.orados})`;
+      btn.dataset.id = pet.id;
+    }
+
+    function orarAleatoria() {
+      const btn = document.getElementById("btnAleatorioOrado");
+      if(btn.classList.contains('orado-activo')) {
+        btn.classList.remove('orado-activo');
+      } else {
+        btn.classList.add('orado-activo');
+        alert("¡Amén! Gracias por interceder por la vida de tu hermano hoy. Se ha enviado una notificación al autor.");
+      }
+    }
+
+    function intentarAbrirPublicacion() {
+      if(!usuarioActual) {
+        window.pendientePublicar = true;
+        abrirModalLogin();
+      } else {
+        toggleModoPublicar(true);
+      }
+    }
+
+    function toggleModoPublicar(mostrar) {
+      const cardAleatoria = document.getElementById('cardAleatoria');
+      const boxPublicar = document.getElementById('boxPublicar');
+      const btnToggle = document.getElementById('btnTogglePublicar');
+
+      if(mostrar) {
+        cardAleatoria.style.display = 'none';
+        boxPublicar.style.display = 'block';
+        btnToggle.style.display = 'none';
+      } else {
+        cardAleatoria.style.display = 'block';
+        boxPublicar.style.display = 'none';
+        btnToggle.style.display = 'inline-flex';
+      }
+    }
+
+    function publicarPeticion() {
+      const input = document.getElementById('peticionInput').value.trim();
+      if(!input) {
+        alert("Por favor, escribe tu petición antes de publicar.");
+        return;
+      }
+      
+      const autorNombre = usuarioActual ? usuarioActual.nombre : "Anónimo";
+      const nuevaPet = { id: Date.now(), texto: input, autor: autorNombre, orados: 1 };
+      peticionesGlobales.unshift(nuevaPet);
+      
+      document.getElementById('peticionInput').value = "";
+      toggleModoPublicar(false);
+      cargarPeticionAleatoria();
+      
+      alert("¡Tu petición ha sido publicada con éxito! Te notificaremos cuando alguien marque que ha orado por ti.");
+    }
+
+    function enviarSugerenciaCorreo(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('sugNombre').value;
+      const correo = document.getElementById('sugCorreo').value;
+      const mensaje = document.getElementById('sugMensaje').value;
+
+      const asunto = encodeURIComponent("Nueva Sugerencia / Opinión Web de: " + nombre);
+      const cuerpo = encodeURIComponent("Nombre: " + nombre + "\nCorreo: " + correo + "\n\nMensaje:\n" + mensaje);
+
+      window.location.href = "mailto:" + CORREO_ADMINISTRADOR + "?subject=" + asunto + "&body=" + cuerpo;
+      e.target.reset();
+      alert("¡Gracias por tu opinión! Se ha abierto tu cliente de correo para enviar tu sugerencia.");
+    }
+
+    window.addEventListener('load', () => {
+      cargarPeticionAleatoria();
+      setTimeout(() => updateIndicator(document.querySelector('.nav-item.active')), 100);
+      
+      const carrusel = document.getElementById('testimoniosCarrusel');
+      if (carrusel) {
+        carrusel.addEventListener('scroll', () => {
+          window.requestAnimationFrame(actualizarFocoCarruselTestimonios);
+        }, { passive: true });
+        actualizarFocoCarruselTestimonios();
+      }
+    });
+
+    function updateIndicator(element) {
+      const indicator = document.getElementById('navIndicator');
+      if (!element || !indicator || window.innerWidth <= 850) return;
+      indicator.style.width = element.offsetWidth + "px";
+      indicator.style.left = element.offsetLeft + "px";
+    }
+
+    function scrollToSection(event, sectionId) {
+      if(event) event.preventDefault();
+      cerrarMenuMovil();
+      if (!document.getElementById('pagina-inicio').classList.contains('activa')) {
+        cambiarPagina('inicio');
+      }
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        if(section) {
+          const headerOffset = 100; 
+          const elementPosition = section.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        }
+      }, 50);
+    }
+
+    window.addEventListener('scroll', () => {
+      const header = document.getElementById('mainHeader');
+      if (window.scrollY > 50) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
+
+      if (document.getElementById('pagina-inicio').classList.contains('activa')) {
+        const sections = ['inicio', 'temas', 'oraciones', 'testimonios'];
+        let currentSectionId = 'inicio';
+
+        sections.forEach(id => {
+          const sec = document.getElementById(id);
+          if (sec) {
+            const offsetTop = sec.offsetTop - 150; 
+            if (window.scrollY >= offsetTop) {
+              currentSectionId = id;
+            }
+          }
+        });
+
+        const activeLink = document.querySelector(`.nav-item[href="#${currentSectionId}"]`);
+        if (activeLink && !activeLink.classList.contains('active')) {
+          document.querySelectorAll('.nav-item').forEach(link => link.classList.remove('active'));
+          activeLink.classList.add('active');
+          updateIndicator(activeLink);
+        }
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      updateIndicator(document.querySelector('.nav-item.active'));
+      actualizarFocoCarruselTestimonios();
+    });
+
+    /* SISTEMA DE HISTORIAL NATIVO */
+    function mostrarVistaDOM(destino) {
+      cerrarMenuMovil();
+      document.querySelectorAll('.pagina').forEach(p => p.classList.remove('activa'));
+      const header = document.getElementById("mainHeader");
+      
+      if (destino === 'chat') {
+        document.getElementById('pagina-chat').classList.add('activa');
+        header.classList.add('oculto');
+      } else if (destino === 'testimonio') {
+        document.getElementById('pagina-testimonio-detalle').classList.add('activa');
+        header.classList.add('oculto');
+      } else if (destino === 'enviar-testimonio') {
+        document.getElementById('pagina-enviar-testimonio').classList.add('activa');
+        header.classList.add('oculto');
+      } else if (destino === 'nosotros') {
+        document.getElementById('pagina-nosotros').classList.add('activa');
+        header.classList.add('oculto');
+      } else {
+        document.getElementById('pagina-inicio').classList.add('activa');
+        header.classList.remove('oculto');
+        setTimeout(() => {
+          updateIndicator(document.querySelector('.nav-item.active'));
+          actualizarFocoCarruselTestimonios();
+        }, 50);
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function cambiarPagina(destino, reemplazar = false, extraData = {}) {
+      const estado = { pagina: destino, ...extraData };
+      const hashUrl = '#' + destino;
+
+      if (reemplazar) {
+        history.replaceState(estado, '', hashUrl);
+      } else if (!history.state || history.state.pagina !== destino) {
+        history.pushState(estado, '', hashUrl);
+      }
+
+      mostrarVistaDOM(destino);
+    }
+
+    function irAtrasHistorial() {
+      if (window.location.hash && window.location.hash !== '#inicio') {
+        history.back();
+      } else {
+        cambiarPagina('inicio', true);
+      }
+    }
+
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.pagina) {
+        if (event.state.pagina === 'testimonio' && event.state.testimonioId) {
+          cargarDatosTestimonioDOM(event.state.testimonioId);
+        }
+        mostrarVistaDOM(event.state.pagina);
+      } else {
+        const hashActual = window.location.hash.replace('#', '');
+        const vistasValidas = ['inicio', 'chat', 'testimonio', 'enviar-testimonio', 'nosotros'];
+        if (vistasValidas.includes(hashActual)) {
+          mostrarVistaDOM(hashActual);
+        } else {
+          mostrarVistaDOM('inicio');
+        }
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const hashInicial = window.location.hash.replace('#', '');
+      const vistasValidas = ['chat', 'enviar-testimonio', 'nosotros'];
+      if (vistasValidas.includes(hashInicial)) {
+        cambiarPagina(hashInicial, true);
+      } else {
+        history.replaceState({ pagina: 'inicio' }, '', '#inicio');
+      }
+    });
+
+    window.bdTestimonios = {
+      1: {
+        nombre: "Andrés, 34 años",
+        imgPrincipal: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80",
+        descCorta: "Vivía atrapado en la ansiedad y adicciones, intentando llenar un vacío inmenso. Al conocer el perdón de Dios, mi mente por fin encontró descanso real.",
+        p1: "Desde muy joven me refugié en el alcohol y las malas decisiones buscando llenar un vacío que sentía en el pecho. Por fuera parecía que mi vida estaba bajo control, pero por dentro la ansiedad y la depresión me consumían todas las noches.",
+        p2: "Toqué fondo cuando perdí mi trabajo y mi familia se alejó. Un día, sin saber a quién más recurrir, entré a una página parecida a esta y alguien oró por mí. Me hablaron de un Jesús que no condenaba, sino que restauraba.",
+        p3: "Hoy, por la gracia de Dios, llevo años limpio. Mi mente tiene una paz que nunca creí posible, recuperé a mi familia y ahora sirvo ayudando a jóvenes que pasan por lo mismo. Dios hizo de mi ruina, su mayor obra de arte.",
+        fotos: [
+          { url: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=600&q=80" },
+          { url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" },
+          { url: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      2: {
+        nombre: "Valentina, 28 años",
+        imgPrincipal: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80",
+        descCorta: "Una traición me dejó con el corazón roto y mucho rencor. Jesús me enseñó a perdonar lo imperdonable y restauró por completo mi alegría.",
+        p1: "Mi vida se derrumbó cuando sufrí una traición muy fuerte. Quedé con el corazón roto, llena de rencor y con ataques de pánico constantes que no me dejaban dormir.",
+        p2: "Fui a muchos lugares buscando paz, pero nada funcionaba. Hasta que una amiga me invitó a conocer la Palabra de Dios. Leer que Él sana a los quebrantados de corazón me dio esperanza.",
+        p3: "Entregarle mi dolor a Jesús fue un proceso, pero Él me enseñó a perdonar lo imperdonable. Esa carga pesada se fue, y hoy vivo con una alegría y una libertad genuinas. El perdón me liberó a mí.",
+        fotos: [
+          { url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80" },
+          { url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" },
+          { url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" }
+        ]
+      },
+      3: {
+        nombre: "Familia Rojas",
+        imgPrincipal: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80",
+        descCorta: "Estábamos al borde del divorcio, las discusiones eran el pan de cada día. Entregar nuestro matrimonio a Cristo fue nuestro nuevo comienzo.",
+        p1: "Como matrimonio, habíamos llegado a nuestro límite. Las discusiones eran el pan de cada día, los gritos habían reemplazado el amor, y ya habíamos firmado los papeles de divorcio, creyendo que era lo mejor para nuestros hijos.",
+        p2: "En el último minuto, alguien nos habló de cómo Dios podía ser el centro de nuestro hogar. Decidimos darnos una última oportunidad, pero esta vez, invitando a Cristo a ser el cimiento de nuestra casa.",
+        p3: "No fue magia de un día para otro, pero el Espíritu Santo nos dio la humildad para pedirnos perdón y sanar las heridas. Hoy somos una familia unida, llena de amor y propósito. Dios restauró lo que dábamos por perdido.",
+        fotos: [
+          { url: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80" },
+          { url: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80" },
+          { url: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80" }
+        ]
+      }
+    };
+
+    function renderizarTarjetasTestimonios() {
+      const carrusel = document.getElementById('testimoniosCarrusel');
+      if (!carrusel || !window.bdTestimonios) return;
+      carrusel.innerHTML = '';
+      Object.keys(window.bdTestimonios).forEach((id, index) => {
+        const t = window.bdTestimonios[id];
+        const cssClass = index === 0 ? 'testimonio-card en-centro' : 'testimonio-card';
+        const card = document.createElement('div');
+        card.className = cssClass;
+        card.innerHTML = `
+          <div class="testimonio-img" style="background-image: url('${t.imgPrincipal}');"></div>
+          <div class="testimonio-content">
+            <h3 class="testimonio-title">${t.nombre}</h3>
+            <p class="testimonio-desc">${t.descCorta}</p>
+            <button class="btn-testimonio" onclick="abrirTestimonio('${id}')">Ver testimonio</button>
+          </div>
+        `;
+        carrusel.appendChild(card);
+      });
+      if (typeof actualizarFocoCarruselTestimonios === 'function') {
+        actualizarFocoCarruselTestimonios();
+      }
+    }
+
+    function cargarDatosTestimonioDOM(id) {
+      const data = window.bdTestimonios[id];
+      if (!data) return;
+      document.getElementById('det-title').textContent = data.nombre;
+      document.getElementById('det-p1').textContent = data.p1 || '';
+      document.getElementById('det-p2').textContent = data.p2 || '';
+      document.getElementById('det-p3').textContent = data.p3 || '';
+      
+      const galeriaContainer = document.getElementById('det-galeria');
+      galeriaContainer.innerHTML = '';
+      if (data.fotos && data.fotos.length > 0) {
+        const fotosMostrar = data.fotos.slice(0, 3);
+        fotosMostrar.forEach(foto => {
+          const urlFoto = typeof foto === 'string' ? foto : foto.url;
+          if (!urlFoto) return;
+          const item = document.createElement('div');
+          item.className = 'galeria-item';
+          item.innerHTML = `<img src="${urlFoto}" alt="Fotografía del testimonio">`;
+          galeriaContainer.appendChild(item);
+        });
+      }
+    }
+
+    function abrirTestimonio(id) {
+      cargarDatosTestimonioDOM(id);
+      cambiarPagina('testimonio', false, { testimonioId: id });
+    }
+
+    function procesarFormularioTestimonio(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('testNombre').value;
+      const correo = document.getElementById('testCorreo').value;
+      const tel = document.getElementById('testTel').value;
+      const mensaje = document.getElementById('testMensaje').value;
+      
+      const asunto = encodeURIComponent("Nuevo Testimonio Web: " + nombre);
+      const cuerpoCorreo = encodeURIComponent(
+        "Nombre: " + nombre + "\n" +
+        "Correo: " + correo + "\n" +
+        "Teléfono: " + (tel ? tel : 'No proporcionado') + "\n\n" +
+        "Mensaje del testimonio:\n" + mensaje + "\n\n" +
+        "---\n*Nota: Si seleccionaste fotos, por favor adjúntalas manualmente en este correo antes de enviarlo.*"
+      );
+
+      window.location.href = "mailto:" + CORREO_ADMINISTRADOR + "?subject=" + asunto + "&body=" + cuerpoCorreo;
+      
+      e.target.reset();
+      alert("¡Gracias por compartir tu historia! Se ha abierto tu cliente de correo para completar el envío.");
+      cambiarPagina('inicio', true);
+    }
+
+    function normalizar(texto) { return texto.toLocaleLowerCase("es").normalize("NFD").replace(/[\u0300-\u036f]/g, ""); }
+
+    function abrirTemaChat(textoTema) {
+      cambiarPagina("chat");
+      const campo = document.getElementById("searchInput");
+      campo.value = textoTema;
+      ejecutarIA();
+      campo.focus({ preventScroll: true });
+    }
+
+    document.getElementById("searchInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+        event.preventDefault(); ejecutarIA();
+      }
+    });
+  </script>
+
+  <!-- ESTILOS E INTERFAZ DEL CHAT EN TIEMPO REAL ESTILO WHATSAPP -->
+  <style>
+    .wa-floating-trigger {
+      position: fixed; bottom: 20px; left: 20px; z-index: 9990;
+      background: #1f4d36; color: #fff; border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 999px; padding: 12px 20px; font-size: 13.5px; font-weight: 800;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35); display: none;
+      align-items: center; gap: 10px; cursor: pointer; transition: all 0.25s ease;
+    }
+    .wa-floating-trigger:hover { transform: translateY(-2px); background: #173b29; }
+    .wa-floating-trigger .wa-unread-dot {
+      background: #25d366; color: #071e12; font-size: 11px; font-weight: 800;
+      padding: 2px 7px; border-radius: 999px; display: none;
+    }
+
+    .wa-modal-overlay {
+      position: fixed; inset: 0; z-index: 9998;
+      background: rgba(12, 24, 18, 0.72); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; padding: 16px;
+    }
+    .wa-modal-overlay.activo { display: flex; }
+
+    .wa-chat-window {
+      width: 100%; max-width: 540px; height: min(700px, 90vh);
+      background: #efeae2; border-radius: 24px; overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: 0 28px 70px rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .wa-header {
+      background: #1f4d36; color: white; padding: 14px 18px;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .wa-header-info { display: flex; align-items: center; gap: 12px; }
+    .wa-avatar {
+      width: 42px; height: 42px; border-radius: 50%; background: #2e6f4e;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 18px; color: #fff; flex-shrink: 0;
+    }
+    .wa-header-text h4 { margin: 0; font-size: 15px; font-weight: 700; color: #fff; }
+    .wa-header-text span { font-size: 12px; color: #b7e4c7; display: block; }
+    .wa-close-btn {
+      background: rgba(255,255,255,0.14); border: none; color: white;
+      width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer;
+    }
+
+    .wa-messages-area {
+      flex: 1; overflow-y: auto; padding: 18px 14px;
+      display: flex; flex-direction: column; gap: 10px;
+      background-image: radial-gradient(rgba(23,35,30,0.06) 1px, transparent 0);
+      background-size: 18px 18px;
+    }
+
+    .wa-msg {
+      max-width: 84%; padding: 10px 14px; border-radius: 16px;
+      font-size: 14px; line-height: 1.48; position: relative;
+      word-wrap: break-word; box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+    }
+    .wa-msg.usuario {
+      align-self: flex-end; background: #d9fdd3; color: #111b21;
+      border-bottom-right-radius: 4px;
+    }
+    .wa-msg.admin {
+      align-self: flex-start; background: #ffffff; color: #111b21;
+      border-bottom-left-radius: 4px;
+    }
+    .wa-msg-sender {
+      font-size: 11.5px; font-weight: 800; color: #1f4d36; margin-bottom: 4px;
+    }
+    .wa-msg-quote {
+      background: rgba(0,0,0,0.06); border-left: 3px solid #1f4d36;
+      padding: 5px 8px; border-radius: 6px; font-size: 12px;
+      color: #334; margin-bottom: 6px;
+    }
+    .wa-msg-meta {
+      display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+      font-size: 10.5px; color: #667781; margin-top: 5px;
+    }
+    .wa-reply-trigger {
+      background: none; border: none; color: #1f4d36; font-size: 11px;
+      font-weight: 700; padding: 0; cursor: pointer; opacity: 0.8;
+    }
+    .wa-reply-trigger:hover { opacity: 1; text-decoration: underline; }
+
+    .wa-reply-preview {
+      background: #e2ece6; padding: 8px 14px; border-left: 4px solid #1f4d36;
+      display: none; align-items: center; justify-content: space-between;
+      font-size: 12.5px; color: #17231e;
+    }
+    .wa-reply-preview.activo { display: flex; }
+
+    .wa-input-bar {
+      background: #f0f2f5; padding: 10px 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .wa-input-bar input {
+      flex: 1; border: 1px solid rgba(0,0,0,0.12); border-radius: 999px;
+      padding: 12px 16px; font-size: 14px; background: white; outline: none; color: #111b21;
+    }
+    .wa-send-btn {
+      background: #1f4d36; color: white; border: none; border-radius: 50%;
+      width: 44px; height: 44px; display: flex; align-items: center;
+      justify-content: center; font-size: 16px; flex-shrink: 0; cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .wa-modal-overlay {
+        padding: 0;
+        align-items: stretch;
+        justify-content: stretch;
+      }
+      .wa-chat-window {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        border: none;
+      }
+      .wa-header {
+        padding: 12px 14px;
+        padding-top: max(12px, env(safe-area-inset-top));
+        flex-shrink: 0;
+      }
+      .wa-avatar {
+        width: 36px; height: 36px; font-size: 16px;
+      }
+      .wa-header-text h4 {
+        font-size: 14px;
+      }
+      .wa-header-text span {
+        font-size: 11px;
+      }
+      .wa-messages-area {
+        padding: 12px 10px;
+      }
+      .wa-input-bar {
+        padding: 8px 10px;
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+        flex-shrink: 0;
+        background: #f0f2f5;
+      }
+      .wa-input-bar input {
+        font-size: 16px; /* Evita zoom automático en móviles */
+        padding: 10px 14px;
+      }
+      .wa-floating-trigger { bottom: 16px; left: 16px; padding: 10px 16px; font-size: 12.5px; }
+    }
+  </style>
+
+  <!-- BOTÓN FLOTANTE PARA REABRIR LA CONVERSACIÓN GUARDADA -->
+  <button id="btnAbrirChatFlotante" class="wa-floating-trigger" type="button" onclick="abrirVentanaChatDirecto()">
+    <span>💬 Mi Chat con Consejeros</span>
+    <span id="badgeNoLeidosUsuario" class="wa-unread-dot">1</span>
+  </button>
+
+  <!-- VENTANA DE CHAT ESTILO WHATSAPP DENTRO DE LA MISMA WEB -->
+  <div id="modalChatWhatsApp" class="wa-modal-overlay">
+    <div class="wa-chat-window">
+      <div class="wa-header">
+        <div class="wa-header-info">
+          <div class="wa-avatar">✝️</div>
+          <div class="wa-header-text">
+            <h4>Consejero</h4>
+            <span id="waEstadoConexion">● En línea · Tu conversación está guardada</span>
+          </div>
+        </div>
+        <button class="wa-close-btn" type="button" onclick="cerrarVentanaChat()" title="Minimizar chat">✕</button>
+      </div>
+
+      <div id="waListaMensajes" class="wa-messages-area"></div>
+
+      <div id="waReplyBox" class="wa-reply-preview">
+        <div>
+          <strong style="display:block; font-size:11px; color:#1f4d36;">Respondiendo a:</strong>
+          <span id="waReplyText"></span>
+        </div>
+        <button type="button" style="background:none;border:none;font-weight:800;cursor:pointer;" onclick="cancelarRespuestaMensaje()">✕</button>
+      </div>
+
+      <form class="wa-input-bar" onsubmit="enviarMensajeChatUsuario(event)">
+        <input type="text" id="waInputTexto" placeholder="Escribe tu mensaje aquí..." autocomplete="off" required>
+        <button type="submit" class="wa-send-btn" title="Enviar mensaje">➤</button>
+      </form>
+    </div>
+  </div>
+
+<!-- INTEGRACIÓN CMS, FIREBASE, GEMINI AI, GOOGLE AUTH Y EMAILJS -->
+<script type="module">
+  import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, doc, getDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const ADMIN_EMAIL = "vicentealvarez1134@gmail.com";
+
+  const DEFAULT_TESTIMONIOS = {
+    "1": {
+      orden: 1,
+      nombre: "Andrés, 34 años",
+      imgPrincipal: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80",
+      descCorta: "Vivía atrapado en la ansiedad y adicciones, intentando llenar un vacío inmenso. Al conocer el perdón de Dios, mi mente por fin encontró descanso real.",
+      p1: "Desde muy joven me refugié en el alcohol y las malas decisiones buscando llenar un vacío que sentía en el pecho. Por fuera parecía que mi vida estaba bajo control, pero por dentro la ansiedad y la depresión me consumían todas las noches.",
+      p2: "Toqué fondo cuando perdí mi trabajo y mi familia se alejó. Un día, sin saber a quién más recurrir, entré a una página parecida a esta y alguien oró por mí. Me hablaron de un Jesús que no condenaba, sino que restauraba.",
+      p3: "Hoy, por la gracia de Dios, llevo años limpio. Mi mente tiene una paz que nunca creí posible, recuperé a mi familia y ahora sirvo ayudando a jóvenes que pasan por lo mismo. Dios hizo de mi ruina, su mayor obra de arte.",
+      fotos: [
+        { url: "https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=600&q=80" },
+        { url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" },
+        { url: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80" }
+      ]
+    },
+    "2": {
+      orden: 2,
+      nombre: "Valentina, 28 años",
+      imgPrincipal: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80",
+      descCorta: "Una traición me dejó con el corazón roto y mucho rencor. Jesús me enseñó a perdonar lo imperdonable y restauró por completo mi alegría.",
+      p1: "Mi vida se derrumbó cuando sufrí una traición muy fuerte. Quedé con el corazón roto, llena de rencor y con ataques de pánico constantes que no me dejaban dormir.",
+      p2: "Fui a muchos lugares buscando paz, pero nada funcionaba. Hasta que una amiga me invitó a conocer la Palabra de Dios. Leer que Él sana a los quebrantados de corazón me dio esperanza.",
+      p3: "Entregarle mi dolor a Jesús fue un proceso, pero Él me enseñó a perdonar lo imperdonable. Esa carga pesada se fue, y hoy vivo con una alegría y una libertad genuinas. El perdón me liberó a mí.",
+      fotos: [
+        { url: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80" },
+        { url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" },
+        { url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" }
+      ]
+    },
+    "3": {
+      orden: 3,
+      nombre: "Familia Rojas",
+      imgPrincipal: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80",
+      descCorta: "Estábamos al borde del divorcio, las discusiones eran el pan de cada día. Entregar nuestro matrimonio a Cristo fue nuestro nuevo comienzo.",
+      p1: "Como matrimonio, habíamos llegado a nuestro límite. Las discusiones eran el pan de cada día, los gritos habían reemplazado el amor, y ya habíamos firmado los papeles de divorcio, creyendo que era lo mejor para nuestros hijos.",
+      p2: "En el último minuto, alguien nos habló de cómo Dios podía ser el centro de nuestro hogar. Decidimos darnos una última oportunidad, pero esta vez, invitando a Cristo a ser el cimiento de nuestra casa.",
+      p3: "No fue magia de un día para otro, pero el Espíritu Santo nos dio la humildad para pedirnos perdón y sanar las heridas. Hoy somos una familia unida, llena de amor y propósito. Dios restauró lo que dábamos por perdido.",
+      fotos: [
+        { url: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80" },
+        { url: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80" },
+        { url: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80" }
+      ]
+    }
+  };
+
+  const DEFAULT_PETICIONES = [
+    { id: 1, texto: "Les pido oración por la salud de mi madre y por paz en mi hogar.", autor: "Anónimo", orados: 12, estado: "aprobada", fecha: "2026-11-05" },
+    { id: 2, texto: "Pido fortaleza en mi trabajo y confianza en Dios para superar una prueba económica grande.", autor: "Carlos M.", orados: 8, estado: "aprobada", fecha: "2026-11-05" },
+    { id: 3, texto: "Oración por un nuevo rumbo profesional y guía divina para tomar decisiones correctas.", autor: "Daniela R.", orados: 15, estado: "aprobada", fecha: "2026-11-06" },
+    { id: 4, texto: "Pido paz mental y alivio para la ansiedad que he sentido en estas últimas semanas.", autor: "Anónimo", orados: 21, estado: "aprobada", fecha: "2026-11-06" }
+  ];
+
+  window.bdTestimonios = JSON.parse(JSON.stringify(DEFAULT_TESTIMONIOS));
+  window.peticionesGlobales = JSON.parse(JSON.stringify(DEFAULT_PETICIONES));
+  window.WHATSAPP_ACTUAL = "56977464834";
+
+  let db = null;
+  let auth = null;
+
+  function obtenerConfigFirebase() {
+    try {
+      localStorage.removeItem('fe_firebase_config');
+    } catch (e) {}
+    return {
+      apiKey: "AIzaSyBGJxCclzCmjwch9NrFBfjBGx8VuC-HFrI",
+      authDomain: "un-espacio-para-tu-fe.firebaseapp.com",
+      projectId: "un-espacio-para-tu-fe",
+      storageBucket: "un-espacio-para-tu-fe.firebasestorage.app",
+      messagingSenderId: "284977675855",
+      appId: "1:284977675855:web:ed21c17eee3ebbe9fd743a"
+    };
+  }
+
+  // Reutiliza la instancia existente para evitar "Firebase App already exists".
+  function obtenerAppFirebase() {
+    const apps = getApps();
+    if (apps.length) return getApp();
+    return initializeApp(obtenerConfigFirebase());
+  }
+
+  window.renderizarTarjetasTestimonios = function() {
+    const carrusel = document.getElementById('testimoniosCarrusel');
+    if (!carrusel || !window.bdTestimonios) return;
+    carrusel.innerHTML = '';
+
+    const entries = Object.entries(window.bdTestimonios).sort((a, b) => (a[1].orden || 99) - (b[1].orden || 99));
+    const controlesPC = document.getElementById('carruselControlesPC');
+    if (entries.length > 3) {
+      carrusel.classList.add('carrusel-pc-scroll');
+      if (controlesPC) controlesPC.classList.add('visible');
+    } else {
+      carrusel.classList.remove('carrusel-pc-scroll');
+      if (controlesPC) controlesPC.classList.remove('visible');
+    }
+
+    entries.forEach(([id, t], index) => {
+      const cssClass = index === 0 ? 'testimonio-card en-centro' : 'testimonio-card';
+      const card = document.createElement('div');
+      card.className = cssClass;
+      card.innerHTML = `
+        <div class="testimonio-img" style="background-image: url('${t.imgPrincipal}');"></div>
+        <div class="testimonio-content">
+          <h3 class="testimonio-title">${t.nombre}</h3>
+          <p class="testimonio-desc">${t.descCorta}</p>
+          <button class="btn-testimonio" onclick="abrirTestimonio('${id}')">Ver testimonio</button>
+        </div>
+      `;
+      carrusel.appendChild(card);
+    });
+
+    if (typeof window.actualizarFocoCarruselTestimonios === 'function') {
+      window.actualizarFocoCarruselTestimonios();
+    }
+  };
+
+  window.desplazarTestimonios = function(direccion) {
+    const carrusel = document.getElementById('testimoniosCarrusel');
+    if (!carrusel) return;
+    const card = carrusel.querySelector('.testimonio-card');
+    const paso = card ? (card.offsetWidth + 30) : 360;
+    carrusel.scrollBy({ left: direccion * paso, behavior: 'smooth' });
+  };
+
+  window.intentarAbrirPublicacion = function() {
+    if (!window.usuarioActual || !window.usuarioActual.correo) {
+      window.pendientePublicar = true;
+      window.abrirModalLogin();
+      return;
+    }
+    const autorInput = document.getElementById('peticionAutorInput');
+    if (autorInput && window.usuarioActual && window.usuarioActual.nombre && !autorInput.value) {
+      autorInput.value = window.usuarioActual.nombre;
+    }
+    window.toggleModoPublicar(true);
+  };
+
+  window.cargarPeticionAleatoria = function() {
+    const aprobadas = (window.peticionesGlobales || []).filter(p => p.estado === 'aprobada');
+    if (aprobadas.length === 0) {
+      document.getElementById("aleatoriaAutor").textContent = "Unidos en Oración";
+      document.getElementById("aleatoriaTexto").textContent = '"Aún no hay peticiones aprobadas en este momento. ¡Sé el primero en compartir la tuya!"';
+      return;
+    }
+    const index = Math.floor(Math.random() * aprobadas.length);
+    const pet = aprobadas[index];
+    document.getElementById("aleatoriaAutor").textContent = "Petición de: " + pet.autor;
+    document.getElementById("aleatoriaTexto").textContent = `"${pet.texto}"`;
+    const btn = document.getElementById("btnAleatorioOrado");
+    btn.classList.remove("orado-activo");
+    btn.innerHTML = `🙏 Ya oré (${pet.orados || 0})`;
+    btn.dataset.id = pet.id;
+  };
+
+  window.orarAleatoria = async function() {
+    const btn = document.getElementById("btnAleatorioOrado");
+    if (!btn || btn.disabled) return;
+    const petId = Number(btn.dataset.id);
+    const idx = window.peticionesGlobales.findIndex(p => Number(p.id) === petId);
+    if (idx === -1) return;
+
+    // Identificador estable por usuario o por navegador para impedir duplicados.
+    let visitanteId = window.usuarioActual?.correo?.toLowerCase().trim();
+    if (!visitanteId) {
+      visitanteId = sessionStorage.getItem('fe_visitante_oracion');
+      if (!visitanteId) {
+        visitanteId = 'visitante_' + (window.crypto?.randomUUID?.() || (Date.now() + '_' + Math.random().toString(36).slice(2)));
+        sessionStorage.setItem('fe_visitante_oracion', visitanteId);
+      }
+    }
+
+    const peticion = window.peticionesGlobales[idx];
+    peticion.oraronIds = Array.isArray(peticion.oraronIds) ? peticion.oraronIds : [];
+    if (peticion.oraronIds.includes(visitanteId)) {
+      alert("¡Gracias! Ya habías marcado que oraste por esta petición.");
+      return;
+    }
+
+    btn.disabled = true;
+    try {
+      peticion.oraronIds.push(visitanteId);
+      peticion.orados = (peticion.orados || 0) + 1;
+      btn.classList.add('orado-activo');
+      btn.innerHTML = `🙏 Ya oré (${peticion.orados})`;
+      await guardarEstadoSitio();
+
+      let correoEnviado = false;
+      const correoDestino = (peticion.correo || peticion.email || "").trim();
+      if (correoDestino && window.emailjs) {
+        try {
+          await window.emailjs.send("service_e88ozca", "template_6u75wgd", {
+            to_name: peticion.autor || "Hermano/a",
+            user_name: peticion.autor || "Hermano/a",
+            name: peticion.autor || "Hermano/a",
+            nombre: peticion.autor || "Hermano/a",
+            to_email: correoDestino,
+            user_email: correoDestino,
+            email: correoDestino,
+            correo: correoDestino,
+            reply_to: correoDestino,
+            autor: peticion.autor || "Hermano/a",
+            peticion: peticion.texto || "",
+            mensaje: peticion.texto || "",
+            message: peticion.texto || "",
+            nombre_orante: window.usuarioActual?.nombre || "Alguien de la comunidad",
+            fecha: new Date().toLocaleString('es-CL')
+          }, { publicKey: "Pr12BN8AtnpXxIWnj" });
+          correoEnviado = true;
+        } catch (emailError) {
+          console.error("La oración se registró, pero no se pudo enviar el correo:", emailError);
+        }
+      }
+
+      alert(correoEnviado
+        ? "¡Amén! Tu oración quedó registrada y enviamos una notificación al autor."
+        : "¡Amén! Tu oración quedó registrada. No fue posible enviar un correo al autor (puede que la petición no tenga correo asociado)."
+      );
+    } catch (error) {
+      console.error("No se pudo registrar la oración:", error);
+      alert("No pudimos registrar tu oración. Inténtalo nuevamente.");
+    } finally {
+      btn.disabled = false;
+    }
+  };
+
+  window.publicarPeticion = async function() {
+    const input = document.getElementById('peticionInput').value.trim();
+    if (!input) {
+      alert("Por favor, escribe tu petición antes de enviarla.");
+      return;
+    }
+    const autorField = document.getElementById('peticionAutorInput');
+    const nombreEscrito = autorField ? autorField.value.trim() : "";
+    const userLog = window.usuarioActual;
+    const autorNombre = nombreEscrito || (userLog ? userLog.nombre : "Anónimo");
+    const nuevaPet = {
+      id: Date.now(),
+      texto: input,
+      autor: autorNombre,
+      correo: userLog ? userLog.correo : "",
+      orados: 0,
+      estado: "pendiente",
+      fecha: new Date().toLocaleDateString('es-CL')
+    };
+    window.peticionesGlobales.unshift(nuevaPet);
+    await guardarEstadoSitio();
+    if (db && userLog && userLog.correo) {
+      try {
+        const uId = userLog.uid || userLog.correo.toLowerCase().trim().replace(/[^a-z0-9]/g, '_');
+        const uRef = doc(db, "usuarios_registrados", uId);
+        const uSnap = await getDoc(uRef);
+        const prevOraciones = (uSnap.exists() && Array.isArray(uSnap.data().oraciones)) ? uSnap.data().oraciones : [];
+        prevOraciones.unshift(nuevaPet);
+        await setDoc(uRef, {
+          nombre: userLog.nombre || autorNombre,
+          email: userLog.correo,
+          ultimoAcceso: new Date().toISOString(),
+          ultimaOracion: input,
+          oraciones: prevOraciones
+        }, { merge: true });
+      } catch (e) {
+        console.warn("No se pudo anexar la oración al registro del usuario:", e);
+      }
+    }
+
+    document.getElementById('peticionInput').value = "";
+    if (autorField) autorField.value = "";
+    window.toggleModoPublicar(false);
+    window.cargarPeticionAleatoria();
+
+    alert("🙏 ¡Gracias! Tu petición fue enviada al filtro de moderación (Estado: Pendiente). Aparecerá en la página apenas sea aceptada por el administrador.");
+  };
+
+  function validarRespuestaConsejero(data) {
+    if (!data || typeof data !== "object") return null;
+    const reference = typeof data.reference === "string" ? data.reference.trim() : "";
+    const verse = typeof data.verse === "string" ? data.verse.trim() : "";
+    const textoUnico = typeof data.textoUnico === "string" ? data.textoUnico.trim() : "";
+    if (!reference || !verse || !textoUnico) return null;
+    if (textoUnico.length < 40 || textoUnico.length > 9000) return null;
+    return { reference, verse, textoUnico };
+  }
+
+  window.ejecutarIA = async function() {
+    const campo = document.getElementById("searchInput");
+    const error = document.getElementById("errorMessage");
+    const resultado = document.getElementById("results");
+    const btn = document.getElementById("searchButton");
+    if (!campo || !error || !resultado || !btn) return;
+
+    const textoOriginal = campo.value.trim();
+    if (!textoOriginal) {
+      error.hidden = false;
+      error.textContent = "Cuéntanos un poquito de lo que estás viviendo para poder acompañarte.";
+      campo.focus();
+      return;
+    }
+    if (textoOriginal.length > 4000) {
+      error.hidden = false;
+      error.textContent = "Tu mensaje es demasiado largo. Intenta resumirlo en menos de 4.000 caracteres.";
+      campo.focus();
+      return;
+    }
+    if (btn.disabled) return;
+
+    error.hidden = true;
+    const textoBtnOriginal = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = "Leyendo tu mensaje... ⏳";
+    resultado.classList.remove("show");
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 28000);
+      let resp;
+      try {
+        resp = await fetch("/.netlify/functions/gemini", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ mensaje: textoOriginal }),
+          signal: controller.signal
+        });
+      } finally {
+        clearTimeout(timeoutId);
+      }
+
+      const data = await resp.json().catch(() => ({}));
+      if (!resp.ok) {
+        const mensajeError = typeof data.error === "string" ? data.error : "No pudimos generar una respuesta.";
+        throw new Error(mensajeError);
+      }
+
+      const respuestaFinal = validarRespuestaConsejero(data);
+      if (!respuestaFinal) throw new Error("La respuesta recibida estaba incompleta. Inténtalo nuevamente.");
+
+      document.getElementById("aiVerseReference").textContent = "[ " + respuestaFinal.reference + " ]";
+      document.getElementById("aiVerseContainer").textContent = "“" + respuestaFinal.verse + "”";
+      document.getElementById("aiTextCompleto").textContent = respuestaFinal.textoUnico;
+
+      window.ultimoProblemaEscrito = textoOriginal;
+      window.ultimaRespuestaIA = respuestaFinal;
+      resultado.classList.add("show");
+      resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (err) {
+      console.error("Error al procesar Hablemos:", err);
+      error.hidden = false;
+      if (err.name === "AbortError") {
+        error.textContent = "La respuesta está tardando más de lo esperado. Por favor, inténtalo nuevamente.";
+      } else if (err.message && /Failed to fetch|NetworkError/i.test(err.message)) {
+        error.textContent = "No pudimos conectar con el servicio de orientación. Revisa tu conexión e inténtalo nuevamente.";
+      } else {
+        error.textContent = err.message || "No pudimos conectar con el consejero virtual en este momento. Inténtalo nuevamente.";
+      }
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = textoBtnOriginal;
+    }
+  };
+
+  // Inicio de sesión Google. El parámetro cambiarCuenta fuerza el selector de Google.
+  window.ejecutarLoginGoogle = async function(cambiarCuenta = false) {
+    try {
+      const app = obtenerAppFirebase();
+      const authInstance = auth || getAuth(app);
+      auth = authInstance;
+      const firestoreDb = db || getFirestore(app);
+      db = firestoreDb;
+
+      const provider = new GoogleAuthProvider();
+      if (cambiarCuenta) provider.setCustomParameters({ prompt: 'select_account' });
+      const result = await signInWithPopup(authInstance, provider);
+      const user = result.user;
+      const nombre = user.displayName || "Hermano/a";
+      const correo = user.email || "";
+
+      // Guardamos el registro en Firestore y enviamos correo de bienvenida (template_gylt58h)
+      let yaTeniaBienvenida = false;
+      const welcomeLocalKey = 'fe_welcome_v2_' + correo.toLowerCase().trim();
+      try {
+        const userRef = doc(firestoreDb, "usuarios_registrados", user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+          await setDoc(userRef, {
+            uid: user.uid,
+            nombre,
+            email: correo,
+            foto: user.photoURL || "",
+            fechaRegistro: new Date().toISOString(),
+            ultimoAcceso: new Date().toISOString(),
+            bienvenidaEnviada: false
+          });
+        } else {
+          yaTeniaBienvenida = userSnap.data().bienvenidaEnviadaV2 === true;
+          await setDoc(userRef, {
+            uid: user.uid,
+            nombre,
+            email: correo,
+            foto: user.photoURL || "",
+            ultimoAcceso: new Date().toISOString()
+          }, { merge: true });
+        }
+      } catch (dbErr) {
+        console.warn("Sesión iniciada, revisando permisos de usuarios_registrados:", dbErr);
+      }
+
+      if (!yaTeniaBienvenida && !localStorage.getItem(welcomeLocalKey) && correo && window.emailjs) {
+        try {
+          await window.emailjs.send("service_e88ozca", "template_gylt58h", {
+            to_name: nombre,
+            user_name: nombre,
+            name: nombre,
+            nombre: nombre,
+            to_email: correo,
+            user_email: correo,
+            email: correo,
+            correo: correo,
+            reply_to: correo
+          }, { publicKey: "Pr12BN8AtnpXxIWnj" });
+          localStorage.setItem(welcomeLocalKey, '1');
+          try {
+            const userRef = doc(firestoreDb, "usuarios_registrados", user.uid);
+            await setDoc(userRef, { bienvenidaEnviada: true, bienvenidaEnviadaV2: true }, { merge: true });
+          } catch (e) {}
+        } catch (emailError) {
+          console.error("Error enviando correo de bienvenida (template_gylt58h):", emailError);
+        }
+      }
+
+      finalizarLoginUsuario(nombre, correo, user.uid);
+    } catch (err) {
+      console.error("Error al iniciar sesión con Google:", err);
+      const code = err?.code || "";
+      if (code === "auth/unauthorized-domain") {
+        alert("Falta autorizar el dominio en Firebase:\n1. Entra a console.firebase.google.com (proyecto un-espacio-para-tu-fe)\n2. Ve a Authentication > Settings > Authorized domains\n3. Agrega: tu-encuentro.netlify.app");
+      } else if (code === "auth/operation-not-allowed") {
+        alert("Falta activar el proveedor Google en Firebase:\nEntra a Firebase Console > Authentication > Sign-in method y habilita Google.");
+      } else if (code === "auth/popup-closed-by-user" || code === "auth/cancelled-popup-request") {
+        // El usuario cerró la ventana voluntariamente, no mostramos alerta molesta.
+      } else if (code.includes("api-key-not-valid")) {
+        alert("Firebase rechazó la API Key (AIzaSyBGJx...). Esto ocurre cuando esa clave se borró en Google AI Studio / Google Cloud Console o tiene restricción de sitios web.\n\nCómo solucionarlo en 1 minuto:\n1. Entra a console.cloud.google.com/apis/credentials?project=un-espacio-para-tu-fe\n2. Mira la clave en 'Claves de API' (Browser key).\n3. Si tiene otra clave distinta, cópiala o quítale la restricción de sitios web.");
+      } else {
+        alert("No se pudo completar el inicio de sesión con Google (" + (code || err.message || "Error") + "). Verifica que tu-encuentro.netlify.app esté en Dominios Autorizados de Firebase.");
+      }
+    }
+  };
+
+  window.toggleCuentaMenu = function() {
+    const menu = document.getElementById('menuCuenta');
+    if (!menu) return;
+    const abierto = menu.classList.toggle('abierto');
+    menu.setAttribute('aria-hidden', String(!abierto));
+    document.getElementById('btnPerfilAvatar')?.setAttribute('aria-expanded', String(abierto));
+  };
+
+  window.cerrarCuentaMenu = function() {
+    const menu = document.getElementById('menuCuenta');
+    if (menu) {
+      menu.classList.remove('abierto');
+      menu.setAttribute('aria-hidden', 'true');
+      document.getElementById('btnPerfilAvatar')?.setAttribute('aria-expanded', 'false');
+    }
+  };
+
+  window.cambiarCuentaGoogle = async function() {
+    window.cerrarCuentaMenu();
+    try {
+      if (auth) await signOut(auth);
+    } catch (e) {
+      console.warn("No se pudo cerrar la sesión anterior antes de cambiar cuenta:", e);
+    }
+    localStorage.removeItem('fe_usuario_actual');
+    window.usuarioActual = null;
+    await window.ejecutarLoginGoogle(true);
+  };
+
+  window.cerrarSesionUsuario = async function() {
+    window.cerrarCuentaMenu();
+    try {
+      if (auth) await signOut(auth);
+    } catch (err) {
+      console.error("Error cerrando sesión:", err);
+    }
+    localStorage.removeItem('fe_usuario_actual');
+    window.usuarioActual = null;
+    const avatar = document.getElementById('btnPerfilAvatar');
+    if (avatar) {
+      avatar.style.borderColor = 'rgba(255,255,255,0.4)';
+      avatar.title = 'Iniciar sesión';
+    }
+    const admin = document.getElementById('btnFloatingAdmin');
+    if (admin) admin.remove();
+    const nombre = document.getElementById('cuentaNombre');
+    const correo = document.getElementById('cuentaCorreo');
+    const lblHeader = document.getElementById('lblUsuarioHeader');
+    if (nombre) nombre.textContent = 'No has iniciado sesión';
+    if (correo) correo.textContent = 'Conéctate con Google';
+    if (lblHeader) lblHeader.textContent = 'Iniciar sesión';
+    alert('Has cerrado sesión correctamente.');
+  };
+
+  function finalizarLoginUsuario(nombre, correo, uid = '') {
+    window.usuarioActual = { nombre, correo, uid };
+    localStorage.setItem('fe_usuario_actual', JSON.stringify(window.usuarioActual));
+    window.cerrarModalLogin();
+
+    const btnAvatar = document.getElementById('btnPerfilAvatar');
+    if (btnAvatar) {
+      btnAvatar.style.borderColor = 'var(--green2)';
+      btnAvatar.title = `Conectado como ${nombre} (${correo})`;
+    }
+    const cuentaNombre = document.getElementById('cuentaNombre');
+    const cuentaCorreo = document.getElementById('cuentaCorreo');
+    const lblHeader = document.getElementById('lblUsuarioHeader');
+    if (cuentaNombre) cuentaNombre.textContent = nombre;
+    if (cuentaCorreo) cuentaCorreo.textContent = correo;
+    if (lblHeader) lblHeader.textContent = correo || nombre;
+    window.cerrarCuentaMenu();
+    const lblNombre = document.getElementById('lblUsuarioNombre');
+    if (lblNombre) lblNombre.textContent = nombre;
+
+    mostrarBotonAdminFlotante(correo);
+    suscribirConversacionUsuario();
+
+    if (window.motivoChatPendiente) {
+      procesarAperturaChatConMotivo();
+      return;
+    }
+
+    if (window.pendientePublicar) {
+      window.pendientePublicar = false;
+      window.toggleModoPublicar(true);
+    } else if (correo.toLowerCase() === ADMIN_EMAIL) {
+      alert(`¡Bienvenido Administrador (${nombre})! Se ha habilitado el botón privado "⚙️ Panel Admin" y "💬 Central de Chats" en la esquina inferior derecha.`);
+    } else {
+      alert(`¡Bienvenido/a, ${nombre}! Sesión iniciada con éxito. Te hemos enviado un correo de bienvenida.`);
+    }
+  }
+
+  // =========================================================================
+  // SISTEMA DE CHAT EN TIEMPO REAL ESTILO WHATSAPP CON RESPALDO EN FIREBASE
+  // =========================================================================
+  let desuscribirChatUsuario = null;
+  let mensajeCitadoActual = null;
+  window.motivoChatPendiente = null;
+  window.CHAT_WELCOME_MSG = "Qué gran gusto que estés aquí. 😊\nTómate tu tiempo y cuéntame con total confianza lo que estás pasando. No estás solo en esto; estamos aquí para escucharte y ayudarte con todo el cariño lo antes posible.";
+
+  function construirSaludoBienvenida(nombreUsuario) {
+    const nombreLimpio = (nombreUsuario || "Hermano/a").trim();
+    const cuerpoEditado = (window.CHAT_WELCOME_MSG || "").trim() ||
+      "Qué gran gusto que estés aquí. 😊\nTómate tu tiempo y cuéntame con total confianza lo que estás pasando. No estás solo en esto; estamos aquí para escucharte y ayudarte con todo el cariño lo antes posible.";
+    return `¡Hola ${nombreLimpio}! ${cuerpoEditado}`;
+  }
+
+  function obtenerIdConversacion(correo) {
+    return correo.toLowerCase().trim().replace(/[^a-z0-9]/g, '_');
+  }
+
+  window.iniciarChatInterno = function(motivo) {
+    const textoProblema = (document.getElementById("searchInput")?.value || window.ultimoProblemaEscrito || "").trim();
+    window.motivoChatPendiente = {
+      tipo: motivo,
+      problema: textoProblema
+    };
+
+    if (!window.usuarioActual || !window.usuarioActual.correo) {
+      const modalTitulo = document.querySelector('#modalLogin h3');
+      const modalTexto = document.querySelector('#modalLogin p');
+      if (modalTitulo) modalTitulo.textContent = "Inicia sesión para abrir tu chat";
+      if (modalTexto) {
+        modalTexto.textContent = "Para conversar en tiempo real con un consejero y que toda tu conversación quede guardada siempre en tu cuenta, ingresa con tu correo de Google.";
+      }
+      window.abrirModalLogin();
+      return;
+    }
+
+    procesarAperturaChatConMotivo();
+  };
+
+  async function procesarAperturaChatConMotivo() {
+    abrirVentanaChatDirecto();
+    if (!window.motivoChatPendiente) return;
+
+    const { tipo, problema } = window.motivoChatPendiente;
+    window.motivoChatPendiente = null;
+
+    let textoInicial = "";
+    if (tipo === 'jesus') {
+      textoInicial = problemTextOrDefault(
+        problema,
+        "Hola, acabo de leer el mensaje sobre el Plan de Salvación y quiero conocer más de Jesús y entregarle mi corazón.",
+        `Hola, leí el mensaje sobre el Plan de Salvación después de compartir lo que vivo («${problema}») y quiero conocer más de Jesús y recibirlo en mi corazón.`
+      );
+    } else {
+      textoInicial = problemTextOrDefault(
+        problema,
+        "Hola, me gustaría hablar con alguien y recibir acompañamiento.",
+        `Hola, me gustaría hablar con alguien sobre lo que me está pasando: «${problema}»`
+      );
+    }
+
+    await guardarNuevoMensajeUsuario(textoInicial);
+  }
+
+  function problemTextOrDefault(prob, textoSinProb, textoConProb) {
+    return prob ? textoConProb : textoSinProb;
+  }
+
+  function ajustarAlturaTecladoMovil() {
+    const overlay = document.getElementById('modalChatWhatsApp');
+    const ventana = overlay ? overlay.querySelector('.wa-chat-window') : null;
+    if (!overlay || !ventana || !overlay.classList.contains('activo')) return;
+
+    if (window.innerWidth <= 600 && window.visualViewport) {
+      const vv = window.visualViewport;
+      overlay.style.top = vv.offsetTop + 'px';
+      overlay.style.height = vv.height + 'px';
+      overlay.style.bottom = 'auto';
+      ventana.style.height = vv.height + 'px';
+      const contenedor = document.getElementById('waListaMensajes');
+      if (contenedor) contenedor.scrollTop = contenedor.scrollHeight;
+    } else {
+      overlay.style.top = '0';
+      overlay.style.height = '';
+      overlay.style.bottom = '0';
+      ventana.style.height = '';
+    }
+  }
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', ajustarAlturaTecladoMovil);
+    window.visualViewport.addEventListener('scroll', ajustarAlturaTecladoMovil);
+  }
+  window.addEventListener('resize', ajustarAlturaTecladoMovil);
+
+  window.abrirVentanaChatDirecto = function() {
+    if (!window.usuarioActual || !window.usuarioActual.correo) {
+      window.abrirModalLogin();
+      return;
+    }
+    const modal = document.getElementById('modalChatWhatsApp');
+    modal.classList.add('activo');
+    document.body.style.overflow = 'hidden';
+    document.getElementById('btnAbrirChatFlotante').style.display = 'none';
+    const btnAdmin = document.getElementById('btnFloatingAdmin');
+    if (btnAdmin) btnAdmin.style.display = 'none';
+    document.getElementById('badgeNoLeidosUsuario').style.display = 'none';
+    ajustarAlturaTecladoMovil();
+    suscribirConversacionUsuario();
+    marcarLeidoPorUsuario();
+    setTimeout(ajustarAlturaTecladoMovil, 120);
+  };
+
+  window.cerrarVentanaChat = function() {
+    const modal = document.getElementById('modalChatWhatsApp');
+    modal.classList.remove('activo');
+    document.body.style.overflow = '';
+    if (window.usuarioActual && window.usuarioActual.correo) {
+      document.getElementById('btnAbrirChatFlotante').style.display = 'inline-flex';
+    }
+    const btnAdmin = document.getElementById('btnFloatingAdmin');
+    if (btnAdmin) btnAdmin.style.display = 'flex';
+  };
+
+  window.seleccionarMensajeParaResponder = function(autor, texto) {
+    mensajeCitadoActual = { autor, texto: texto.slice(0, 120) };
+    document.getElementById('waReplyText').textContent = `${autor}: "${mensajeCitadoActual.texto}"`;
+    document.getElementById('waReplyBox').classList.add('activo');
+    document.getElementById('waInputTexto').focus();
+  };
+
+  window.cancelarRespuestaMensaje = function() {
+    mensajeCitadoActual = null;
+    document.getElementById('waReplyBox').classList.remove('activo');
+  };
+
+  async function guardarNuevoMensajeUsuario(textoPlano) {
+    const u = window.usuarioActual;
+    if (!u || !u.correo) return;
+    const chatId = obtenerIdConversacion(u.correo);
+    const ahora = new Date();
+    const horaStr = ahora.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+
+    const nuevoMsg = {
+      id: 'm_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+      autorTipo: 'usuario',
+      autorNombre: u.nombre,
+      autorCorreo: u.correo,
+      texto: textoPlano,
+      respuestaA: mensajeCitadoActual || null,
+      hora: horaStr,
+      fechaISO: ahora.toISOString()
+    };
+
+    cancelarRespuestaMensaje();
+
+    const todosLosChats = JSON.parse(localStorage.getItem('fe_chats_db') || '{}');
+    if (!todosLosChats[chatId]) {
+      todosLosChats[chatId] = {
+        chatId,
+        usuarioNombre: u.nombre,
+        usuarioCorreo: u.correo,
+        mensajes: [],
+        noLeidosAdmin: 0,
+        noLeidosUsuario: 0
+      };
+    }
+
+    if (!Array.isArray(todosLosChats[chatId].mensajes)) {
+      todosLosChats[chatId].mensajes = [];
+    }
+
+    if (todosLosChats[chatId].mensajes.length === 0) {
+      todosLosChats[chatId].mensajes.push({
+        id: 'm_welcome_' + Date.now(),
+        autorTipo: 'admin',
+        autorNombre: 'Consejero',
+        texto: construirSaludoBienvenida(u.nombre),
+        hora: horaStr,
+        fechaISO: ahora.toISOString()
+      });
+    }
+
+    const ultimoExistente = todosLosChats[chatId].mensajes[todosLosChats[chatId].mensajes.length - 1];
+    if (ultimoExistente && ultimoExistente.texto === textoPlano && (Date.now() - new Date(ultimoExistente.fechaISO || 0).getTime() < 5000)) {
+      renderizarMensajesEnPantalla(todosLosChats[chatId].mensajes);
+      return;
+    }
+
+    todosLosChats[chatId].mensajes.push(nuevoMsg);
+    todosLosChats[chatId].ultimoMensaje = textoPlano;
+    todosLosChats[chatId].ultimaHora = horaStr;
+    todosLosChats[chatId].ultimaFechaISO = ahora.toISOString();
+    todosLosChats[chatId].noLeidosAdmin = (todosLosChats[chatId].noLeidosAdmin || 0) + 1;
+    todosLosChats[chatId].estado = 'esperando_admin';
+
+    localStorage.setItem('fe_chats_db', JSON.stringify(todosLosChats));
+    renderizarMensajesEnPantalla(todosLosChats[chatId].mensajes);
+
+    if (db) {
+      try {
+        await setDoc(doc(db, "conversaciones", chatId), todosLosChats[chatId], { merge: true });
+      } catch (e) {
+        console.warn("Error guardando mensaje en Firestore:", e);
+      }
+    }
+
+    // Disparar Web Push en segundo plano a los celulares de los consejeros (llega incluso con la App cerrada)
+    try {
+      fetch("/.netlify/functions/push-notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: `Un nuevo mensaje · ${u.nombre}`,
+          body: textoPlano.slice(0, 120),
+          chatId
+        })
+      }).catch(() => {});
+    } catch (e) {}
+
+    // Enviar alerta automática al correo del celular para que suene incluso con la app cerrada al prender el teléfono
+    if (window.emailjs && todosLosChats[chatId].noLeidosAdmin === 1) {
+      const correoAlerta = window.CORREO_OFICIAL_SITIO || "vicentealvarez1134@gmail.com";
+      try {
+        window.emailjs.send("service_e88ozca", "template_6u75wgd", {
+          to_name: "Equipo de Consejeros",
+          to_email: correoAlerta,
+          user_email: correoAlerta,
+          email: correoAlerta,
+          reply_to: u.correo,
+          autor: `${u.nombre} (${u.correo})`,
+          peticion: `[NUEVO MENSAJE EN CHAT EN VIVO] "${textoPlano}" — Abre la App de Consejeros (chat-admin.html) para responderle.`,
+          mensaje: textoPlano,
+          fecha: ahora.toLocaleString('es-CL')
+        }, { publicKey: "Pr12BN8AtnpXxIWnj" }).catch(() => {});
+      } catch (e) {}
+    }
+  }
+
+  document.getElementById('waInputTexto')?.addEventListener('focus', () => {
+    setTimeout(ajustarAlturaTecladoMovil, 150);
+    setTimeout(ajustarAlturaTecladoMovil, 350);
+  });
+
+  // Elimina cualquier insignia flotante "Powered by Netlify" inyectada dinámicamente
+  function eliminarMarcaAguaNetlify() {
+    document.querySelectorAll('a, div, aside, iframe').forEach(el => {
+      const txt = (el.textContent || '').trim();
+      const href = (el.getAttribute && el.getAttribute('href')) || '';
+      if ((txt === 'Powered by Netlify' || href.includes('netlify.com')) && !el.closest('#mainHeader') && !el.closest('main')) {
+        el.remove();
+      }
+    });
+  }
+  eliminarMarcaAguaNetlify();
+  new MutationObserver(eliminarMarcaAguaNetlify).observe(document.body, { childList: true, subtree: true });
+
+  window.enviarMensajeChatUsuario = async function(e) {
+    e.preventDefault();
+    const input = document.getElementById('waInputTexto');
+    const texto = input.value.trim();
+    if (!texto) return;
+    input.value = '';
+    await guardarNuevoMensajeUsuario(texto);
+  };
+
+  async function marcarLeidoPorUsuario() {
+    if (!window.usuarioActual?.correo) return;
+    const chatId = obtenerIdConversacion(window.usuarioActual.correo);
+    const todosLosChats = JSON.parse(localStorage.getItem('fe_chats_db') || '{}');
+    if (todosLosChats[chatId]) {
+      todosLosChats[chatId].noLeidosUsuario = 0;
+      localStorage.setItem('fe_chats_db', JSON.stringify(todosLosChats));
+    }
+    if (db) {
+      try {
+        await setDoc(doc(db, "conversaciones", chatId), { noLeidosUsuario: 0 }, { merge: true });
+      } catch (e) {}
+    }
+  }
+
+  function escaparHtml(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderizarMensajesEnPantalla(listaMensajes) {
+    const contenedor = document.getElementById('waListaMensajes');
+    if (!contenedor) return;
+    contenedor.innerHTML = '';
+
+    (listaMensajes || []).forEach(m => {
+      const div = document.createElement('div');
+      div.className = `wa-msg ${m.autorTipo === 'usuario' ? 'usuario' : 'admin'}`;
+
+      const autorCitaVisible = m.respuestaA
+        ? (m.respuestaA.autor && m.respuestaA.autor !== (window.usuarioActual?.nombre || '') ? 'Consejero' : m.respuestaA.autor)
+        : '';
+
+      const quoteHtml = m.respuestaA
+        ? `<div class="wa-msg-quote"><strong>${escaparHtml(autorCitaVisible)}:</strong> ${escaparHtml(m.respuestaA.texto)}</div>`
+        : '';
+
+      const senderHtml = m.autorTipo === 'admin'
+        ? `<div class="wa-msg-sender">🙏 Consejero</div>`
+        : '';
+
+      const etiquetaAutor = m.autorTipo === 'admin' ? 'Consejero' : (m.autorNombre || 'Usuario');
+      const autorSeguro = etiquetaAutor.replace(/['"\\]/g, "");
+      const textoSeguro = (m.texto || '').replace(/['"\\]/g, "").replace(/\n/g, " ");
+
+      div.innerHTML = `
+        ${senderHtml}
+        ${quoteHtml}
+        <div style="white-space:pre-wrap;">${escaparHtml(m.texto)}</div>
+        <div class="wa-msg-meta">
+          <button type="button" class="wa-reply-trigger" onclick="seleccionarMensajeParaResponder('${autorSeguro}', '${textoSeguro}')">↩ Responder</button>
+          <span>${escaparHtml(m.hora || '')} ${m.autorTipo === 'usuario' ? '✓✓' : ''}</span>
+        </div>
+      `;
+      contenedor.appendChild(div);
+    });
+
+    contenedor.scrollTop = contenedor.scrollHeight;
+  }
+
+  function suscribirConversacionUsuario() {
+    if (!window.usuarioActual?.correo) return;
+    const chatId = obtenerIdConversacion(window.usuarioActual.correo);
+    const btnFlotante = document.getElementById('btnAbrirChatFlotante');
+    const modalAbiertoAhora = document.getElementById('modalChatWhatsApp')?.classList.contains('activo');
+    if (btnFlotante && !modalAbiertoAhora) btnFlotante.style.display = 'inline-flex';
+
+    const localChats = JSON.parse(localStorage.getItem('fe_chats_db') || '{}');
+    if (localChats[chatId] && Array.isArray(localChats[chatId].mensajes) && localChats[chatId].mensajes.length > 0) {
+      renderizarMensajesEnPantalla(localChats[chatId].mensajes);
+    } else if (modalAbiertoAhora && !window.motivoChatPendiente) {
+      // Si abrió el chat vacío por primera vez, mostrar de inmediato el saludo de bienvenida
+      const horaAhora = new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+      const msgBienvenida = {
+        id: 'm_welcome_' + Date.now(),
+        autorTipo: 'admin',
+        autorNombre: 'Consejero',
+        texto: construirSaludoBienvenida(window.usuarioActual.nombre),
+        hora: horaAhora,
+        fechaISO: new Date().toISOString()
+      };
+      localChats[chatId] = {
+        chatId,
+        usuarioNombre: window.usuarioActual.nombre,
+        usuarioCorreo: window.usuarioActual.correo,
+        mensajes: [msgBienvenida],
+        noLeidosAdmin: 0,
+        noLeidosUsuario: 0
+      };
+      localStorage.setItem('fe_chats_db', JSON.stringify(localChats));
+      renderizarMensajesEnPantalla([msgBienvenida]);
+    }
+
+    if (db) {
+      if (desuscribirChatUsuario) desuscribirChatUsuario();
+      desuscribirChatUsuario = onSnapshot(doc(db, "conversaciones", chatId), (snap) => {
+        if (snap.exists()) {
+          const data = snap.data();
+          const todos = JSON.parse(localStorage.getItem('fe_chats_db') || '{}');
+          // Proteger contra snapshots vacíos o desfasados si acabamos de crear mensajes locales
+          const localMsgs = todos[chatId]?.mensajes || [];
+          const remoteMsgs = Array.isArray(data.mensajes) ? data.mensajes : [];
+          if (remoteMsgs.length === 0 && localMsgs.length > 0) {
+            renderizarMensajesEnPantalla(localMsgs);
+            return;
+          }
+          // Si la conversación en Firestore existía sin el saludo inicial al principio, anteponerlo
+          if (remoteMsgs.length > 0 && remoteMsgs[0].autorTipo === 'usuario') {
+            remoteMsgs.unshift({
+              id: 'm_welcome_auto',
+              autorTipo: 'admin',
+              autorNombre: 'Consejero',
+              texto: construirSaludoBienvenida(window.usuarioActual?.nombre),
+              hora: remoteMsgs[0].hora || '',
+              fechaISO: remoteMsgs[0].fechaISO || new Date().toISOString()
+            });
+            data.mensajes = remoteMsgs;
+          }
+          todos[chatId] = data;
+          localStorage.setItem('fe_chats_db', JSON.stringify(todos));
+          renderizarMensajesEnPantalla(data.mensajes || []);
+
+          const modalAbierto = document.getElementById('modalChatWhatsApp').classList.contains('activo');
+          const badge = document.getElementById('badgeNoLeidosUsuario');
+          if (!modalAbierto && data.noLeidosUsuario > 0) {
+            badge.textContent = data.noLeidosUsuario;
+            badge.style.display = 'inline-block';
+          } else if (modalAbierto && data.noLeidosUsuario > 0) {
+            marcarLeidoPorUsuario();
+          }
+        }
+      });
+    }
+  }
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'fe_chats_db' && window.usuarioActual?.correo) {
+      const chatId = obtenerIdConversacion(window.usuarioActual.correo);
+      const todos = JSON.parse(e.newValue || '{}');
+      if (todos[chatId]) {
+        renderizarMensajesEnPantalla(todos[chatId].mensajes || []);
+      }
+    }
+  });
+
+  function esAdminSoloChat(correo) {
+    if (!correo) return false;
+    try {
+      const lista = JSON.parse(localStorage.getItem('fe_admins_chat') || '[]');
+      return lista.some(a => a.correo && a.correo.toLowerCase().trim() === correo.toLowerCase().trim());
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function mostrarBotonAdminFlotante(correo) {
+    let btnAdmin = document.getElementById('btnFloatingAdmin');
+    if (btnAdmin) btnAdmin.remove();
+    if (!correo) return;
+
+    const mailLimpio = correo.toLowerCase().trim();
+    if (mailLimpio === ADMIN_EMAIL) {
+      btnAdmin = document.createElement('div');
+      btnAdmin.id = 'btnFloatingAdmin';
+      btnAdmin.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9995;display:flex;gap:8px;flex-wrap:wrap;';
+      btnAdmin.innerHTML = `
+        <a href="chat-admin.html" style="background:#1f4d36;color:#fff;padding:12px 18px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 12px 30px rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">💬 Central de Chats</a>
+        <a href="admin.html" style="background:#17231e;color:#fff;padding:12px 18px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 12px 30px rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">⚙️ Panel Admin (Todo)</a>
+      `;
+      document.body.appendChild(btnAdmin);
+    } else if (esAdminSoloChat(mailLimpio)) {
+      btnAdmin = document.createElement('div');
+      btnAdmin.id = 'btnFloatingAdmin';
+      btnAdmin.style.cssText = 'position:fixed;bottom:20px;right:20px;z-index:9995;display:flex;gap:8px;';
+      btnAdmin.innerHTML = `
+        <a href="chat-admin.html" style="background:#1f4d36;color:#fff;padding:12px 18px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 12px 30px rgba(0,0,0,0.35);border:1px solid rgba(255,255,255,0.25);text-decoration:none;display:inline-flex;align-items:center;gap:6px;">💬 Responder Chats</a>
+      `;
+      document.body.appendChild(btnAdmin);
+    }
+  }
+
+  async function guardarEstadoSitio() {
+    let currentData = {};
+    try {
+      const raw = localStorage.getItem('fe_site_data');
+      if (raw) currentData = JSON.parse(raw);
+    } catch (e) {}
+    currentData.peticiones = window.peticionesGlobales;
+    currentData.testimonios = window.bdTestimonios;
+    localStorage.setItem('fe_site_data', JSON.stringify(currentData));
+
+    if (db) {
+      try {
+        await setDoc(doc(db, "configuracion", "sitio_principal"), currentData, { merge: true });
+      } catch (e) {
+        console.warn("Error al guardar en Firestore:", e);
+      }
+    }
+  }
+
+  window.CORREO_OFICIAL_SITIO = "vicentealvarez1134@gmail.com";
+  window.NOMBRE_OFICIAL_SITIO = "Encuentro";
+
+  async function registrarMensajeEnPanelYRespaldo(datosMensaje) {
+    const ahora = new Date();
+    const registro = {
+      id: 'msg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+      tipo: datosMensaje.tipo || 'sugerencia',
+      nombre: (datosMensaje.nombre || 'Visitante').trim(),
+      correo: (datosMensaje.correo || '').trim(),
+      telefono: (datosMensaje.telefono || '').trim(),
+      mensaje: (datosMensaje.mensaje || '').trim(),
+      fotos: Array.isArray(datosMensaje.fotos) ? datosMensaje.fotos : [],
+      estado: 'pendiente',
+      fechaISO: ahora.toISOString(),
+      fechaLegible: ahora.toLocaleString('es-CL')
+    };
+
+    const listaLocal = JSON.parse(localStorage.getItem('fe_mensajes_recibidos') || '[]');
+    listaLocal.unshift(registro);
+    localStorage.setItem('fe_mensajes_recibidos', JSON.stringify(listaLocal));
+
+    let guardadoEnFirestore = false;
+    if (db) {
+      try {
+        await setDoc(doc(collection(db, "mensajes_recibidos"), registro.id), registro);
+        guardadoEnFirestore = true;
+      } catch (e1) {
+        console.warn("Aviso guardando en colección mensajes_recibidos:", e1.message);
+      }
+
+      try {
+        let currentData = {};
+        try { currentData = JSON.parse(localStorage.getItem('fe_site_data') || '{}'); } catch (e) {}
+        const arr = Array.isArray(currentData.mensajesRecibidos) ? currentData.mensajesRecibidos : [];
+        arr.unshift(registro);
+        currentData.mensajesRecibidos = arr;
+        localStorage.setItem('fe_site_data', JSON.stringify(currentData));
+        await setDoc(doc(db, "configuracion", "sitio_principal"), { mensajesRecibidos: arr }, { merge: true });
+        guardadoEnFirestore = true;
+      } catch (e2) {
+        console.warn("No se pudo sincronizar mensaje en sitio_principal:", e2.message);
+      }
+    }
+
+    const correoDestino = window.CORREO_OFICIAL_SITIO || "vicentealvarez1134@gmail.com";
+    let correoAutomaticoEnviado = false;
+    if (window.emailjs) {
+      try {
+        await window.emailjs.send("service_e88ozca", "template_6u75wgd", {
+          to_name: "Administrador - " + window.NOMBRE_OFICIAL_SITIO,
+          to_email: correoDestino,
+          user_email: correoDestino,
+          email: correoDestino,
+          reply_to: registro.correo || correoDestino,
+          autor: `${registro.nombre} (${registro.correo || 'Sin correo'})`,
+          peticion: `[${registro.tipo.toUpperCase()}] ${registro.mensaje}`,
+          mensaje: registro.mensaje,
+          fecha: registro.fechaLegible
+        }, { publicKey: "Pr12BN8AtnpXxIWnj" });
+        correoAutomaticoEnviado = true;
+      } catch (eMail) {}
+    }
+
+    return { guardadoEnFirestore, correoAutomaticoEnviado, registro, correoDestino };
+  }
+
+  function abrirRespaldoGmailCliente(correoDestino, asunto, cuerpo) {
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(correoDestino)}&su=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+    const win = window.open(gmailUrl, '_blank');
+    if (!win) {
+      window.location.href = `mailto:${encodeURIComponent(correoDestino)}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`;
+    }
+  }
+
+  window.enviarSugerenciaCorreo = async function(e) {
+    e.preventDefault();
+    const btnSubmit = e.target.querySelector('button[type="submit"]');
+    const nombre = document.getElementById('sugNombre')?.value.trim() || '';
+    const correo = document.getElementById('sugCorreo')?.value.trim() || '';
+    const tipo = document.getElementById('sugTipo')?.value || 'sugerencia';
+    const mensaje = document.getElementById('sugMensaje')?.value.trim() || '';
+    const statusEl = document.getElementById('sugEstadoEnvio');
+
+    if (!nombre || !correo || !mensaje) {
+      alert("Por favor completa tu nombre, correo y mensaje.");
+      return;
+    }
+
+    const textoOriginalBtn = btnSubmit ? btnSubmit.innerHTML : 'Enviar mensaje ↗';
+    if (btnSubmit) {
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = 'Guardando mensaje... ⏳';
+    }
+
+    try {
+      const res = await registrarMensajeEnPanelYRespaldo({ tipo, nombre, correo, mensaje });
+      if (res.guardadoEnFirestore) {
+        e.target.reset();
+        if (statusEl) {
+          statusEl.style.display = 'block';
+          statusEl.style.background = 'rgba(34, 197, 94, 0.22)';
+          statusEl.style.border = '1px solid rgba(134, 239, 172, 0.5)';
+          statusEl.style.color = '#dcfce7';
+          statusEl.textContent = '✅ ¡Tu mensaje fue recibido y guardado correctamente en nuestro sistema! Muchas gracias por escribirnos.';
+        } else {
+          alert('✅ ¡Tu mensaje fue recibido y guardado correctamente! Muchas gracias por escribirnos.');
+        }
+      } else {
+        const asunto = `Nuevo mensaje (${tipo}) de ${nombre} | ${window.NOMBRE_OFICIAL_SITIO}`;
+        const cuerpo = `Nombre: ${nombre}\nCorreo: ${correo}\nTipo: ${tipo}\n\nMensaje:\n${mensaje}`;
+        abrirRespaldoGmailCliente(res.correoDestino, asunto, cuerpo);
+        alert('⚠️ No pudimos conectar directamente con la base de datos en este instante. Hemos abierto tu correo con el mensaje preparado: por favor presiona "Enviar" en tu correo para confirmar el envío.');
+      }
+    } finally {
+      if (btnSubmit) {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = textoOriginalBtn;
+      }
+    }
+  };
+
+  window.procesarFormularioTestimonio = async function(e) {
+    e.preventDefault();
+    const btnSubmit = e.target.querySelector('button[type="submit"]');
+    const nombre = document.getElementById('testNombre')?.value.trim() || '';
+    const correo = document.getElementById('testCorreo')?.value.trim() || '';
+    const telefono = document.getElementById('testTel')?.value.trim() || '';
+    const mensaje = document.getElementById('testMensaje')?.value.trim() || '';
+    const inputFotos = document.getElementById('testFotos');
+
+    if (!nombre || !correo || !mensaje) {
+      alert("Por favor completa tu nombre, correo e historia.");
+      return;
+    }
+
+    const textoOriginalBtn = btnSubmit ? btnSubmit.innerHTML : 'Enviar mi testimonio ↗';
+    if (btnSubmit) {
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = 'Enviando testimonio... ⏳';
+    }
+
+    try {
+      const fotosDataUrls = [];
+      if (inputFotos && inputFotos.files && inputFotos.files.length > 0) {
+        const archivos = Array.from(inputFotos.files).slice(0, 3);
+        for (const file of archivos) {
+          if (file.type.startsWith('image/')) {
+            const b64 = await new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onload = (ev) => {
+                const img = new Image();
+                img.onload = () => {
+                  const canvas = document.createElement('canvas');
+                  const maxW = 800;
+                  let w = img.width;
+                  let h = img.height;
+                  if (w > maxW) { h = Math.round((h * maxW) / w); w = maxW; }
+                  canvas.width = w;
+                  canvas.height = h;
+                  canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                  resolve(canvas.toDataURL('image/jpeg', 0.8));
+                };
+                img.onerror = () => resolve(null);
+                img.src = ev.target.result;
+              };
+              reader.onerror = () => resolve(null);
+              reader.readAsDataURL(file);
+            });
+            if (b64) fotosDataUrls.push(b64);
+          }
+        }
+      }
+
+      const res = await registrarMensajeEnPanelYRespaldo({
+        tipo: 'testimonio',
+        nombre,
+        correo,
+        telefono,
+        mensaje,
+        fotos: fotosDataUrls
+      });
+
+      if (res.guardadoEnFirestore) {
+        e.target.reset();
+        alert('🙏 ¡Muchas gracias por compartir tu testimonio! Tu historia y fotografías quedaron guardadas en nuestro panel de administración para su revisión.');
+        window.cambiarPagina('inicio', true);
+      } else {
+        const asunto = `Nuevo Testimonio Web: ${nombre} | ${window.NOMBRE_OFICIAL_SITIO}`;
+        const cuerpo = `Nombre: ${nombre}\nCorreo: ${correo}\nTeléfono: ${telefono || 'No proporcionado'}\n\nTestimonio:\n${mensaje}\n\n---\nNota: Por favor confirma el envío de este correo.`;
+        abrirRespaldoGmailCliente(res.correoDestino, asunto, cuerpo);
+        alert('⚠️ Se abrió tu cliente de correo como alternativa de respaldo. Por favor presiona "Enviar" en tu correo para confirmar el envío de tu testimonio.');
+      }
+    } finally {
+      if (btnSubmit) {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = textoOriginalBtn;
+      }
+    }
+  };
+
+  function aplicarDatosSitio(data) {
+    if (!data) return;
+
+    const nombreOficial = (data.siteName || data.logo || 'Encuentro').trim() || 'Encuentro';
+    window.NOMBRE_OFICIAL_SITIO = nombreOficial;
+    document.title = nombreOficial;
+    const ogTitle = document.getElementById('metaOgTitle');
+    const ogSite = document.getElementById('metaOgSiteName');
+    if (ogTitle) ogTitle.setAttribute('content', nombreOficial);
+    if (ogSite) ogSite.setAttribute('content', nombreOficial);
+
+    if (data.correoAdmin && data.correoAdmin.trim() !== '') {
+      window.CORREO_OFICIAL_SITIO = data.correoAdmin.trim();
+    }
+
+    if (data.logoImg && data.logoImg.trim() !== '') {
+      const urlLogo = data.logoImg.trim();
+      const favIco = document.getElementById('dynamicFaviconIco');
+      const favPng = document.getElementById('dynamicFaviconPng');
+      const appleIcon = document.getElementById('dynamicAppleTouchIcon');
+      if (favIco) favIco.href = urlLogo;
+      if (favPng) favPng.href = urlLogo;
+      if (appleIcon) appleIcon.href = urlLogo;
+    }
+
+    const elLogoImg = document.getElementById('brandLogoImg');
+    const elLogoTxt = document.getElementById('brandLogoText');
+    if (elLogoImg && elLogoTxt) {
+      if (data.logoImg && data.logoImg.trim() !== '') {
+        elLogoImg.src = data.logoImg.trim();
+        elLogoImg.style.display = 'block';
+        if (data.logo !== undefined && data.logo.trim() === '') {
+          elLogoTxt.style.display = 'none';
+        } else {
+          elLogoTxt.style.display = 'inline';
+          elLogoTxt.textContent = data.logo || 'ENCUENTRO';
+        }
+      } else {
+        elLogoImg.style.display = 'none';
+        elLogoTxt.style.display = 'inline';
+        elLogoTxt.textContent = data.logo || 'ENCUENTRO';
+      }
+    }
+    if (data.whatsapp) {
+      window.WHATSAPP_ACTUAL = data.whatsapp;
+    }
+    if (data.heroEyebrow) {
+      const el = document.querySelector('.hero-content .eyebrow');
+      if (el) el.textContent = data.heroEyebrow;
+    }
+    if (data.bannerTitle) {
+      const el = document.querySelector('.hero-content h1');
+      if (el) el.textContent = data.bannerTitle;
+    }
+    if (data.bannerDesc) {
+      const el = document.querySelector('.hero-content p');
+      if (el) el.textContent = data.bannerDesc;
+    }
+    if (data.heroBtnText) {
+      const el = document.querySelector('.hero-content .btn');
+      if (el) el.innerHTML = `${data.heroBtnText} <span aria-hidden="true">↗</span>`;
+    }
+    if (data.heroBg) {
+      const el = document.querySelector('.hero');
+      if (el) el.style.backgroundImage = `linear-gradient(90deg, rgba(8,26,19,.76), rgba(8,26,19,.24)), url("${data.heroBg}")`;
+    }
+
+    const stepCards = document.querySelectorAll('.steps-grid .info-card');
+    if (stepCards.length === 3) {
+      if (data.step1Title) stepCards[0].querySelector('h3').textContent = data.step1Title;
+      if (data.step1Desc) stepCards[0].querySelector('p').textContent = data.step1Desc;
+      if (data.step2Title) stepCards[1].querySelector('h3').textContent = data.step2Title;
+      if (data.step2Desc) stepCards[1].querySelector('p').textContent = data.step2Desc;
+      if (data.step3Title) stepCards[2].querySelector('h3').textContent = data.step3Title;
+      if (data.step3Desc) stepCards[2].querySelector('p').textContent = data.step3Desc;
+    }
+
+    if (data.oracionesTitle) {
+      const el = document.querySelector('#oraciones h2');
+      if (el) el.textContent = data.oracionesTitle;
+    }
+    if (data.oracionesDesc) {
+      const el = document.querySelector('#oraciones > .wrap > p');
+      if (el) el.textContent = data.oracionesDesc;
+    }
+    if (data.oracionesBg) {
+      const el = document.querySelector('.oraciones-full');
+      if (el) el.style.backgroundImage = `linear-gradient(0deg, rgba(14, 31, 23, 0.85), rgba(14, 31, 23, 0.45)), url("${data.oracionesBg}")`;
+    }
+
+    if (data.chatBannerTitle) {
+      const el = document.querySelector('.chat-hero-content h2');
+      if (el) el.textContent = data.chatBannerTitle;
+    }
+    if (data.chatBannerDesc) {
+      const el = document.querySelector('.chat-hero-content p');
+      if (el) el.textContent = data.chatBannerDesc;
+    }
+    if (data.chatBg) {
+      const el = document.querySelector('.chat-hero');
+      if (el) el.style.backgroundImage = `linear-gradient(90deg, rgba(8,26,19,.76), rgba(8,26,19,.42)), url("${data.chatBg}")`;
+    }
+    if (data.chatCardKicker) {
+      const el = document.querySelector('.chat-container .kicker');
+      if (el) el.textContent = data.chatCardKicker;
+    }
+    if (data.chatCardTitle) {
+      const el = document.querySelector('.chat-container h2');
+      if (el) el.textContent = data.chatCardTitle;
+    }
+    if (data.chatCardIntro) {
+      const el = document.querySelector('.chat-container .intro-text');
+      if (el) el.textContent = data.chatCardIntro;
+    }
+    if (data.chatWelcomeMsg && data.chatWelcomeMsg.trim() !== '') {
+      window.CHAT_WELCOME_MSG = data.chatWelcomeMsg.trim();
+    }
+
+    const nosotrosP = document.querySelectorAll('.nosotros-card > p');
+    if (nosotrosP.length >= 3) {
+      if (data.nosotrosP1) nosotrosP[0].textContent = data.nosotrosP1;
+      if (data.nosotrosP2) nosotrosP[1].textContent = data.nosotrosP2;
+      if (data.nosotrosP3) nosotrosP[2].textContent = data.nosotrosP3;
+    }
+
+    if (data.sugerenciasBg) {
+      const sections = document.querySelectorAll('#pagina-inicio main > section');
+      const lastSec = sections[sections.length - 1];
+      if (lastSec) {
+        lastSec.style.backgroundImage = `linear-gradient(135deg, rgba(12, 28, 20, 0.72), rgba(12, 28, 20, 0.45)), url("${data.sugerenciasBg}")`;
+      }
+    }
+
+    if (data.footerText) {
+      document.querySelectorAll('footer p').forEach(p => { p.textContent = data.footerText; });
+    }
+
+    if (data.testimonios && Object.keys(data.testimonios).length > 0) {
+      window.bdTestimonios = data.testimonios;
+    } else {
+      window.bdTestimonios = JSON.parse(JSON.stringify(DEFAULT_TESTIMONIOS));
+    }
+
+    if (data.peticiones && Array.isArray(data.peticiones) && data.peticiones.length > 0) {
+      window.peticionesGlobales = data.peticiones;
+    } else {
+      window.peticionesGlobales = JSON.parse(JSON.stringify(DEFAULT_PETICIONES));
+    }
+
+    window.renderizarTarjetasTestimonios();
+    window.cargarPeticionAleatoria();
+  }
+
+  document.addEventListener('click', (event) => {
+    const menu = document.getElementById('menuCuenta');
+    const avatar = document.getElementById('btnPerfilAvatar');
+    if (menu && menu.classList.contains('abierto') && !menu.contains(event.target) && !avatar?.contains(event.target)) {
+      window.cerrarCuentaMenu();
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const userSaved = localStorage.getItem('fe_usuario_actual');
+      if (userSaved) {
+        const u = JSON.parse(userSaved);
+        window.usuarioActual = u;
+        const btnAvatar = document.getElementById('btnPerfilAvatar');
+        if (btnAvatar) {
+          btnAvatar.style.borderColor = 'var(--green2)';
+          btnAvatar.title = `Conectado como ${u.nombre} (${u.correo})`;
+        }
+        const cuentaNombre = document.getElementById('cuentaNombre');
+        const cuentaCorreo = document.getElementById('cuentaCorreo');
+        const lblHeader = document.getElementById('lblUsuarioHeader');
+        if (cuentaNombre) cuentaNombre.textContent = u.nombre || 'Usuario';
+        if (cuentaCorreo) cuentaCorreo.textContent = u.correo || '';
+        if (lblHeader) lblHeader.textContent = u.correo || u.nombre || 'Mi cuenta';
+        const lblNombre = document.getElementById('lblUsuarioNombre');
+        if (lblNombre) lblNombre.textContent = u.nombre;
+        mostrarBotonAdminFlotante(u.correo);
+      }
+    } catch (e) {}
+
+    const savedData = localStorage.getItem('fe_site_data');
+    if (savedData) {
+      try {
+        aplicarDatosSitio(JSON.parse(savedData));
+      } catch (e) {
+        aplicarDatosSitio({ testimonios: DEFAULT_TESTIMONIOS, peticiones: DEFAULT_PETICIONES });
+      }
+    } else {
+      const initialDB = { testimonios: DEFAULT_TESTIMONIOS, peticiones: DEFAULT_PETICIONES };
+      localStorage.setItem('fe_site_data', JSON.stringify(initialDB));
+      aplicarDatosSitio(initialDB);
+    }
+
+    const fbConf = obtenerConfigFirebase();
+    if (fbConf) {
+      try {
+        const app = obtenerAppFirebase();
+        db = getFirestore(app);
+        auth = getAuth(app);
+        const docRef = doc(db, "configuracion", "sitio_principal");
+        const snap = await getDoc(docRef);
+        if (!snap.exists()) {
+          await setDoc(docRef, JSON.parse(localStorage.getItem('fe_site_data')));
+        }
+        onSnapshot(docRef, (docSnap) => {
+          if (docSnap.exists()) {
+            const remoteData = docSnap.data();
+            localStorage.setItem('fe_site_data', JSON.stringify(remoteData));
+            aplicarDatosSitio(remoteData);
+          }
+        });
+      } catch (e) {
+        console.warn("Firebase en espera de configuración:", e);
+      }
+    }
+    if (window.usuarioActual && window.usuarioActual.correo) {
+      suscribirConversacionUsuario();
+    }
+  });
+</script>
+</body>
+</html>
